@@ -21,7 +21,7 @@ class Dokumen extends Model
         'file',
         'size',
         'kategori',
-        'rak_penyimpanan',
+        'rak_id',
         'jenis_surat',
         'tanggal_ungkap'
     ];
@@ -32,5 +32,10 @@ class Dokumen extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function Rak()
+    {
+        return $this->belongsTo(Rak::class);
     }
 }

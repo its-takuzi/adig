@@ -30,7 +30,7 @@
             </a>
 
             <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#modalTambahBerkas">
-                <i class="fas fa-plus"></i>
+                <img style="height: 75px ; width:75px" src="{{ asset('aset/add.png') }}" alt="">
             </button>
 
         </div>
@@ -38,20 +38,24 @@
 
         <div class="row">
             <div class="col-5" style="display: flex">
-                {{-- <div class="dropdown mt-3 ms-3">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownkategori"
+                <div class="dropdown mt-3 ms-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdowntahun"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ $kategori ? ucfirst($kategori) : 'Semua' }}
+                        {{ request('tahun') ? request('tahun') : 'Semua Tahun' }}
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownkategori">
-                        <li><a class="dropdown-item" href="{{ route('arsip.index') }}">Semua</a></li>
-                        @foreach ($listKategori as $item)
-                            <li><a class="dropdown-item"
-                                    href="{{ route('arsip.index', ['kategori' => $item]) }}">{{ ucfirst($item) }}</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdowntahun">
+                        <li><a class="dropdown-item" href="{{ route('arsip.index') }}">Semua Tahun</a></li>
+                        @foreach ($listTahun as $tahun)
+                            <li>
+                                <a class="dropdown-item"
+                                    href="{{ route('arsip.index', array_merge(request()->except('page'), ['tahun' => $tahun])) }}">
+                                    {{ $tahun }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>
-                </div> --}}
+                </div>
+
             </div>
             <div class="col-7 d-flex justify-content-end ">
                 <form action="{{ route('arsip.index') }}" method="GET" class="mb-3 me-3">
@@ -59,7 +63,7 @@
                         <input type="text" name="search" class="form-control px-3 shadow-sm" placeholder="Search..."
                             value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">
-                            🔍
+                            <img style="height: 17px; width:17px" src="{{ asset('aset/search.png') }}" alt="">
                         </button>
                     </div>
                 </form>
@@ -70,12 +74,28 @@
 
         <!-- Table -->
         <table class="table table-bordered table-striped table-hover ">
-            <thead class="table-primary">
+            <thead class="">
                 <tr>
                     <th>No</th>
-                    <th>Laporan Polisi (LP)</th>
-                    <th>Tgl Laporan</th>
-                    <th>File</th>
+                    <th style="width: 350px;">Laporan Polisi (LP)</th>
+                    <th> Tgl Laporan
+                        <a
+                            href="{{ route('arsip.index', [
+                                'sort' => 'tanggal_laporan',
+                                'direction' => request('direction') === 'asc' ? 'desc' : 'asc',
+                                'kategori' => request('kategori'),
+                            ]) }}">
+
+                            @if (request('sort') === 'tanggal_laporan' && request('direction') === 'desc')
+                                <img style="height: 14px; width:21px" src="{{ asset('aset/sort_up.png') }}"
+                                    alt="Sort Desc">
+                            @else
+                                <img style="height: 14px; width:21px"
+                                    src="{{ asset('aset/sort_down.png') }}"alt="Sort Asc">
+                            @endif
+                        </a>
+                    </th>
+                    <th style="width: 350px;">File</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -83,10 +103,35 @@
                 @forelse($dokumens as $dokumen)
                     <tr style="font-size: 14px">
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $dokumen->laporan_polisi }}</td>
+                        <td style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ $dokumen->laporan_polisi }}</td>
                         <td>{{ $dokumen->tanggal_laporan }}</td>
-                        <td><a href="{{ asset('storage/' . $dokumen->file) }}"
-                                target="_blank">{{ basename($dokumen->file) }}</a>
+                        <td>
+                            @php
+                                $ext = pathinfo($dokumen->file, PATHINFO_EXTENSION);
+                                $icon = '';
+
+                                switch (strtolower($ext)) {
+                                    case 'pdf':
+                                        $icon = asset('aset/pdf.png'); // ganti sesuai nama file ikonmu
+                                        break;
+                                    case 'doc':
+                                    case 'docx':
+                                        $icon = asset('aset/doc.png');
+                                        break;
+                                    case 'xls':
+                                    case 'xlsx':
+                                        $icon = asset('aset/exl.png');
+                                        break;
+                                }
+                            @endphp
+
+                            <div class="file-display">
+                                <img src="{{ $icon }}" alt="{{ $ext }} icon">
+                                <a href="{{ asset('storage/' . $dokumen->file) }}" target="_blank">
+                                    {{ basename($dokumen->file) }}
+                                </a>
+                            </div>
                         </td>
                         <td class="text-center">
                             <!-- Tombol Download -->
@@ -104,13 +149,11 @@
                                 onsubmit="return confirm('Yakin ingin menghapus?');" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <!-- Tombol untuk membuka modal -->
                                 <button type="button" class="btn btn-sm " data-bs-toggle="modal"
                                     data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
                                     data-name="{{ $dokumen->nama }}">
                                     <img src="{{ asset('aset/delete.png') }}" alt="Hapus">
                                 </button>
-
                             </form>
                         </td>
                     </tr>
@@ -197,15 +240,15 @@
                                 <!-- Laporan Polisi -->
                                 <div class="mb-3">
                                     <label for="laporan_polisi" class="form-label ">Nomor LP</label>
-                                    <input type="number" class="form-control" id="laporan_polisi" name="laporan_polisi"
-                                        value="{{ $lastDokumen ? $lastDokumen->id + 1 : 1 }}" readonly>
+                                    <input type="string" class="form-control" id="laporan_polisi" name="laporan_polisi"
+                                        placeholder="Nomor LP" required>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <!-- Pelapor -->
                                 <div class="mb-3">
                                     <label for="pelapor" class="form-label ">Pelapor</label>
-                                    <select class="form-control" id="pelapor" name="pelapor" required>
+                                    <select class="form-select" id="pelapor" name="pelapor" required>
                                         <option value="" disabled selected>Pilih Pelapor</option>
                                         <option value="tni/polisi">{{ 'A (Polisi/TNI)' }}</option>
                                         <option value="warga">{{ 'B (Warga)' }}</option>
@@ -250,7 +293,7 @@
                                 <!-- jenis surat -->
                                 <div class="mb-3">
                                     <label for="jenis_surat" class="form-label">jenis Surat</label>
-                                    <select class="form-control" id="jenis_surat" name="jenis_surat" required>
+                                    <select class="form-select" id="jenis_surat" name="jenis_surat" required>
                                         <option value="" disabled selected>Pilih jenis surat</option>
                                         <option value="tahap2">Tahap 2</option>
                                         <option value="sp3">SP3</option>
@@ -263,48 +306,51 @@
                         <div class="row">
                             <div class="col-6">
                                 <!-- Rak Penyimpanan -->
+                                @php
+                                    $listRak = \App\Models\Rak::all();
+                                @endphp
+
                                 <div class="mb-3">
-                                    <label for="rak_penyimpanan" class="form-label">Rak Penyimpanan</label>
-                                    <select class="form-control" id="rak_penyimpanan" name="rak_penyimpanan" required>
+                                    <label for="rak_id" class="form-label">Rak Penyimpanan</label>
+                                    <select class="form-select" id="rak_id" name="rak_id" required>
                                         <option value="" disabled selected>Pilih RAK</option>
-                                        <option value="Gudang 1 - Atas Pojok Kiri #CODE">Gudang 1 - Atas Pojok Kiri #CODE
-                                        </option>
-                                        <option value="Gudang 1 - Bawah Pojok Kan #CODE">Gudang 1 - Bawah Pojok Kan #CODE
-                                        </option>
-                                        <option value="Gudang 1 - Bawah Pojok Kiri #CODE">Gudang 1 - Bawah Pojok Kiri #CODE
-                                        </option>
+                                        @foreach ($listRak as $rak)
+                                            <option value="{{ $rak->id }}">{{ $rak->nama_rak }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <!-- Tanggal Ungkap -->
                                 <div class="mb-3">
-                                    <label for="tanggal_ungkap" class="form-label" style="color: #9B51E0">Tgl
+                                    <label for="tanggal_ungkap" class="form-label">Tgl
                                         Ungkap</label>
                                     <input type="date" class="form-control" id="tanggal_ungkap"
                                         name="tanggal_ungkap">
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-6">
                                 <!-- Upload File -->
                                 <div class="mb-3">
                                     <label for="file" class="form-label ">Pilih File</label>
                                     <input type="file" class="form-control" id="file" name="file" required>
-                                    <small class="text-muted">*File harus berformat PDF, DOC, atau XLSX<br>*Ukuran Maksimal
-                                        5
-                                        Mb</small>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <!-- Footer Modal -->
-                                <div class="modal-footer mt-3">
-                                    <button type="submit" class="btn btn-primary">Upload</button>
+
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal-footer d-flex justify-content-between align-items-center w-100 mt-3">
+                            <div class="text-start">
+                                <small class="text-muted">
+                                    *File harus berformat PDF, DOC, atau XLSX<br>
+                                    *Ukuran Maksimal 5 Mb
+                                </small>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             </div>

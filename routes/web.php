@@ -4,6 +4,7 @@ use App\Http\Controllers\ChartDokumenController;
 use App\Http\Controllers\Dashboardcontroller;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\Historylogcontroller;
+use App\Http\Controllers\rakcontroller;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +66,10 @@ Route::middleware(['auth'])->group(function () {
 
     //chart
     Route::get('/chart', [ChartDokumenController::class, 'index']);
+
+    //rak
+    Route::get('/rak', [rakcontroller::class, 'index'])->name('rak.index');
+    Route::post('/rak', [RakController::class, 'store'])->name('rak.store');
 
     Route::post('/logout', function (Request $request) {
         Auth::logout();

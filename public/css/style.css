@@ -277,3 +277,15 @@ main {
     width: 100%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+.file-display {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.file-display img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+}

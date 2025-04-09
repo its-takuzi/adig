@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between mt-1 align-items-center">
-        <h3 class="m-3">Users</h3>
+    <!-- Desktop Header -->
+    <div class="d-flex justify-content-between mt-1 align-items-center d-none d-md-flex">
+        <h3 class="m-3">Settings</h3>
         <div class="d-flex align-items-center m-3">
-            <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
+            <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
             <span class="me-2">{{ auth()->user()->name }}</span>
@@ -15,41 +16,48 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-4">
-                        <div>
-                            <label>Foto Profil</label>
-                            <p>
-                                <img src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil"
-                                    class="rounded-circle" width="100" height="100"
-                                    style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
-                            </p>
-                            <!-- Form Upload Foto Profil -->
-                            <form action="{{ route('settings.updatePhoto') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <input type="file" name="pp" required>
-                                <button type="submit" class="btn btn-primary mt-2">Upload Foto</button>
-                            </form>
-                        </div>
+                    <!-- Bagian Foto Profil -->
+                    <div class="col-md-4 profile-center-mobile">
+                        <label>Foto Profil</label>
+                        <p>
+                            <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}"
+                                alt="Foto Profil" class="rounded-circle" width="100" height="100"
+                                style="object-fit: cover; aspect-ratio: 1/1;">
+                        </p>
+                        <form action="{{ route('settings.updatePhoto') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="file" name="profile_photo" required class="form-control">
+                            <button type="submit" class="btn btn-primary mt-2">Upload Foto</button>
+                        </form>
                     </div>
 
-                    <div class="col-8">
-                        <!-- Form Update Nama, Email, dan Password -->
+                    <!-- Bagian Form Input -->
+                    <div class="col-md-8 form-input-center mt-4 mt-md-0">
                         <form action="{{ route('settings.update') }}" method="POST">
                             @csrf
-                            @method('POST')
 
-                            <label>Nama:</label>
-                            <input type="text" name="name" value="{{ auth()->user()->name }}"
-                                class="form-control mb-2" required>
+                            <!-- input nama -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama</label>
+                                <input type="text" id="name" name="name" value="{{ $user->name }}"
+                                    class="form-control">
+                            </div>
 
-                            <label>Email:</label>
-                            <input type="email" name="email" value="{{ auth()->user()->email }}"
-                                class="form-control mb-2" required>
+                            <!-- input email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" value="{{ $user->email }}"
+                                    class="form-control">
+                            </div>
 
-                            <label>Password (kosongkan jika tidak ingin mengubah):</label>
-                            <input type="password" name="password" class="form-control mb-2">
+                            <!-- input password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" id="password" name="password" class="form-control"
+                                    placeholder="Kosongkan jika tidak ingin mengubah">
+                            </div>
 
-                            <button type="submit" class="btn btn-success mt-2">Simpan Perubahan</button>
+                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                         </form>
                     </div>
                 </div>

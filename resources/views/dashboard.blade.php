@@ -10,7 +10,7 @@
             <span class="me-2">{{ auth()->user()->name }}</span>
         </div>
     </div>
-    <div class="container bg-dashboard">
+    <div class="container-fluid bg-dashboard">
         <div class="row">
             <div class="col-md-5">
                 <div class="row">
@@ -21,7 +21,7 @@
                                 <div class="number">{{ $totalDokumen }}</div>
                             </div>
                             <div class="icon">
-                                <img src="{{ asset('aset/totaldokumen.png') }}" alt="Dokumen Icon">
+                                <img src="{{ asset('aset/total_dokumen.png') }}" alt="Dokumen Icon">
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                 <div class="number">{{ number_format($totalSize, 2) }} MB</div>
                             </div>
                             <div class="icon">
-                                <img src="{{ asset('aset/totalsize.png') }}" alt="Dokumen size">
+                                <img src="{{ asset('aset/total_size.png') }}" alt="Dokumen size">
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,8 @@
                                     <input type="text" name="search" class="form-control px-3 shadow-sm"
                                         placeholder="Search..." value="{{ request('search') }}">
                                     <button type="submit" class="btn btn-primary">
-                                        🔍
+                                        <img style="height: 17px; width:17px" src="{{ asset('aset/search.png') }}"
+                                            alt="">
                                     </button>
                                 </div>
                             </form>
@@ -89,9 +90,25 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th>No</th>
-                                    <th>Laporan Polisi (LP)</th>
-                                    <th>Tgl Laporan</th>
-                                    <th>File</th>
+                                    <th style="width: 350px;">Laporan Polisi (LP)</th>
+                                    <th> Tgl Laporan
+                                        <a
+                                            href="{{ route('dashboard.index', [
+                                                'sort' => 'tanggal_laporan',
+                                                'direction' => request('direction') === 'asc' ? 'desc' : 'asc',
+                                                'kategori' => request('kategori'),
+                                            ]) }}">
+
+                                            @if (request('sort') === 'tanggal_laporan' && request('direction') === 'desc')
+                                                <img style="height: 14px; width:21px" src="{{ asset('aset/sort_up.png') }}"
+                                                    alt="Sort Desc">
+                                            @else
+                                                <img style="height: 14px; width:21px"
+                                                    src="{{ asset('aset/sort_down.png') }}"alt="Sort Asc">
+                                            @endif
+                                        </a>
+                                    </th>
+                                    <th style="width: 350px;">File</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -99,10 +116,36 @@
                                 @forelse($dokumens as $dokumen)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $dokumen->laporan_polisi }}</td>
+                                        <td
+                                            style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            {{ $dokumen->laporan_polisi }}</td>
                                         <td>{{ $dokumen->tanggal_laporan }}</td>
-                                        <td><a href="{{ asset('storage/' . $dokumen->file) }}"
-                                                target="_blank">{{ basename($dokumen->file) }}</a>
+                                        <td>
+                                            @php
+                                                $ext = pathinfo($dokumen->file, PATHINFO_EXTENSION);
+                                                $icon = '';
+
+                                                switch (strtolower($ext)) {
+                                                    case 'pdf':
+                                                        $icon = asset('aset/pdf.png'); // ganti sesuai nama file ikonmu
+                                                        break;
+                                                    case 'doc':
+                                                    case 'docx':
+                                                        $icon = asset('aset/doc.png');
+                                                        break;
+                                                    case 'xls':
+                                                    case 'xlsx':
+                                                        $icon = asset('aset/exl.png');
+                                                        break;
+                                                }
+                                            @endphp
+
+                                            <div class="file-display">
+                                                <img src="{{ $icon }}" alt="{{ $ext }} icon">
+                                                <a href="{{ asset('storage/' . $dokumen->file) }}" target="_blank">
+                                                    {{ basename($dokumen->file) }}
+                                                </a>
+                                            </div>
                                         </td>
                                         <td class="text-center lebar">
                                             <!-- Tombol Download -->

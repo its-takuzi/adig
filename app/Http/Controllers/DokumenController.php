@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\dokumen;
 use App\Models\Historylog;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,10 +32,24 @@ class DokumenController extends Controller
             $query->where('kategori', $kategori);
         }
 
+        if ($request->has('sort') && $request->has('direction')) {
+            $query->orderBy($request->get('sort'), $request->get('direction'));
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal_laporan', $request->tahun);
+        }
+        $listTahun = Dokumen::selectRaw('YEAR(tanggal_laporan) as tahun')
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
         $dokumens = $query->paginate(8);
         $listKategori = Dokumen::select('kategori')->distinct()->pluck('kategori');
 
-        return view('arsip', compact('dokumens', 'kategori', 'listKategori'));
+        return view('arsip', compact('dokumens', 'kategori', 'listKategori', 'listTahun'));
     }
 
     public function store(Request $request)
@@ -46,7 +61,7 @@ class DokumenController extends Controller
             'tanggal_laporan' => 'required|date',
             'kategori' => 'required|in:curas,curat,curanmor',
             'jenis_surat' => 'required|string|max:255',
-            'rak_penyimpanan' => 'required|string|max:255',
+            'rak_id' => 'required|exists:rak,id',
             'file' => 'required|mimes:pdf,xlsx,doc|max:5120',
             'tanggal_ungkap' => 'nullable|date',
             'pelapor' => 'required|in:tni/polisi,warga',
@@ -85,31 +100,39 @@ class DokumenController extends Controller
 
 
         $file = $request->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        $fileName = $file->getClientOriginalName();
         $path = $file->storeAs('files', $fileName, 'public');
         $size = $file->getSize();
 
-        $dokumen = Dokumen::create([
-            'user_id' => 1,
-            'laporan_polisi' => $nomor_lp_formatted,
-            'tanggal_laporan' => $request->tanggal_laporan,
-            'kategori' => $request->kategori,
-            'jenis_surat' => $request->jenis_surat,
-            'rak_penyimpanan' => $request->rak_penyimpanan,
-            'tanggal_ungkap' => $request->tanggal_ungkap,
-            'file' => $path,
-            'size' => $size,
-        ]);
+        try {
+            $dokumen = Dokumen::create([
+                'user_id' => 1,
+                'laporan_polisi' => $nomor_lp_formatted,
+                'tanggal_laporan' => $request->tanggal_laporan,
+                'kategori' => $request->kategori,
+                'jenis_surat' => $request->jenis_surat,
+                'rak_id' => $request->rak_id,
+                'tanggal_ungkap' => $request->tanggal_ungkap,
+                'file' => $path,
+                'size' => $size,
+            ]);
 
-        //simpan ke history log
-        Historylog::create([
-            'user_id' => 1,
-            'file_id' => $dokumen->id,
-            'action' => 'upload',
-            'timestamp' => now(),
-        ]);
+            // simpan ke history log
+            Historylog::create([
+                'user_id' => 1,
+                'file_id' => $dokumen->id,
+                'action' => 'upload',
+                'timestamp' => now(),
+            ]);
 
-        return redirect()->route('arsip.index')->with('success', 'Berkas berhasil ditambahkan.')->with('previewData', $dokumen);
+            return redirect()->route('arsip.index')->with('success', 'Berkas berhasil ditambahkan.')->with('previewData', $dokumen);
+        } catch (QueryException $e) {
+            if ($e->getCode() === '23000') {
+                return back()->withInput()->with('error', 'Nomor Laporan Polisi sudah ada dalam sistem!');
+            }
+
+            return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+        }
     }
 
     public function download($id)

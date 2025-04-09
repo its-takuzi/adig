@@ -41,13 +41,21 @@
         }
 
         .login-btn {
-            background: #1E58B0;
+            background: linear-gradient(to right, #11C1EF, #1179EF);
             color: white;
             font-weight: bold;
         }
 
         .login-btn:hover {
-            background: #164687;
+            background: #8BA8F5;
+            color: white;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #11C1EF, #1179EF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -60,7 +68,7 @@
             </div>
             <div class="col-md-4 right-side d-flex">
                 <div class="card w-100 h-100 mt-5 mb-5">
-                    <h3 class="text-center text-primary">Welcome Back!</h3>
+                    <h3 class="text-center gradient-text">Welcome Back!</h3>
                     <form action="{{ route('login.process') }}" method="POST">
                         @csrf
                         <div class="mb-3">

@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="container bg-history">
+    <div class="container-fluid bg-history">
         <div class="card">
             <div class="card-body">
                 <table class="table">

@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-between mt-1 align-items-center">
         <h3 class="m-3">Users</h3>
         <div class="d-flex align-items-center m-3">
-            <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
+            <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
             <span class="me-2">{{ auth()->user()->name }}</span>
@@ -20,7 +20,7 @@
                             <th><input type="checkbox"></th>
                             <th>Nama</th>
                             <th>Email</th>
-                            {{-- <th>Role</th> --}}
+                            <th>Role</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -29,32 +29,44 @@
                             <tr>
                                 <td><input type="checkbox"></td>
                                 <td>
-                                    <img src="{{ asset('/storage/profile/' . ($user->pp ?? 'default.jpg')) }}"
-                                        alt="Foto Profil" class="rounded-circle" width="40" height="40"
-                                        style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
-                                    {{-- <span class="me-2">{{ auth()->user()->name }}</span> --}}
+                                    <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}"
+                                        alt="Foto Profil" width="40">
                                     {{ $user->name }}
                                 </td>
                                 <td>{{ $user->email }}</td>
-                                {{-- <td>{{ $user->role }}</td> --}}
-                                <td>
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <td>{{ $user->role }}</td>
+                                <td class="gap-1">
+
+                                    <!-- Tombol Edit dengan background biru -->
+                                    <a href="{{ route('users.edit', $user->id) }}"
+                                        class="d-inline-flex align-items-center justify-content-center p-1 rounded"
+                                        style="width: 37px; height: 37px;">
+                                        <img src="{{ asset('aset/edit.png') }}" alt="Edit" width="30" height="30"
+                                            style="object-fit: contain;">
+                                    </a>
+
+                                    <!-- Tombol Hapus dengan background merah -->
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                        <button type="submit" onclick="return confirm('Yakin ingin menghapus user ini?')"
+                                            class="d-inline-flex align-items-center justify-content-center p-1 rounded border-0"
+                                            style="width: 37px; height: 37px;">
+                                            <img src="{{ asset('aset/dlt.png') }}" alt="Hapus" width="30"
+                                                height="30" style="object-fit: contain;">
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-between mt-1 align-items-center">
-                    <div class="d-flex align-items-center m-3">
-                        <button class="btn btn-success me-3" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
+                <div class="d-flex justify-content-end align-items-start mt-3 me-4">
+                    <button class="d-inline-flex align-items-center justify-content-center rounded-circle border-0 shadow"
+                        style=" width: 70px; height: 70px;" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <img src="{{ asset('aset/add.png') }}" alt="Tambah" width="70" height="70"
+                            style="object-fit: contain;">
+                    </button>
                 </div>
                 <!-- Modal Tambah User -->
                 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
@@ -71,8 +83,8 @@
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="pp" class="form-label">Foto Profil</label>
-                                        <input type="file" class="form-control" id="pp" name="pp">
+                                        <label for="profile_photo" class="form-label">Foto Profil</label>
+                                        <input type="file" class="form-control" id="profile_photo" name="profile_photo">
                                     </div>
 
                                     <div class="mb-3">
@@ -97,13 +109,13 @@
                                             <option value="staff">Staff</option>
                                         </select>
                                     </div> --}}
-
                                     <button type="submit" class="btn btn-primary">Tambah User</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

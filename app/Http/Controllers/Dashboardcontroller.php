@@ -68,6 +68,12 @@ class Dashboardcontroller extends Controller
             });
         }
 
+        if ($request->has('sort') && $request->has('direction')) {
+            $query->orderBy($request->get('sort'), $request->get('direction'));
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
         $dokumens = $query->paginate(8);
         $listKategori = Dokumen::select('kategori')->distinct()->pluck('kategori');
         // dd($categories, $curasData, $curatData, $curanmorData);

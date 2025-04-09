@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('file');
             $table->bigInteger('size');
             $table->enum('kategori', ['curas', 'curat', 'curanmor']);
-            $table->string('rak_penyimpanan');
+            $table->foreignId('rak_id')->constrained('Rak')->onDelete('cascade');
             $table->enum('jenis_surat', ['tahap2', 'sp3', 'rj']);
             $table->date('tanggal_ungkap')->nullable();
             $table->softDeletes();
