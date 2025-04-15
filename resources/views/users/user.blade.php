@@ -10,14 +10,13 @@
             <span class="me-2">{{ auth()->user()->name }}</span>
         </div>
     </div>
-
     <div class="container bg-history">
         <div class="card">
             <div class="card-body">
-                <table class="table table-striped">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead style="background-color: #d0efff;">
                         <tr>
-                            <th><input type="checkbox"></th>
+                            <th class="text-center align-middle" style="width: 50px;"><input type="checkbox"></th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -27,7 +26,7 @@
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
-                                <td><input type="checkbox"></td>
+                                <td class="text-center align-middle" style="width: 50px;"><input type="checkbox"></td>
                                 <td>
                                     <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}"
                                         alt="Foto Profil" width="40">
@@ -36,24 +35,23 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->role }}</td>
                                 <td class="gap-1">
-
-                                    <!-- Tombol Edit dengan background biru -->
+                                    <!-- Tombol Edit -->
                                     <a href="{{ route('users.edit', $user->id) }}"
                                         class="d-inline-flex align-items-center justify-content-center p-1 rounded"
-                                        style="width: 37px; height: 37px;">
-                                        <img src="{{ asset('aset/edit.png') }}" alt="Edit" width="30" height="30"
+                                        style="background-color: #007bff; width: 37px; height: 37px;">
+                                        <img src="{{ asset('aset/edit.png') }}" alt="Edit" width="25" height="25"
                                             style="object-fit: contain;">
                                     </a>
 
-                                    <!-- Tombol Hapus dengan background merah -->
+                                    <!-- Tombol Hapus -->
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Yakin ingin menghapus user ini?')"
                                             class="d-inline-flex align-items-center justify-content-center p-1 rounded border-0"
-                                            style="width: 37px; height: 37px;">
-                                            <img src="{{ asset('aset/dlt.png') }}" alt="Hapus" width="30"
-                                                height="30" style="object-fit: contain;">
+                                            style="background-color: #dc3545; width: 37px; height: 37px;">
+                                            <img src="{{ asset('aset/hapus.png') }}" alt="Hapus" width="25"
+                                                height="25" style="object-fit: contain;">
                                         </button>
                                     </form>
                                 </td>
@@ -61,13 +59,13 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-end align-items-start mt-3 me-4">
-                    <button class="d-inline-flex align-items-center justify-content-center rounded-circle border-0 shadow"
-                        style=" width: 70px; height: 70px;" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                        <img src="{{ asset('aset/add.png') }}" alt="Tambah" width="70" height="70"
-                            style="object-fit: contain;">
+
+                <div class="d-flex">
+                    <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <img style="height: 50px ; width:50px" src="{{ asset('aset/add.png') }}" alt="">
                     </button>
                 </div>
+
                 <!-- Modal Tambah User -->
                 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
                     aria-hidden="true">
@@ -102,13 +100,13 @@
                                         <input type="password" class="form-control" id="password" name="password" required>
                                     </div>
 
-                                    {{-- <div class="mb-3">
+                                    <div class="mb-3">
                                         <label for="role" class="form-label">Role</label>
                                         <select class="form-select" id="role" name="role" required>
                                             <option value="admin">Admin</option>
                                             <option value="staff">Staff</option>
                                         </select>
-                                    </div> --}}
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Tambah User</button>
                                 </form>
                             </div>
@@ -119,7 +117,6 @@
             </div>
         </div>
     </div>
-
     <footer class="footer">
         <p class="p-3">Copyright 2024 - Qif Media</p>
     </footer>

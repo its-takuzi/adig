@@ -42,7 +42,7 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui!');
     }
 
-    public function destroy($id) // ✅ Tambahkan fungsi ini
+    public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();

@@ -17,8 +17,8 @@
                     <div class="col-12 p-3 justify-content-center">
                         <div class="card-item">
                             <div>
-                                <div class="text">Total Dokumen</div>
-                                <div class="number">{{ $totalDokumen }}</div>
+                                <div class="text" style="font-size: 21px; color: #8898AA">Total Dokumen</div>
+                                <div class="number" style="font-size: 30px; color:black">{{ $totalDokumen }}</div>
                             </div>
                             <div class="icon">
                                 <img src="{{ asset('aset/total_dokumen.png') }}" alt="Dokumen Icon">
@@ -30,8 +30,9 @@
                     <div class="col-12 p-3 justify-content-center">
                         <div class="card-item">
                             <div>
-                                <div class="text">Total Size</div>
-                                <div class="number">{{ number_format($totalSize, 2) }} MB</div>
+                                <div class="text"style="font-size: 21px; color: #8898AA">Total Size</div>
+                                <div class="number"style="font-size: 30px; color:black">{{ number_format($totalSize, 2) }}
+                                    MB</div>
                             </div>
                             <div class="icon">
                                 <img src="{{ asset('aset/total_size.png') }}" alt="Dokumen size">

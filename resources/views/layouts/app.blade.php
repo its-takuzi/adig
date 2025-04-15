@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <style>
         body {
@@ -83,6 +85,42 @@
             left: 15px;
             margin-bottom: 15px
         }
+
+        [class^="sidebar-"]::before {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .sidebar-home::before {
+            content: url('aset/home.svg');
+        }
+
+        .sidebar-rak::before {
+            content: url('aset/rak.svg');
+        }
+
+        .sidebar-arsip::before {
+            content: url('aset/document-filled.svg');
+        }
+
+        .sidebar-history::before {
+            content: url('aset/list-right.svg');
+        }
+
+        .sidebar-user::before {
+            content: url('aset/user-1.svg');
+        }
+
+        .sidebar-setting::before {
+            content: url('aset/settings.svg');
+        }
+
+        .sidebar-logout::before {
+            content: url('aset/logout.svg');
+        }
     </style>
 </head>
 
@@ -100,41 +138,41 @@
                 <li class="nav-item">
                     <a href="{{ route('dashboard.index') }}"
                         class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home"></i> Dashboard
+                        <i class="sidebar-home" alt=""></i>Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('arsip.index') }}" class="nav-link {{ Request::is('arsip*') ? 'active' : '' }}">
-                        <i class="fas fa-folder"></i> Arsip
+                        <i class="sidebar-arsip" alt=""></i> Arsip
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('rak.index') }}" class="nav-link {{ Request::is('rak*') ? 'active' : '' }}">
-                        <i class="fas fa-folder"></i> Rak
+                        <i class="sidebar-rak" alt=""></i> Rak
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('histori.index') }}"
                         class="nav-link {{ Request::is('histori*') ? 'active' : '' }}">
-                        <i class="fas fa-history"></i> History
+                        <i class="sidebar-history" alt=""></i> History
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link {{ Request::is('user*') ? 'active' : '' }}">
-                        <i class="fas fa-user"></i> User
+                        <i class="sidebar-user" alt=""></i> User
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('settings.edit') }}"
                         class="nav-link {{ Request::is('settings*') ? 'active' : '' }}">
-                        <i class="fas fa-cog"></i> Settings
+                        <i class="sidebar-setting" alt=""></i> Settings
                     </a>
                 </li>
-                <li class="nav-item mt-auto">
+                <li class="nav-item mt-4">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="nav-link btn btn-link">
-                            <i class="fas fa-sign-out-alt"></i> Logout
+                            <i class="sidebar-logout" alt=""></i> Logout
                         </button>
                     </form>
                 </li>
@@ -143,20 +181,6 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            {{-- ALERT MESSAGE --}}
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
             @yield('content')
         </div>
     </div>

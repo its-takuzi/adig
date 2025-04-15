@@ -39,10 +39,6 @@
                             </ul>
                         </div>
 
-                        {{-- Tombol Tambah Rak --}}
-                        <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#modalTambahRak">
-                            <img style="height: 50px ; width:50px" src="{{ asset('aset/add.png') }}" alt="">
-                        </button>
                     </div>
 
                     <div class="col-12 mt-4">
@@ -89,7 +85,12 @@
                 </div>
             </div>
 
-
+            {{-- Tombol Tambah Rak --}}
+            <div class="d-flex">
+                <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#modalTambahRak">
+                    <img style="height: 50px ; width:50px" src="{{ asset('aset/add.png') }}" alt="">
+                </button>
+            </div>
 
             <!-- Modal Tambah Rak -->
             <div class="modal fade" id="modalTambahRak" tabindex="-1" aria-labelledby="modalTambahRakLabel"

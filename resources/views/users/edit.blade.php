@@ -10,7 +10,6 @@
             <span class="me-2">{{ auth()->user()->name }}</span>
         </div>
     </div>
-
     <div class="container bg-history">
         <div class="card">
             <div class="card-body">
@@ -37,6 +36,7 @@
             </div>
         </div>
     </div>
+
 
     <footer class="footer">
         <p class="p-3">Copyright 2024 - Qif Media</p>

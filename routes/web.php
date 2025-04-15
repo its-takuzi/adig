@@ -56,6 +56,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/dokumen/{id}', [DokumenController::class, 'destroy'])->name('dokumen.destroy');
     Route::get('/arsip/dokumen/{id}', [DokumenController::class, 'download'])->name('dokumen.download');
     Route::post('/arsip/store', [DokumenController::class, 'store'])->name('dokumen.store');
+    Route::get('/arsip/{id}/detail', [DokumenController::class, 'detail']);
+    Route::get('/arsip/{id}/edit', [DokumenController::class, 'edit'])->name('dokumen.edit');
+    Route::put('/arsip/{id}', [DokumenController::class, 'update'])->name('dokumen.update');
+
+
 
 
     //history

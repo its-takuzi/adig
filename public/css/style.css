@@ -289,3 +289,34 @@ main {
     height: 25px;
     object-fit: contain;
 }
+.preview-judul {
+    font-size: 16px;
+    color: #888888;
+}
+.preview-isi {
+    font-size: 21px;
+    color: #333333;
+    line-height: 2;
+    margin: 0;
+}
+.btn-preview {
+    font-size: 12px;
+    background-color: #08b123;
+    height: 30px;
+    width: 50px;
+    color: white;
+    text-decoration: none;
+}
+.btn-preview:hover {
+    background-color: #08b123;
+    color: white;
+}
+.preview-rak::before {
+    content: url("../aset/rak.svg");
+    vertical-align: middle;
+}
+.preview-rak {
+    color: black;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
