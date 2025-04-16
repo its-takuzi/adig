@@ -56,14 +56,14 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            // 'role' => 'required|in:admin,staff',
+            'role' => 'required|in:admin,staff',
         ]);
 
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        // $user->role = $request->role;
+        $user->role = $request->role;
 
         // Upload foto jika ada
         if ($request->hasFile('pp')) {

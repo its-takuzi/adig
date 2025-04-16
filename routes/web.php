@@ -60,9 +60,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/arsip/{id}/edit', [DokumenController::class, 'edit'])->name('dokumen.edit');
     Route::put('/arsip/{id}', [DokumenController::class, 'update'])->name('dokumen.update');
 
-
-
-
     //history
     Route::get('/histori', [Historylogcontroller::class, 'index'])->name('histori.index');
 

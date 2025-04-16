@@ -53,6 +53,6 @@
     </div>
 
     <footer class="footer">
-        <p class="p-3">Copyright 2024 - Qif Media</p>
+        <p class="p-3">Copyright 2025 - Qif Media</p>
     </footer>
 @endsection

@@ -144,15 +144,15 @@
                                 style="display: flex; gap: 4px; justify-content: center; align-items: center; height: 100%;">
                                 <!-- Tombol Download -->
                                 <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm"
-                                    style="padding: 0; margin: 0;">
+                                    style="padding: 0; margin: 0;" target="_blank">
                                     <img src="{{ asset('aset/dwn.png') }}" alt="Download"
                                         style="display: block; height: 33px;">
                                 </a>
 
-                                <!-- Tombol Share -->
-                                <a href="#" class="btn btn-sm" style="padding: 0; margin: 0;">
-                                    <img src="{{ asset('aset/share.png') }}" alt="Share"
-                                        style="display: block; height: 33px;">
+                                {{-- tombol share --}}
+                                <a href="#" class="btn btn-sm btn-share"
+                                    data-url="{{ asset('storage/' . $dokumen->file) }}">
+                                    <img src="{{ asset('aset/share.png') }}" alt="Share">
                                 </a>
 
                                 <!-- Tombol Hapus -->
@@ -190,7 +190,7 @@
 
 
     <footer class="footer">
-        <p class="p-3">Copyright 2024 - Qif Media</p>
+        <p class="p-3">Copyright 2025 - Qif Media</p>
     </footer>
 
 
@@ -465,87 +465,6 @@
         </div>
     </div>
 
-    {{-- script untuk modal preview data --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('.open-modal');
-
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    const id = this.getAttribute('data-id');
-                    const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-                    modal.show();
-
-                    // Reset isi & tampilkan loading
-                    document.getElementById('loading').style.display = 'block';
-                    document.getElementById('modalContent').style.display = 'none';
-
-                    fetch(`/arsip/${id}/detail`)
-                        .then(response => response.json())
-                        .then(data => {
-                            document.getElementById('noSurat').textContent = data
-                                .laporan_polisi;
-                            document.getElementById('jenisLaporan').textContent = data.kategori;
-                            document.getElementById('jenisSurat').textContent = data
-                                .jenis_surat;
-                            document.getElementById('tglLapor').textContent = data
-                                .tanggal_laporan;
-                            document.getElementById('tglUngkap').textContent = data
-                                .tanggal_ungkap;
-                            document.getElementById('lokasi').textContent = data.rak;
-                            document.getElementById('namaUploader').textContent = data.uploader
-                                .nama;
-                            document.getElementById('uploadedAt').textContent = data
-                                .uploaded_at;
-                            document.getElementById('fotoUploader').src = data.uploader
-                                .foto_url;
-
-                            document.getElementById('viewBtn').href = `/dokumen/${id}`;
-                            document.getElementById('editBtn').setAttribute('data-id', id);
-
-                            document.getElementById('loading').style.display = 'none';
-                            document.getElementById('modalContent').style.display = 'block';
-                        })
-                        .catch(err => {
-                            document.getElementById('loading').textContent =
-                                'Gagal memuat data.';
-                            console.error(err);
-                        });
-
-                });
-            });
-        });
-        document.getElementById('editBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            const id = this.getAttribute('data-id');
-
-            fetch(`/arsip/${id}/detail`)
-                .then(response => response.json())
-                .then(data => {
-                    const modal = new bootstrap.Modal(document.getElementById('modalEditBerkas'));
-                    modal.show();
-
-                    document.getElementById('edit_dokumen_id').value = id;
-                    document.getElementById('formEditDokumen').action = `/arsip/${id}`;
-                    document.getElementById('edit_laporan_polisi').value = data.laporan_polisi;
-                    document.getElementById('edit_pelapor').value = data.laporan_polisi.includes("/A/") ?
-                        'tni/polisi' : 'warga';
-                    document.getElementById('edit_tanggal_laporan').value = data.tanggal_laporan;
-                    document.getElementById('edit_jenis_surat').value = data.jenis_surat;
-                    document.getElementById('edit_tanggal_ungkap').value = data.tanggal_ungkap || '';
-
-                    document.getElementById(`edit_${data.kategori.toLowerCase()}`).checked = true;
-
-                    document.getElementById('edit_rak_id').value = Array.from(document.getElementById(
-                        'edit_rak_id').options).find(
-                        opt => opt.text === data.rak
-                    )?.value || '';
-                });
-        });
-    </script>
-
     <!-- Modal Edit Berkas -->
     <div class="modal fade" id="modalEditBerkas" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -569,7 +488,7 @@
                             <div class="col-3">
                                 <div class="mb-3">
                                     <label for="edit_laporan_polisi" class="form-label">Nomor LP</label>
-                                    <input type="text" class="form-control" id="edit_laporan_polisi"
+                                    <input type="text" class="form-control" id="edit_laporan_polisi" readonly
                                         name="laporan_polisi">
                                 </div>
                             </div>
@@ -616,6 +535,7 @@
                                 <div class="mb-3">
                                     <label for="edit_jenis_surat" class="form-label">Jenis Surat</label>
                                     <select class="form-select" id="edit_jenis_surat" name="jenis_surat" required>
+                                        <option value="" disabled selected>Pilih jenis surat</option>
                                         <option value="tahap2">Tahap 2</option>
                                         <option value="sp3">Sp3</option>
                                         <option value="RJ">RJ</option>
@@ -661,6 +581,88 @@
         </div>
     </div>
 
+    {{-- script untuk modal preview data --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.open-modal');
+
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const id = this.getAttribute('data-id');
+                    const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+                    modal.show();
+
+                    // Reset isi & tampilkan loading
+                    document.getElementById('loading').style.display = 'block';
+                    document.getElementById('modalContent').style.display = 'none';
+
+                    fetch(`/arsip/${id}/detail`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('noSurat').textContent = data
+                                .laporan_polisi;
+                            document.getElementById('jenisLaporan').textContent = data.kategori;
+                            document.getElementById('jenisSurat').textContent = data
+                                .jenis_surat;
+                            document.getElementById('tglLapor').textContent = data
+                                .tanggal_laporan;
+                            document.getElementById('tglUngkap').textContent = data
+                                .tanggal_ungkap;
+                            document.getElementById('lokasi').textContent = data.rak;
+                            document.getElementById('namaUploader').textContent = data.uploader
+                                .nama;
+                            document.getElementById('uploadedAt').textContent = data
+                                .uploaded_at;
+                            document.getElementById('fotoUploader').src = data.uploader
+                                .foto_url;
+
+                            document.getElementById('viewBtn').href = `/storage/${data.file}`;
+                            document.getElementById('viewBtn').setAttribute('target', '_blank');
+
+                            document.getElementById('editBtn').setAttribute('data-id', id);
+
+                            document.getElementById('loading').style.display = 'none';
+                            document.getElementById('modalContent').style.display = 'block';
+                        })
+                        .catch(err => {
+                            document.getElementById('loading').textContent =
+                                'Gagal memuat data.';
+                            console.error(err);
+                        });
+
+                });
+            });
+        });
+        document.getElementById('editBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = this.getAttribute('data-id');
+
+            fetch(`/arsip/${id}/detail`)
+                .then(response => response.json())
+                .then(data => {
+                    const modal = new bootstrap.Modal(document.getElementById('modalEditBerkas'));
+                    modal.show();
+
+                    document.getElementById('edit_dokumen_id').value = id;
+                    document.getElementById('formEditDokumen').action = `/arsip/${id}`;
+                    document.getElementById('edit_laporan_polisi').value = data.laporan_polisi;
+                    document.getElementById('edit_pelapor').value = data.laporan_polisi.includes("/A/") ?
+                        'tni/polisi' : 'warga';
+                    document.getElementById('edit_tanggal_laporan').value = data.tanggal_laporan;
+                    document.getElementById('edit_jenis_surat').value = data.jenis_surat;
+                    document.getElementById('edit_tanggal_ungkap').value = data.tanggal_ungkap || '';
+
+                    document.getElementById(`edit_${data.kategori.toLowerCase()}`).checked = true;
+
+                    document.getElementById('edit_rak_id').value = Array.from(document.getElementById(
+                        'edit_rak_id').options).find(
+                        opt => opt.text === data.rak
+                    )?.value || '';
+                });
+        });
+    </script>
 
     {{-- session ketika error input data --}}
     @if ($errors->any() || session('error'))

@@ -5,9 +5,8 @@
     <div class="d-flex justify-content-between mt-1 align-items-center d-none d-md-flex">
         <h3 class="m-3">Settings</h3>
         <div class="d-flex align-items-center m-3">
-            <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}" alt="Foto Profil"
-                class="rounded-circle" width="40" height="40"
-                style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
+            <img src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil" class="rounded-circle"
+                width="40" height="40" style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
             <span class="me-2">{{ auth()->user()->name }}</span>
         </div>
     </div>
@@ -23,15 +22,15 @@
                             @csrf
                             <p class="mb-2">
                                 <img id="profilePreview"
-                                    src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}"
-                                    alt="Foto Profil" class="rounded-circle" width="180" height="180"
+                                    src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil"
+                                    class="rounded-circle" width="180" height="180"
                                     style="object-fit: cover; aspect-ratio: 1/1;">
                             </p>
                             <div class="text-center w-100">
                                 <button type="button" class="btn mt-1" style="background-color: #e0f0ff; color: #007bff;"
-                                    onclick="document.getElementById('profile_photo').click()">Change</button>
+                                    onclick="document.getElementById('pp').click()">Change</button>
                             </div>
-                            <input type="file" name="profile_photo" id="profile_photo" class="d-none"
+                            <input type="file" name="pp" id="pp" class="d-none"
                                 onchange="document.getElementById('photoForm').submit()">
                         </form>
                     </div>
@@ -84,6 +83,6 @@
     </div>
 
     <footer class="footer">
-        <p class="p-3">Copyright 2024 - Qif Media</p>
+        <p class="p-3">Copyright 2025 - Qif Media</p>
     </footer>
 @endsection

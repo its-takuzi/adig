@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-between mt-1 align-items-center">
         <h3 class="m-3">Users</h3>
         <div class="d-flex align-items-center m-3">
-            <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}" alt="Foto Profil"
+            <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
             <span class="me-2">{{ auth()->user()->name }}</span>
@@ -28,8 +28,8 @@
                             <tr>
                                 <td class="text-center align-middle" style="width: 50px;"><input type="checkbox"></td>
                                 <td>
-                                    <img src="{{ asset('storage/profile/' . ($user->profile_photo ?? 'default.jpg')) }}"
-                                        alt="Foto Profil" width="40">
+                                    <img src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}"
+                                        alt="Foto Profil" class="rounded-circle" width="40" height="40">
                                     {{ $user->name }}
                                 </td>
                                 <td>{{ $user->email }}</td>
@@ -81,8 +81,8 @@
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="profile_photo" class="form-label">Foto Profil</label>
-                                        <input type="file" class="form-control" id="profile_photo" name="profile_photo">
+                                        <label for="pp" class="form-label">Foto Profil</label>
+                                        <input type="file" class="form-control" id="pp" name="pp">
                                     </div>
 
                                     <div class="mb-3">
@@ -118,6 +118,6 @@
         </div>
     </div>
     <footer class="footer">
-        <p class="p-3">Copyright 2024 - Qif Media</p>
+        <p class="p-3">Copyright 2025 - Qif Media</p>
     </footer>
 @endsection

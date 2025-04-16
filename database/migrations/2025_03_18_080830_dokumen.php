@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('dokumen', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('laporan_polisi')->unique();
+            $table->string('laporan_polisi');
             $table->date('tanggal_laporan');
             $table->string('file');
             $table->bigInteger('size');

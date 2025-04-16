@@ -78,11 +78,11 @@
 <body>
     <div class="container-fluid d-flex justify-content-center align-items-center">
         <div class="row w-100 align-items-stretch login-container">
-            <div class="col-md-8 left-side d-flex">
+            <div class="col-md-8 left-side d-flex ">
                 <img src="{{ asset('aset/ADIG-1.svg') }}" alt="Logo" class="img-fluid" style="max-width: 100%;">
             </div>
-            <div class="col-md-4 right-side d-flex">
-                <div class="card w-100 h-100 mt-5 mb-5">
+            <div class="col-md-4 right-side d-flex justify-content-center align-items-center">
+                <div class="card h-100 mt-5 mb-5">
                     <h2 class="text-2xl font-bold text-center">
                         <span class="gradient-we">We</span><span class="text-blue-600">lcome back!</span>
                     </h2>
@@ -106,8 +106,8 @@
                         <button type="submit"
                             class="w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-lg 
                             transition-all duration-300
-                            hover:bg-gradient-to-r hover:from-blue-300 hover:to-blue-700 mt-6"
-                            style="box-shadow: 10px 0 20px -10px rgba(59, 130, 246, 0.2), 20px 0 30px -10px rgba(59, 130, 246, 0.4);">
+                            hover:bg-gradient-to-r hover:from-blue-300 hover:to-blue-700"
+                            style="box-shadow: 10px 0 20px -10px rgba(59, 130, 246, 0.2), 20px 0 30px -10px rgba(59, 130, 246, 0.4); margin-top:80px">
                             Login
                         </button>
                 </div>

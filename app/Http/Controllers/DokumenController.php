@@ -108,6 +108,7 @@ class DokumenController extends Controller
         $existing = Dokumen::where('laporan_polisi', $nomor_lp_formatted)
             ->where('kategori', $request->kategori)
             ->where('jenis_surat', $request->jenis_surat)
+            // ->where('pelapor', $request->pelapor)
             ->first();
 
         if ($existing) {
@@ -175,10 +176,11 @@ class DokumenController extends Controller
             'tanggal_laporan' => $dokumen->tanggal_laporan,
             'tanggal_ungkap' => optional($dokumen->tanggal_ungkap)->format('d/m/Y'),
             'rak' => $dokumen->rak->nama_rak ?? 'Tidak diketahui',
+            'file' => $dokumen->file,
             'uploaded_at' => optional($dokumen->created_at)->translatedFormat('d F Y'),
             'uploader' => [
                 'nama' => $dokumen->user->name ?? 'Tidak diketahui',
-                'foto_url' => asset('asset/' . ($dokumen->user->pp ?? 'default.jpg')),
+                'foto_url' => asset('storage/profile/' . ($dokumen->user->pp ?? 'default.jpg')),
             ],
         ]);
     }
@@ -221,7 +223,7 @@ class DokumenController extends Controller
         $nomor_lp_formatted = "LP/" . $pelaporFormatted . "/" . $request->laporan_polisi . "/" . $bulan_romawi_format . "/" . $tahun_laporan . "/SPKT/POLSEK DUMAI TIMUR/POLRES DUMAI/POLDA RIAU";
 
         $updateData = [
-            'laporan_polisi' => $nomor_lp_formatted,
+            // 'laporan_polisi' => $nomor_lp_formatted,
             'tanggal_laporan' => $request->tanggal_laporan,
             'kategori' => $request->kategori,
             'jenis_surat' => $request->jenis_surat,
@@ -250,8 +252,6 @@ class DokumenController extends Controller
 
         return redirect()->back()->with('success', 'Dokumen berhasil diperbarui!');
     }
-
-
 
     public function destroy(string $id): RedirectResponse
     {

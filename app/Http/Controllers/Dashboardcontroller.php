@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dokumen;
+use App\Models\Historylog;
+use App\Models\Rak;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboardcontroller extends Controller
 {
@@ -12,6 +15,7 @@ class Dashboardcontroller extends Controller
     {
         $totalDokumen = Dokumen::count();
         $totalSize = Dokumen::sum('size') / (1024 * 1024);
+        $listRak = Rak::all();
 
         // Query data untuk grafik
         $data = Dokumen::selectRaw('YEAR(tanggal_laporan) as tahun, kategori, COUNT(*) as jumlah')
@@ -79,6 +83,6 @@ class Dashboardcontroller extends Controller
         // dd($categories, $curasData, $curatData, $curanmorData);
 
 
-        return view('dashboard', compact('totalDokumen', 'totalSize', 'dokumens', 'kategori', 'listKategori', 'chart'));
+        return view('dashboard', compact('totalDokumen', 'totalSize', 'dokumens', 'kategori', 'listKategori', 'chart', 'listRak'));
     }
 }

@@ -143,19 +143,21 @@
 
                                             <div class="file-display">
                                                 <img src="{{ $icon }}" alt="{{ $ext }} icon">
-                                                <a href="{{ asset('storage/' . $dokumen->file) }}" target="_blank">
+                                                <a href="#" class="open-modal" data-id="{{ $dokumen->id }}">
                                                     {{ basename($dokumen->file) }}
                                                 </a>
                                             </div>
                                         </td>
                                         <td class="text-center lebar">
                                             <!-- Tombol Download -->
-                                            <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm ">
+                                            <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm "
+                                                target="_blank">
                                                 <img src="{{ asset('aset/dwn.png') }}" alt="Download">
                                             </a>
 
-                                            <!-- Tombol Share -->
-                                            <a href="#" class="btn btn-sm ">
+                                            {{-- tombol share --}}
+                                            <a href="#" class="btn btn-sm btn-share"
+                                                data-url="{{ asset('storage/' . $dokumen->file) }}">
                                                 <img src="{{ asset('aset/share.png') }}" alt="Share">
                                             </a>
 
@@ -197,7 +199,7 @@
 
 
     <footer class="footer">
-        <p class="p-3">Copyright 2024 - Qif Media</p>
+        <p class="p-3">Copyright 2025 - Qif Media</p>
     </footer>
 
     <!-- Modal Konfirmasi Hapus -->
@@ -234,6 +236,266 @@
             </div>
         </div>
     </div>
+
+    {{-- modal preview data --}}
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered " style=" width: 497px">
+            <div class="modal-content rounded-5 shadow ">
+                <div class="modal-header rounded-top-5 text-white"
+                    style="background-color: #2751C1;height: 47px; width: 497px">
+                    <p class="modal-title ms-3" style="font-size: 18px; color:#FFFFFF">Detail Dokumen</p>
+                    <button type="button" class="btn-close btn-close-form me-3" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="loading">Memuat data...</div>
+                    <div id="modalContent" style="display: none;">
+                        <h6 id="noSurat" style="font-size: 16px" class="mb-3 text-uppercase"></h6>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="preview-judul">Jenis Laporan</label>
+                                <p class="preview-isi" id="jenisLaporan"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="preview-judul">Jenis Surat</label>
+                                <p class="preview-isi" id="jenisSurat"></p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="preview-judul">Tgl Laporan</label>
+                                <p class="preview-isi" id="tglLapor"></p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="preview-judul">Tgl Ungkap</label>
+                                <p class="preview-isi" id="tglUngkap"></p>
+                            </div>
+                        </div>
+                        <p class="preview-rak"><i class="bi bi-geo-alt-fill me-1"></i><span id="lokasi"></span></p>
+                        <br>
+                        <div class="row">
+                            <label class="preview-judul">Diupload oleh</label>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <img id="fotoUploader" class="rounded-circle me-3" width="48" height="48">
+                                    <div>
+                                        <strong id="namaUploader"></strong><br>
+                                        <i class="bi bi-calendar3 me-1"></i><span id="uploadedAt"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mt-4 d-flex justify-content-end gap-2">
+                                    <a href="#" id="viewBtn" class="btn btn-preview btn-sm">View</a>
+                                    <a href="#" id="editBtn" class="btn btn-preview btn-sm">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Berkas -->
+    <div class="modal fade" id="modalEditBerkas" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Header Modal -->
+                <div class="modal-header" style="background-color: #2751C1; color: white">
+                    <h5 class="modal-title" id="modalEditLabel">Edit Berkas</h5>
+                    <button type="button" class="btn-close btn-close-form" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <!-- Body Modal -->
+                <div class="modal-body">
+                    <form id="formEditDokumen" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <input type="hidden" id="edit_dokumen_id" name="dokumen_id">
+
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label for="edit_laporan_polisi" class="form-label">Nomor LP</label>
+                                    <input type="text" class="form-control" id="edit_laporan_polisi" readonly
+                                        name="laporan_polisi">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label for="edit_pelapor" class="form-label">Pelapor</label>
+                                    <select class="form-select" id="edit_pelapor" name="pelapor" required>
+                                        <option value="tni/polisi">A (Polisi/TNI)</option>
+                                        <option value="warga">B (Warga)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="edit_tanggal_laporan" class="form-label">Tgl Laporan</label>
+                                    <input type="date" class="form-control" id="edit_tanggal_laporan"
+                                        name="tanggal_laporan" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="form-label">Jenis Laporan</label>
+                                <div class="d-flex gap-3 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="kategori" id="edit_curas"
+                                            value="curas">
+                                        <label class="form-check-label" for="edit_curas">CURAS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="kategori" id="edit_curat"
+                                            value="curat">
+                                        <label class="form-check-label" for="edit_curat">CURAT</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="kategori"
+                                            id="edit_curanmor" value="curanmor">
+                                        <label class="form-check-label" for="edit_curanmor">CURANMOR</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="edit_jenis_surat" class="form-label">Jenis Surat</label>
+                                    <select class="form-select" id="edit_jenis_surat" name="jenis_surat" required>
+                                        <option value="" disabled selected>Pilih jenis surat</option>
+                                        <option value="tahap2">Tahap 2</option>
+                                        <option value="sp3">Sp3</option>
+                                        <option value="RJ">RJ</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="edit_rak_id" class="form-label">Rak Penyimpanan</label>
+                                    <select class="form-select" id="edit_rak_id" name="rak_id" required>
+                                        @foreach ($listRak as $rak)
+                                            <option value="{{ $rak->id }}">{{ $rak->nama_rak }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="edit_tanggal_ungkap" class="form-label">Tgl Ungkap</label>
+                                    <input type="date" class="form-control" id="edit_tanggal_ungkap"
+                                        name="tanggal_ungkap">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="edit_file" class="form-label">Upload File (jika ingin mengganti)</label>
+                                    <input type="file" class="form-control" id="edit_file" name="file"
+                                        accept=".pdf,.xlsx,.docx">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer d-flex justify-content-between">
+                            <small class="text-muted">*Kosongkan file jika tidak ingin mengganti</small>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- script untuk modal preview data --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.open-modal');
+
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const id = this.getAttribute('data-id');
+                    const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+                    modal.show();
+
+                    // Reset isi & tampilkan loading
+                    document.getElementById('loading').style.display = 'block';
+                    document.getElementById('modalContent').style.display = 'none';
+
+                    fetch(`/arsip/${id}/detail`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('noSurat').textContent = data
+                                .laporan_polisi;
+                            document.getElementById('jenisLaporan').textContent = data.kategori;
+                            document.getElementById('jenisSurat').textContent = data
+                                .jenis_surat;
+                            document.getElementById('tglLapor').textContent = data
+                                .tanggal_laporan;
+                            document.getElementById('tglUngkap').textContent = data
+                                .tanggal_ungkap;
+                            document.getElementById('lokasi').textContent = data.rak;
+                            document.getElementById('namaUploader').textContent = data.uploader
+                                .nama;
+                            document.getElementById('uploadedAt').textContent = data
+                                .uploaded_at;
+                            document.getElementById('fotoUploader').src = data.uploader
+                                .foto_url;
+
+                            document.getElementById('viewBtn').href = `/storage/${data.file}`;
+                            document.getElementById('viewBtn').setAttribute('target', '_blank');
+
+                            document.getElementById('editBtn').setAttribute('data-id', id);
+
+                            document.getElementById('loading').style.display = 'none';
+                            document.getElementById('modalContent').style.display = 'block';
+                        })
+                        .catch(err => {
+                            document.getElementById('loading').textContent =
+                                'Gagal memuat data.';
+                            console.error(err);
+                        });
+
+                });
+            });
+        });
+        document.getElementById('editBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = this.getAttribute('data-id');
+
+            fetch(`/arsip/${id}/detail`)
+                .then(response => response.json())
+                .then(data => {
+                    const modal = new bootstrap.Modal(document.getElementById('modalEditBerkas'));
+                    modal.show();
+
+                    document.getElementById('edit_dokumen_id').value = id;
+                    document.getElementById('formEditDokumen').action = `/arsip/${id}`;
+                    document.getElementById('edit_laporan_polisi').value = data.laporan_polisi;
+                    document.getElementById('edit_pelapor').value = data.laporan_polisi.includes("/A/") ?
+                        'tni/polisi' : 'warga';
+                    document.getElementById('edit_tanggal_laporan').value = data.tanggal_laporan;
+                    document.getElementById('edit_jenis_surat').value = data.jenis_surat;
+                    document.getElementById('edit_tanggal_ungkap').value = data.tanggal_ungkap || '';
+
+                    document.getElementById(`edit_${data.kategori.toLowerCase()}`).checked = true;
+
+                    document.getElementById('edit_rak_id').value = Array.from(document.getElementById(
+                        'edit_rak_id').options).find(
+                        opt => opt.text === data.rak
+                    )?.value || '';
+                });
+        });
+    </script>
 
     <script src="{{ $chart->cdn() }}"></script>
     {!! $chart->script() !!}

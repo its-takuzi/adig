@@ -51,7 +51,6 @@ class SettingsController extends Controller
     }
     public function updateProfilePhoto(Request $request)
     {
-        // ✅ Validasi input
         $request->validate([
             'pp' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
