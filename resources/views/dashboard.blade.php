@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
-        <h3 class="m-3">DASHBOARD</h3>
+        <h3 class="judul">DASHBOARD</h3>
         <div class="d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
@@ -11,55 +11,57 @@
         </div>
     </div>
     <div class="container-fluid bg-dashboard">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="row">
-                    <div class="col-12 p-3 justify-content-center">
-                        <div class="card-item">
-                            <div>
-                                <div class="text" style="font-size: 21px; color: #8898AA">Total Dokumen</div>
-                                <div class="number" style="font-size: 30px; color:black">{{ $totalDokumen }}</div>
-                            </div>
-                            <div class="icon">
-                                <img src="{{ asset('aset/total_dokumen.png') }}" alt="Dokumen Icon">
-                            </div>
+
+        {{-- isi bagian card bagian atas --}}
+        <div class="d-flex flex-wrap gap-4 mb-4">
+            <div class="d-flex flex-column gap-4" style="flex: 0 0 35%;">
+                <div class="card-item">
+                    <div>
+                        <div class="text" style="font-size: 1.313rem; color: #8898AA">Total Dokumen</div>
+                        <div class="number" style="font-size: 3.625rem;font-weight:600; color:black">
+                            {{ $totalDokumen }}
                         </div>
                     </div>
+                    <div class="icon">
+                        <img src="{{ asset('aset/total_dokumen.png') }}" style="height: 4.813rem; width: 4.813rem"
+                            alt="Dokumen Icon">
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 p-3 justify-content-center">
-                        <div class="card-item">
-                            <div>
-                                <div class="text"style="font-size: 21px; color: #8898AA">Total Size</div>
-                                <div class="number"style="font-size: 30px; color:black">{{ number_format($totalSize, 2) }}
-                                    MB</div>
-                            </div>
-                            <div class="icon">
-                                <img src="{{ asset('aset/total_size.png') }}" alt="Dokumen size">
-                            </div>
+
+                <div class="card-item">
+                    <div>
+                        <div class="text" style="font-size: 1.313rem; color: #8898AA">Total Size</div>
+                        <div class="number" style="font-size: 3.625rem; font-weight:600; color:black">
+                            {{ number_format($totalSize, 2) }} MB
                         </div>
+                    </div>
+                    <div class="icon">
+                        <img src="{{ asset('aset/total_size.png') }}" style="height: 4.813rem; width: 4.813rem"
+                            alt="Dokumen size">
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-7 p-3 justify-content-center">
-                <div class="card-item ">
-                    <div class="d-flex justify-content-center">
+            <!-- Grafik -->
+            <div class="flex-grow-1">
+                <div class="card-item-grafik h-100">
+                    <div class="d-flex justify-content-center align-items-center h-100">
                         {!! $chart->container() !!}
                     </div>
                 </div>
             </div>
         </div>
 
+
         <div class="row">
             <div class="col-12 p-3 justify-content-center">
                 <div class="card-table w-100 " style="font-size: 14px">
                     <div class="row">
                         <div class="col-5" style="display: flex">
-                            <div class="dropdown mt-3 ms-3">
+                            <div class="dropdown mt-3 ms-2">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                                     id="dropdownkategori" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $kategori ? ucfirst($kategori) : 'Semua' }}
+                                    {{ $kategori ? ucfirst($kategori) : 'Semua Kategori' }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownkategori">
                                     <li><a class="dropdown-item" href="{{ route('dashboard.index') }}">Semua</a></li>
@@ -116,7 +118,7 @@
                             <tbody>
                                 @forelse($dokumens as $dokumen)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="d-flex justify-content-center">{{ $loop->iteration }}</td>
                                         <td
                                             style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                             {{ $dokumen->laporan_polisi }}</td>
@@ -148,31 +150,37 @@
                                                 </a>
                                             </div>
                                         </td>
-                                        <td class="text-center lebar">
-                                            <!-- Tombol Download -->
-                                            <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm "
-                                                target="_blank">
-                                                <img src="{{ asset('aset/dwn.png') }}" alt="Download">
-                                            </a>
+                                        <td style="padding: 0; text-align: center; vertical-align: middle;">
+                                            <div
+                                                style="display: flex; gap: 4px; justify-content: center; align-items: center; height: 100%;">
+                                                <!-- Tombol Download -->
+                                                <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm"
+                                                    style="padding: 0; margin: 0;" target="_blank">
+                                                    <img src="{{ asset('aset/dwn.png') }}" alt="Download"
+                                                        style="display: block; height: 33px;">
+                                                </a>
 
-                                            {{-- tombol share --}}
-                                            <a href="#" class="btn btn-sm btn-share"
-                                                data-url="{{ asset('storage/' . $dokumen->file) }}">
-                                                <img src="{{ asset('aset/share.png') }}" alt="Share">
-                                            </a>
+                                                {{-- tombol share --}}
+                                                <a href="#" class="btn btn-sm btn-share"
+                                                    data-url="{{ asset('storage/' . $dokumen->file) }}">
+                                                    <img src="{{ asset('aset/share.png') }}" alt="Share">
+                                                </a>
 
-                                            <!-- Tombol Hapus -->
-                                            <form action="{{ route('dokumen.destroy', $dokumen->id) }}" method="POST"
-                                                onsubmit="return confirm('Yakin ingin menghapus?');"
-                                                style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-sm " data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
-                                                    data-name="{{ $dokumen->nama }}">
-                                                    <img src="{{ asset('aset/delete.png') }}" alt="Hapus">
-                                                </button>
-                                            </form>
+                                                <!-- Tombol Hapus -->
+                                                <form action="{{ route('dokumen.destroy', $dokumen->id) }}"
+                                                    method="POST" onsubmit="return confirm('Yakin ingin menghapus?');"
+                                                    style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-sm"
+                                                        style="padding: 0; margin: 0;" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
+                                                        data-name="{{ $dokumen->nama }}">
+                                                        <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
+                                                            style="display: block; height: 33px;">
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty

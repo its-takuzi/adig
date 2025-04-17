@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
-        <h3 class="m-3">HISTORY</h3>
+        <h3 class="judul">HISTORY</h3>
         <div class="d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"

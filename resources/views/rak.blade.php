@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
-        <h3 class="m-3">Rak</h3>
+        <h3 class="judul">Rak</h3>
         <div class="d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
@@ -13,7 +13,7 @@
 
     <div class="container-fluid bg-dashboard">
         <div class="row">
-            <div class="col-12 p-3 justify-content-center">
+            <div class="col-12  justify-content-center">
                 <div class="card-table w-100 " style="font-size: 14px">
                     <div class="col-5" style="display: flex">
                         <div class="dropdown mt-3 ms-3">
@@ -87,8 +87,8 @@
 
             {{-- Tombol Tambah Rak --}}
             <div class="d-flex">
-                <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#modalTambahRak">
-                    <img style="height: 50px ; width:50px" src="{{ asset('aset/add.png') }}" alt="">
+                <button class="btn ms-auto mt-4" data-bs-toggle="modal" data-bs-target="#modalTambahRak">
+                    <img style="height: 3.125rem ; width: 3.125rem" src="{{ asset('aset/add.png') }}" alt="">
                 </button>
             </div>
 

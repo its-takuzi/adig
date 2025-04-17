@@ -1,16 +1,31 @@
+.judul {
+    font-weight: 600;
+    font-size: 1.625rem;
+    font-family: poppins;
+    margin-left: 3.125rem;
+}
+
 .kategori-container {
-    background-color: #2751c1;
-    padding: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 100%;
+    height: 111px;
+    padding-left: 3.125rem;
 }
-
+.isi-arsip {
+    background-color: white;
+    padding-left: 3.125rem;
+}
+.bg-arsip {
+    background-color: #2751c1;
+    min-height: 100vh;
+    justify-content: center;
+}
 .btn-category {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-top: 40px;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     font-weight: bold;
@@ -19,6 +34,8 @@
     border: none;
     width: 282px !important;
     height: 64px;
+    padding-left: 3.125rem;
+    text-decoration: none !important;
 }
 
 .btn-category i {
@@ -176,6 +193,7 @@ main {
     height: 100px;
     color: white;
     display: flex;
+    padding-left: 3.125rem;
 }
 
 /* Atur ukuran input search */
@@ -216,11 +234,15 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-left: 3.125rem;
+    padding-top: 3.125rem;
 }
 .bg-dashboard {
     background-color: #2751c1;
     min-height: 100vh;
     justify-content: center;
+    padding-left: 3.125rem;
+    padding-top: 3.125rem;
 }
 
 .card-item {
@@ -231,8 +253,19 @@ main {
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    width: 100%;
-    max-width: 90%;
+    width: 23.634rem;
+    height: 9.219rem;
+}
+.card-item-grafik {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    width: 36.125rem;
+    height: 20.063rem;
 }
 
 .card-item .text {
@@ -263,7 +296,8 @@ main {
 .card-table {
     background-color: white;
     max-width: 100%;
-    width: auto;
+    width: 65rem;
+    height: 36.625;
     border-radius: 10px;
 }
 
