@@ -1,35 +1,80 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between mt-1 align-items-center">
-        <h3 class="m-3">Users</h3>
+    <!-- Desktop Header -->
+    <div class="d-flex justify-content-between mt-1 align-items-center d-none d-md-flex">
+        <h3 class="judul">SETTING</h3>
         <div class="d-flex align-items-center m-3">
-            <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
-                class="rounded-circle" width="40" height="40"
-                style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
+            <img src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil" class="rounded-circle"
+                width="40" height="40" style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
             <span class="me-2">{{ auth()->user()->name }}</span>
         </div>
     </div>
-    <div class="container bg-history">
+
+    <div class="container-fluid bg-history">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-3">
-                        <form action="{{ route('users.update', $user->id) }}" method="POST">
+                <div class="row gx-3">
+                    <!-- Bagian Foto Profil -->
+                    <div class="col-md-3 d-flex flex-column align-items-start ps-2">
+                        <form id="photoForm" action="{{ route('settings.updatePhoto') }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
-                            <div>
-                                <label>Nama:</label>
-                                <input type="text" name="name" value="{{ old('name', $user->name) }}">
+                            <p class="mb-2">
+                                <img id="profilePreview"
+                                    src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil"
+                                    class="rounded-circle" width="180" height="180"
+                                    style="object-fit: cover; aspect-ratio: 1/1;">
+                            </p>
+                            <div class="text-center w-100">
+                                <button type="button" class="btn mt-1" style="background-color: #e0f0ff; color: #007bff;"
+                                    onclick="document.getElementById('pp').click()">Change</button>
                             </div>
-                            <div>
-                                <label>Email:</label>
-                                <input type="email" name="email" value="{{ old('email', $user->email) }}">
+                            <input type="file" name="pp" id="pp" class="d-none"
+                                onchange="document.getElementById('photoForm').submit()">
+                        </form>
+                    </div>
+
+                    <!-- Bagian Form Input -->
+                    <div class="col-md-6 mt-3 mt-md-0 position-relative d-flex flex-column justify-content-center">
+                        <form action="{{ route('settings.update') }}" method="POST">
+                            @csrf
+                            <!-- input nama -->
+                            <div class="mb-1">
+                                <label for="name" class="form-label" style="font-size: 15px;">Full Name</label>
+                                <input type="text" id="name" name="name" value="{{ $user->name }}"
+                                    class="form-control" style="max-width: 100%;">
                             </div>
-                            <div>
-                                <label>Password (kosongkan jika tidak ingin mengubah):</label>
-                                <input type="password" name="password">
+
+                            <!-- input email -->
+                            <div class="mb-1">
+                                <label for="email" class="form-label" style="font-size: 15px;">Email</label>
+                                <input type="email" id="email" name="email" value="{{ $user->email }}"
+                                    class="form-control" style="max-width: 100%;">
                             </div>
-                            <button type="submit">Simpan Perubahan</button>
+
+                            <!-- input password -->
+                            <div class="mb-1">
+                                <label for="password" class="form-label" style="font-size: 15px;">Password</label>
+                                <input type="password" id="password" name="password" class="form-control"
+                                    style="max-width: 100%;" placeholder="">
+                            </div>
+
+                            <!-- Tombol Save & Cancel -->
+                            <div class="mt-3" style="max-width: 90%; margin-left: auto;">
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn me-2"
+                                        style="background-color: #dc3545; color: white; 
+                                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 100px;">
+                                        Save
+                                    </button>
+                                    <button type="button" class="btn"
+                                        style="background-color: white; color: #6c757d; 
+                                                border: 1px solid #ced4da; width: 100px;">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -37,8 +82,7 @@
         </div>
     </div>
 
-
     <footer class="footer">
-        <p class="p-3">Copyright 2024 - Qif Media</p>
+        <p class="p-3">Copyright 2025 - Qif Media</p>
     </footer>
 @endsection

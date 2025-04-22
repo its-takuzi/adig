@@ -121,6 +121,30 @@
         .sidebar-logout::before {
             content: url('aset/logout.svg');
         }
+
+        .nav-link.active .sidebar-home::before {
+            content: url('aset/h-white.svg');
+        }
+
+        .nav-link.active .sidebar-rak::before {
+            content: url('aset/r-white.svg');
+        }
+
+        .nav-link.active .sidebar-arsip::before {
+            content: url('aset/d-white.svg');
+        }
+
+        .nav-link.active .sidebar-history::before {
+            content: url('aset/h-white.svg');
+        }
+
+        .nav-link.active .sidebar-user::before {
+            content: url('aset/u-white.svg');
+        }
+
+        .nav-link.active .sidebar-setting::before {
+            content: url('aset/s-white.svg');
+        }
     </style>
 </head>
 

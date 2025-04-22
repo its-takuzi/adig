@@ -18,7 +18,8 @@
                     <div class="col-5" style="display: flex">
                         <div class="dropdown mt-3 ms-3">
                             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownrak"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-expanded="false"
+                                style="font-size: 14px; font-weight: 400; color:black">
                                 {{ request('nama_rak') ? request('nama_rak') : 'Semua Rak' }}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownrak">
@@ -45,7 +46,7 @@
                         <div class="card-header m-2">Daftar Dokumen</div>
                         <div class="table-responsive p-2">
                             <table class="table table-bordered table-striped table-hover">
-                                <thead class="table-primary">
+                                <thead class="">
                                     <tr>
                                         <th>No</th>
                                         <th style="width: 350px;">Nomor LP</th>
@@ -74,9 +75,10 @@
                             </table>
                             <div class="d-flex justify-content-between align-items-center">
                                 <p class="">
-                                    Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }} of
-                                    {{ $dokumens->total() }}
-                                    entries
+                                    Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }}<span
+                                        style="color: #B0B2B4;">
+                                        of {{ $dokumens->total() }} entries
+                                    </span>
                                 </p>
                                 {{ $dokumens->links() }}
                             </div>
@@ -123,4 +125,21 @@
     <footer class="footer">
         <p class="p-3">Copyright 2025 - Qif Media</p>
     </footer>
+
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    position: 'top-end',
+                    timerProgressBar: true
+                });
+            });
+        </script>
+    @endif
 @endsection

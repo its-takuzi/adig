@@ -19,24 +19,31 @@
         <div class="kategori-container">
             <a href="{{ route('arsip.index', ['kategori' => 'curas']) }}"
                 class="btn-category {{ $kategori == 'curas' ? 'btn-primary' : 'btn-secondary' }}">
-                <i class="fas fa-archive"></i> CURAS
+                <i class="">
+                    <img src="{{ asset('aset/' . ($kategori == 'curas' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
+                        alt="CURAS">
+                </i> CURAS
             </a>
-
             <a href="{{ route('arsip.index', ['kategori' => 'curat']) }}"
                 class="btn-category {{ $kategori == 'curat' ? 'btn-primary' : 'btn-secondary' }}">
-                <i class="fas fa-archive"></i> CURAT
+                <i class="">
+                    <img src="{{ asset('aset/' . ($kategori == 'curat' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
+                        alt="CURAT">
+                </i> CURAT
             </a>
-
             <a href="{{ route('arsip.index', ['kategori' => 'curanmor']) }}"
                 class="btn-category {{ $kategori == 'curanmor' ? 'btn-primary' : 'btn-secondary' }}">
-                <i class="fas fa-archive"></i> CURANMOR
+                <i class="">
+                    <img src="{{ asset('aset/' . ($kategori == 'curanmor' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
+                        alt="CURANMOR">
+                </i> CURANMOR
             </a>
-
             <button class="btn" data-bs-toggle="modal" data-bs-target="#modalTambahBerkas">
-                <img style="height: 4.688rem ; width: 4.688rem ; margin-left:2.188rem" src="{{ asset('aset/add.png') }}"
+                <img style="height: 4.688rem; width: 4.688rem; margin-left: 2.188rem" src="{{ asset('aset/add.png') }}"
                     alt="">
             </button>
         </div>
+
 
         <div class="isi-arsip">
             {{-- dropdown dan search --}}
@@ -44,11 +51,12 @@
                 <div class="col-5" style="display: flex">
                     <div class="dropdown mt-3 ms-3">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdowntahun"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            style="font-size: 14px; font-weight: 400; color:black">
                             {{ request('tahun') ? request('tahun') : 'Semua Tahun' }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdowntahun">
-                            <li><a class="dropdown-item" href="{{ route('arsip.index') }}">Semua Tahun</a></li>
+                            <li><a class="dropdown-item" href="{{ route('arsip.index') }}">Semua</a></li>
                             @foreach ($listTahun as $tahun)
                                 <li>
                                     <a class="dropdown-item"
@@ -76,10 +84,10 @@
 
             <div class="table-responsive p-2">
                 <table class="table table-bordered table-striped ">
-                    <thead class="">
+                    <thead class="" style="font-weight: 600">
                         <tr>
                             <th>No</th>
-                            <th style="width: 350px;">Laporan Polisi (LP)</th>
+                            <th style="width: 21rem;">Laporan Polisi (LP)</th>
                             <th> Tgl Laporan
                                 <a
                                     href="{{ route('arsip.index', [
@@ -97,7 +105,7 @@
                                     @endif
                                 </a>
                             </th>
-                            <th style="width: 350px;">File</th>
+                            <th style="width: 21rem;">File</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -177,9 +185,11 @@
                 </table>
 
                 <div class="d-flex justify-content-between align-items-center">
-                    <p class="ms-3">
-                        Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }} of {{ $dokumens->total() }}
-                        entries
+                    <p class="" style="font-size: 14px">
+                        Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }}
+                        <span style="color: #B0B2B4;">
+                            of {{ $dokumens->total() }} entries
+                        </span>
                     </p>
                     {{ $dokumens->links() }}
                 </div>
@@ -374,7 +384,8 @@
                                 </small>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-success">Upload</button>
+                                <button type="submit" class="btn"
+                                    style="background-color: #08B123; color:white">Upload</button>
                             </div>
                         </div>
 
@@ -468,7 +479,7 @@
 
     <!-- Modal Edit Berkas -->
     <div class="modal fade" id="modalEditBerkas" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <!-- Header Modal -->
                 <div class="modal-header" style="background-color: #2751C1; color: white">
@@ -575,7 +586,8 @@
 
                         <div class="modal-footer d-flex justify-content-between">
                             <small class="text-muted">*Kosongkan file jika tidak ingin mengganti</small>
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            <button type="submit" class="btn" style="background-color: #08B123; color:white">Simpan
+                                Perubahan</button>
                         </div>
                     </form>
                 </div>
@@ -676,4 +688,19 @@
         </script>
     @endif
 
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    position: 'top-end',
+                    timerProgressBar: true
+                });
+            });
+        </script>
+    @endif
 @endsection

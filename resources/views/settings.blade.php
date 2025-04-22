@@ -3,7 +3,7 @@
 @section('content')
     <!-- Desktop Header -->
     <div class="d-flex justify-content-between mt-1 align-items-center d-none d-md-flex">
-        <h3 class="m-3">Settings</h3>
+        <h3 class="judul">SETTING</h3>
         <div class="d-flex align-items-center m-3">
             <img src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil" class="rounded-circle"
                 width="40" height="40" style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
@@ -12,18 +12,18 @@
     </div>
 
     <div class="container bg-history">
-        <div class="card">
+        <div class="card-setting">
             <div class="card-body">
                 <div class="row gx-3">
                     <!-- Bagian Foto Profil -->
-                    <div class="col-md-4 d-flex flex-column align-items-start ps-2">
+                    <div class="col-md-3 d-flex flex-column align-items-start ps-2">
                         <form id="photoForm" action="{{ route('settings.updatePhoto') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             <p class="mb-2">
                                 <img id="profilePreview"
                                     src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil"
-                                    class="rounded-circle" width="180" height="180"
+                                    class="rounded-circle" width="98" height="98"
                                     style="object-fit: cover; aspect-ratio: 1/1;">
                             </p>
                             <div class="text-center w-100">
@@ -36,7 +36,7 @@
                     </div>
 
                     <!-- Bagian Form Input -->
-                    <div class="col-md-8 mt-3 mt-md-0 position-relative d-flex flex-column justify-content-center">
+                    <div class="col-md-6 mt-3 mt-md-0 position-relative d-flex flex-column justify-content-center">
                         <form action="{{ route('settings.update') }}" method="POST">
                             @csrf
                             <!-- input nama -->

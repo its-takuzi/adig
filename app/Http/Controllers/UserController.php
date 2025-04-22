@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\UserCreated;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -75,6 +77,8 @@ class UserController extends Controller
 
         $user->save();
 
+        // Kirim email setelah user berhasil disimpan
+        Mail::to($user->email)->send(new UserCreated($user));
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan!');
     }
 }

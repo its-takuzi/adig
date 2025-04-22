@@ -59,11 +59,12 @@ class Dashboardcontroller extends Controller
 
         // Ambil data lainnya
         $search = $request->input('search');
-        $kategori = $request->input('kategori');
+        $jenis_surat = $request->input('jenis_surat');
 
         $query = Dokumen::query();
-        if (!empty($kategori) && in_array($kategori, ['curas', 'curat', 'curanmor'])) {
-            $query->where('kategori', $kategori);
+
+        if (!empty($jenis_surat)) {
+            $query->where('jenis_surat', $jenis_surat);
         }
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
@@ -79,10 +80,9 @@ class Dashboardcontroller extends Controller
         }
 
         $dokumens = $query->paginate(8);
-        $listKategori = Dokumen::select('kategori')->distinct()->pluck('kategori');
-        // dd($categories, $curasData, $curatData, $curanmorData);
+        $listJenisSurat = Dokumen::select('jenis_surat')->distinct()->pluck('jenis_surat');
 
 
-        return view('dashboard', compact('totalDokumen', 'totalSize', 'dokumens', 'kategori', 'listKategori', 'chart', 'listRak'));
+        return view('dashboard', compact('totalDokumen', 'totalSize', 'dokumens', 'jenis_surat', 'listJenisSurat', 'chart', 'listRak'));
     }
 }

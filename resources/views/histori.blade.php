@@ -12,7 +12,7 @@
     </div>
 
     <div class="container-fluid bg-history">
-        <div class="card">
+        <div class="card-table " style="font-size: 14px ; padding-left: 10px; padding-right:10px">
             <div class="card-body">
                 <table class="table">
                     <tbody>
@@ -42,8 +42,9 @@
                 </table>
                 <div class="d-flex justify-content-between align-items-center">
                     <p>
-                        Showing {{ $logs->firstItem() }} to {{ $logs->lastItem() }} of
-                        {{ $logs->total() }} entries
+                        Showing {{ $logs->firstItem() }} to {{ $logs->lastItem() }} <span style="color: #B0B2B4;">
+                            of {{ $logs->total() }} entries
+                        </span>
                     </p>
                     {{ $logs->links() }}
                 </div>

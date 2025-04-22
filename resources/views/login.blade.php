@@ -23,8 +23,8 @@
         }
 
         body,
-        .container-fluid {
-            height: 100vh;
+        html {
+            height: 100%;
         }
 
         .login-container {
@@ -36,23 +36,31 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100%;
         }
 
         .right-side {
             background: #1E58B0;
             color: white;
             display: flex;
-            flex-direction: column;
             justify-content: center;
-            padding-right: 40px;
-            padding-left: 40px;
+            padding: 40px;
+            position: relative;
         }
 
         .right-side .card {
             background: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 0;
+            max-width: 90%;
+            width: 90%;
+            max-height: 1000px;
+            height: 700px;
+            margin-top: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
         }
 
         .login-btn {
@@ -76,42 +84,119 @@
 </head>
 
 <body>
-    <div class="container-fluid d-flex justify-content-center align-items-center">
-        <div class="row w-100 align-items-stretch login-container">
-            <div class="col-md-8 left-side d-flex ">
+    <div class="container-fluid h-100">
+        <div class="row h-100 login-container">
+
+            <!-- Left Side -->
+            <div class="col-md-8 left-side">
                 <img src="{{ asset('aset/ADIG-1.svg') }}" alt="Logo" class="img-fluid" style="max-width: 100%;">
             </div>
-            <div class="col-md-4 right-side d-flex justify-content-center align-items-center">
-                <div class="card h-100 mt-5 mb-5">
-                    <h2 class="text-2xl font-bold text-center">
-                        <span class="gradient-we">We</span><span class="text-blue-600">lcome back!</span>
+
+            <!-- Right Side -->
+            <div class="col-md-4 right-side">
+                <div class="card">
+                    <!-- Judul -->
+                    <h2
+                        style="
+                        width: 257px;
+                        height: 39px;
+                        margin-top: 80px;
+                        margin-bottom: 89px;
+                        font-family: Poppins, sans-serif;
+                        font-weight: 600;
+                        font-size: 32px;
+                        line-height: 100%;
+                        background: linear-gradient(91.85deg, #11C1EF 3.67%, #1179EF 94.77%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    ">
+                        Welcome back!
                     </h2>
-                    <form action="{{ route('login.process') }}" method="POST">
+
+                    <!-- Form -->
+                    <form action="{{ route('login.process') }}" method="POST"
+                        class="w-100 d-flex flex-column align-items-center">
                         @csrf
-                        <div class="relative mt-5">
+
+                        <!-- Input Email -->
+                        <div class="position-relative" style="width: 322px; height: 64px;">
                             <img src="{{ asset('aset/email.svg') }}" alt="Email Icon"
-                                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 brightness-50">
+                                style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; filter: brightness(0.5);">
                             <input type="email" id="email" name="email" required
                                 placeholder="youremail@gmail.com"
-                                class="w-full pl-10 pr-4 py-2 rounded-lg gradient-outline focus:outline-none focus:ring focus:ring-blue-200">
+                                style="width: 100%; height: 100%; padding-left: 45px; padding-right: 15px; border: 1px solid #E3E3E3; border-radius: 10px; outline: none;">
                         </div>
-                        <div class="relative mt-4">
+
+                        <!-- Jarak antara Email ke Password -->
+                        <div style="height:17px;"></div>
+
+                        <!-- Input Password -->
+                        <div class="position-relative" style="width: 322px; height: 64px;">
                             <img src="{{ asset('aset/password.svg') }}" alt="Password Icon"
-                                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 brightness-50">
+                                style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; filter: brightness(0.5);">
                             <input type="password" id="password" name="password" required placeholder="Password"
-                                class="w-full pl-10 pr-10 py-2 rounded-lg gradient-outline focus:outline-none focus:ring focus:ring-blue-200">
+                                style="width: 100%; height: 100%; padding-left: 45px; padding-right: 45px; border: 1px solid #E3E3E3; border-radius: 10px; outline: none;">
                             <img src="{{ asset('aset/eye.svg') }}" alt="Show Password" id="togglePassword"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 cursor-pointer">
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; cursor: pointer;">
                         </div>
-                        <button type="submit"
-                            class="w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-lg 
-                            transition-all duration-300
-                            hover:bg-gradient-to-r hover:from-blue-300 hover:to-blue-700"
-                            style="box-shadow: 10px 0 20px -10px rgba(59, 130, 246, 0.2), 20px 0 30px -10px rgba(59, 130, 246, 0.4); margin-top:80px">
-                            Login
-                        </button>
+
+                        <!-- Jarak antara Password ke Button -->
+                        <div style="height:89px;"></div>
+
+                        <!-- Button Login -->
+                        <div>
+                            <button type="submit"
+                                style="
+                                width: 322px;
+                                height: 64px;
+                                border-radius: 10px;
+                                background: linear-gradient(91.85deg, #11C1EF 3.67%, #1179EF 94.77%);
+                                color: #FFFFFF;
+                                font-family: Poppins, sans-serif;
+                                font-weight: 600;
+                                font-size: 24px;
+                                line-height: 100%;
+                                letter-spacing: 0%;
+                                border: none;
+                                box-shadow: 0px 8px 20px rgba(17, 121, 239, 0.35);
+                                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                            "
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0px 12px 24px rgba(17, 121, 239, 0.4)';"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0px 8px 20px rgba(17, 121, 239, 0.35)';">
+                                LOGIN
+                            </button>
+                        </div>
+
+                        <!-- Jarak antara Button ke Bawah Card -->
+                        <div style="height:266px;"></div>
+
+                    </form>
                 </div>
-                <p class="text-center mt-3 mb-3" style="color: white">Copyright 2025 - Qif Media</p>
+
+                <!-- Footer -->
+                <p class="text-center position-absolute" style="bottom: 20px; color: white; width: 100%;">
+                    Copyright 2025 - Qif Media
+                </p>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const togglePassword = document.getElementById('togglePassword');
+                        const passwordInput = document.getElementById('password');
+
+                        togglePassword.addEventListener('click', function() {
+                            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                            passwordInput.setAttribute('type', type);
+
+                            // Ganti icon jika perlu (misal: mata terbuka / tertutup)
+                            if (type === 'text') {
+                                this.src =
+                                "{{ asset('aset/eye.svg') }}"; // Pastikan file eye-off.svg ada di folder aset.
+                            } else {
+                                this.src = "{{ asset('aset/eye.svg') }}";
+                            }
+                        });
+                    });
+                </script>
+
             </div>
         </div>
     </div>

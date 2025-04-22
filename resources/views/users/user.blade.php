@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
-        <h3 class="m-3">Users</h3>
+        <h3 class="judul">USER</h3>
         <div class="d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
@@ -10,8 +10,8 @@
             <span class="me-2">{{ auth()->user()->name }}</span>
         </div>
     </div>
-    <div class="container bg-history">
-        <div class="card">
+    <div class="container-fluid bg-history">
+        <div class="card-user">
             <div class="card-body">
                 <table class="table table-bordered">
                     <thead style="background-color: #d0efff;">

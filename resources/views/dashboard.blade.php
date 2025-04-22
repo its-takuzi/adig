@@ -60,18 +60,23 @@
                         <div class="col-5" style="display: flex">
                             <div class="dropdown mt-3 ms-2">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                    id="dropdownkategori" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $kategori ? ucfirst($kategori) : 'Semua Kategori' }}
+                                    id="dropdownjenisSurat" data-bs-toggle="dropdown" aria-expanded="false"
+                                    style="font-size: 14px; font-weight: 400; color:black">
+                                    {{ $jenis_surat ? ucfirst($jenis_surat) : 'Semua' }}
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownkategori">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownjenisSurat">
                                     <li><a class="dropdown-item" href="{{ route('dashboard.index') }}">Semua</a></li>
-                                    @foreach ($listKategori as $item)
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('dashboard.index', ['kategori' => $item]) }}">{{ ucfirst($item) }}</a>
+                                    @foreach ($listJenisSurat as $item)
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('dashboard.index', ['jenis_surat' => $item]) }}">
+                                                {{ ucfirst($item) }}
+                                            </a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
+
                         </div>
                         <div class="col-7 d-flex justify-content-end ">
                             <form action="{{ route('dashboard.index') }}" method="GET" class="mb-3 me-3">
@@ -90,10 +95,10 @@
                     <!-- Table -->
                     <div class="table-responsive p-2">
                         <table class="table table-bordered table-striped table-hover">
-                            <thead class="table-primary">
+                            <thead class="" style="font-weight: 600">
                                 <tr>
                                     <th>No</th>
-                                    <th style="width: 350px;">Laporan Polisi (LP)</th>
+                                    <th style="width: 21rem;">Laporan Polisi (LP)</th>
                                     <th> Tgl Laporan
                                         <a
                                             href="{{ route('dashboard.index', [
@@ -111,7 +116,7 @@
                                             @endif
                                         </a>
                                     </th>
-                                    <th style="width: 350px;">File</th>
+                                    <th style="width: 21rem;">File</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -191,10 +196,11 @@
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-between align-items-center">
-                            <p class="">
-                                Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }} of
-                                {{ $dokumens->total() }}
-                                entries
+                            <p class="" style="font-size: 14px">
+                                Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }}
+                                <span style="color: #B0B2B4;">
+                                    of {{ $dokumens->total() }} entries
+                                </span>
                             </p>
                             {{ $dokumens->links() }}
                         </div>
@@ -504,6 +510,22 @@
                 });
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    position: 'top-end',
+                    timerProgressBar: true
+                });
+            });
+        </script>
+    @endif
 
     <script src="{{ $chart->cdn() }}"></script>
     {!! $chart->script() !!}
