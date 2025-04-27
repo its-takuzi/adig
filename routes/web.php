@@ -19,6 +19,7 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
+
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
         'email' => 'required|email',
@@ -80,16 +81,3 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/login');
     })->name('logout');
 });
-
-// //arsip
-// Route::get('/arsip', [DokumenController::class, 'index'])->name('arsip.index');
-// Route::delete('/dokumen/{id}', [DokumenController::class, 'destroy'])->name('dokumen.destroy');
-// Route::get('/arsip/dokumen/{id}', [DokumenController::class, 'download'])->name('dokumen.download');
-// Route::post('/arsip/store', [DokumenController::class, 'store'])->name('dokumen.store');
-
-
-// //history
-// Route::get('/histori', [Historylogcontroller::class, 'index'])->name('histori.index');
-
-// //dashboard
-// Route::get('/dashboard', [Dashboardcontroller::class, 'index'])->name('dashboard.index');

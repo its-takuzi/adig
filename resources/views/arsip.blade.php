@@ -38,10 +38,12 @@
                         alt="CURANMOR">
                 </i> CURANMOR
             </a>
-            <button class="btn" data-bs-toggle="modal" data-bs-target="#modalTambahBerkas">
-                <img style="height: 4.688rem; width: 4.688rem; margin-left: 2.188rem" src="{{ asset('aset/add.png') }}"
-                    alt="">
-            </button>
+            @if (auth()->user()->role === 'admin')
+                <button class="btn" data-bs-toggle="modal" data-bs-target="#modalTambahBerkas">
+                    <img style="height: 4.688rem; width: 4.688rem; margin-left: 2.188rem" src="{{ asset('aset/add.png') }}"
+                        alt="">
+                </button>
+            @endif
         </div>
 
 
@@ -162,17 +164,27 @@
                                         </a>
 
                                         <!-- Tombol Hapus -->
-                                        <form action="{{ route('dokumen.destroy', $dokumen->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus?');" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-sm" style="padding: 0; margin: 0;"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                data-id="{{ $dokumen->id }}" data-name="{{ $dokumen->nama }}">
-                                                <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
-                                                    style="display: block; height: 33px;">
-                                            </button>
-                                        </form>
+                                        @if (auth()->user()->role === 'admin')
+                                            <form action="{{ route('dokumen.destroy', $dokumen->id) }}" method="POST"
+                                                onsubmit="return confirm('Yakin ingin menghapus?');"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-sm" style="padding: 0; margin: 0;"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                    data-id="{{ $dokumen->id }}" data-name="{{ $dokumen->nama }}">
+                                                    <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
+                                                        style="display: block; height: 33px;">
+                                                </button>
+                                            </form>
+                                        @else
+                                            <span
+                                                class="d-inline-flex align-items-center justify-content-center p-1 rounded"
+                                                style="cursor: not-allowed;" title="Tidak bisa menghapus">
+                                                <img src="{{ asset('aset/nohapus.svg') }}" alt="No Hapus" width="37"
+                                                    height="37" style="object-fit: contain;">
+                                            </span>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -599,6 +611,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('.open-modal');
+            const userRole = "{{ Auth::user()->role }}";
 
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -615,6 +628,12 @@
                     fetch(`/arsip/${id}/detail`)
                         .then(response => response.json())
                         .then(data => {
+                            if (userRole !== 'admin') {
+                                document.getElementById('editBtn').style.display = 'none';
+                            } else {
+                                document.getElementById('editBtn').style.display =
+                                    'inline-block';
+                            }
                             document.getElementById('noSurat').textContent = data
                                 .laporan_polisi;
                             document.getElementById('jenisLaporan').textContent = data.kategori;
@@ -703,4 +722,5 @@
             });
         </script>
     @endif
+
 @endsection

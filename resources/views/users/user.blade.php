@@ -35,85 +35,108 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->role }}</td>
                                 <td class="gap-1">
-                                    <!-- Tombol Edit -->
-                                    <a href="{{ route('users.edit', $user->id) }}"
-                                        class="d-inline-flex align-items-center justify-content-center p-1 rounded"
-                                        style="background-color: #007bff; width: 37px; height: 37px;">
-                                        <img src="{{ asset('aset/edit.png') }}" alt="Edit" width="25" height="25"
-                                            style="object-fit: contain;">
-                                    </a>
-
-                                    <!-- Tombol Hapus -->
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Yakin ingin menghapus user ini?')"
-                                            class="d-inline-flex align-items-center justify-content-center p-1 rounded border-0"
-                                            style="background-color: #dc3545; width: 37px; height: 37px;">
-                                            <img src="{{ asset('aset/hapus.png') }}" alt="Hapus" width="25"
+                                    @if (auth()->user()->role === 'admin')
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('users.edit', $user->id) }}"
+                                            class="d-inline-flex align-items-center justify-content-center p-1 rounded"
+                                            style="background-color: #007bff; width: 37px; height: 37px;">
+                                            <img src="{{ asset('aset/edit.png') }}" alt="Edit" width="25"
                                                 height="25" style="object-fit: contain;">
-                                        </button>
-                                    </form>
+                                        </a>
+
+                                        <!-- Tombol Hapus -->
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                onclick="return confirm('Yakin ingin menghapus user ini?')"
+                                                class="d-inline-flex align-items-center justify-content-center p-1 rounded border-0"
+                                                style="background-color: #dc3545; width: 37px; height: 37px;">
+                                                <img src="{{ asset('aset/hapus.png') }}" alt="Hapus" width="25"
+                                                    height="25" style="object-fit: contain;">
+                                            </button>
+                                        </form>
+                                    @else
+                                        <!-- Nonaktifkan aksi dan tampilkan icon saja untuk role 'staff' -->
+                                        <span class="d-inline-flex align-items-center justify-content-center p-1 rounded"
+                                            style="cursor: not-allowed;" title="Tidak bisa mengedit">
+                                            <img src="{{ asset('aset/noedit.svg') }}" alt="No Edit" width="37"
+                                                height="37" style="object-fit: contain;">
+                                        </span>
+
+                                        <span class="d-inline-flex align-items-center justify-content-center p-1 rounded"
+                                            style="cursor: not-allowed;" title="Tidak bisa menghapus">
+                                            <img src="{{ asset('aset/nohapus.svg') }}" alt="No Hapus" width="37"
+                                                height="37" style="object-fit: contain;">
+                                        </span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                @if (auth()->user()->role === 'admin')
+                    <!-- ini  jas -->
+                    <div class="d-flex">
+                        <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                            <img style="height: 50px ; width:50px" src="{{ asset('aset/add.png') }}" alt="">
+                        </button>
+                    </div>
+                @endif <!-- ini  jas -->
+                @if (auth()->user()->role === 'admin')
+                    <!-- ini  jas -->
+                    <!-- Modal Tambah User -->
+                    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addUserModalLabel">Tambah User Baru</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
 
-                <div class="d-flex">
-                    <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                        <img style="height: 50px ; width:50px" src="{{ asset('aset/add.png') }}" alt="">
-                    </button>
-                </div>
+                                        <div class="mb-3">
+                                            <label for="pp" class="form-label">Foto Profil</label>
+                                            <input type="file" class="form-control" id="pp" name="pp">
+                                        </div>
 
-                <!-- Modal Tambah User -->
-                <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addUserModalLabel">Tambah User Baru</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nama Lengkap</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                required>
+                                        </div>
 
-                                    <div class="mb-3">
-                                        <label for="pp" class="form-label">Foto Profil</label>
-                                        <input type="file" class="form-control" id="pp" name="pp">
-                                    </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                required>
+                                        </div>
 
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Nama Lengkap</label>
-                                        <input type="text" class="form-control" id="name" name="name" required>
-                                    </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                required>
+                                        </div>
 
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-select" id="role" name="role" required>
-                                            <option value="admin">Admin</option>
-                                            <option value="staff">Staff</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Tambah User</button>
-                                </form>
+                                        <div class="mb-3">
+                                            <label for="role" class="form-label">Role</label>
+                                            <select class="form-select" id="role" name="role" required>
+                                                <option value="admin">Admin</option>
+                                                <option value="staff">Staff</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Tambah User</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                @endif <!-- ini  jas -->
             </div>
         </div>
     </div>

@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dokumen;
 use App\Models\Rak;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class rakcontroller extends Controller
 {
@@ -29,6 +27,9 @@ class rakcontroller extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->role !== 'admin') { // ini jas
+            abort(403, 'Akses ditolak'); // ini jas
+        }
         $request->validate([
             'nama_rak' => 'required|string|max:255|unique:rak,nama_rak',
         ]);

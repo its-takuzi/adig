@@ -89,9 +89,11 @@
 
             {{-- Tombol Tambah Rak --}}
             <div class="d-flex">
-                <button class="btn ms-auto mt-4" data-bs-toggle="modal" data-bs-target="#modalTambahRak">
-                    <img style="height: 3.125rem ; width: 3.125rem" src="{{ asset('aset/add.png') }}" alt="">
-                </button>
+                @if (auth()->user()->role === 'admin')
+                    <button class="btn ms-auto mt-4" data-bs-toggle="modal" data-bs-target="#modalTambahRak">
+                        <img style="height: 3.125rem ; width: 3.125rem" src="{{ asset('aset/add.png') }}" alt="">
+                    </button>
+                @endif
             </div>
 
             <!-- Modal Tambah Rak -->

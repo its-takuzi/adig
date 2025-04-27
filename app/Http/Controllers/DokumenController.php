@@ -57,6 +57,9 @@ class DokumenController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->role !== 'admin') { // ini jas
+            abort(403, 'Akses ditolak'); // ini jas
+        }
         $request->validate([
             'laporan_polisi' => 'required|string|max:255',
             'tanggal_laporan' => 'required|date',
@@ -188,6 +191,12 @@ class DokumenController extends Controller
     public function update(Request $request, $id)
     {
         $dokumen = Dokumen::findOrFail($id);
+        if (Auth::user()->role !== 'admin') { // ini jas
+            return redirect()->back()->with([
+                'status_code' => 403,
+                'error_message' => 'Akses ditolak!'
+            ]);
+        }
 
         $request->validate([
             'laporan_polisi' => 'required|string|max:255',
@@ -256,6 +265,10 @@ class DokumenController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $dokumen = Dokumen::findOrFail($id);
+
+        if (Auth::user()->role !== 'admin') { // ini jas
+            abort(403, 'Akses ditolak'); // ini jas
+        }
 
         // Simpan history log sebelum dokumen dihapus
         Historylog::create([

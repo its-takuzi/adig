@@ -35,11 +35,17 @@ class ChartDokumenController extends Controller
 
         // Buat grafik dengan Larapex Charts
         $chart = (new LarapexChart)
-            ->settype('bar')
-            ->setTitle('Grafik Jumlah Dokumen')
+            ->setType('bar')
+            ->setTitle('Grafik Jumlah Dokumen', 14, 'center')
+            ->setFontFamily('Poppins, sans-serif')
             ->setXAxis($tahunList)
             ->setDataset($dataKategori)
-            ->setColors(['#FFC107', '#E63946', '#2A9D8F']);
+            ->setColors(['#FFC107', '#E63946', '#2A9D8F'])
+            ->setHeight(300)
+            ->setToolbar(false);
+
+
+
 
         // Kirim data ke view
         return view('charts.index', compact('chart'));
