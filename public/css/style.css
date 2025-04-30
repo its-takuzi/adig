@@ -5,6 +5,28 @@
     margin-left: 3.125rem;
 }
 
+.dropdown-menu .dropdown-item:hover {
+    background-color: #8ba8f5 !important;
+    color: white !important;
+}
+
+#dropdownjenisSurat:hover {
+    background-color: #8ba8f5;
+    color: white !important;
+    border-color: #8ba8f5;
+}
+
+#dropdowntahun:hover {
+    background-color: #8ba8f5;
+    color: white !important;
+    border-color: #8ba8f5;
+}
+#dropdownrak:hover {
+    background-color: #8ba8f5;
+    color: white !important;
+    border-color: #8ba8f5;
+}
+
 .kategori-container {
     display: flex;
     align-items: center;
@@ -137,8 +159,7 @@ body {
 }
 
 /* Warna aktif dan hover */
-.sidebar .nav-link.active,
-.sidebar .nav-link:hover {
+.sidebar .nav-link.active {
     background: #007bff;
     color: white;
 }
@@ -192,7 +213,6 @@ main {
     height: 100px;
     color: white;
     display: flex;
-    padding-left: 3.125rem;
 }
 
 /* Atur ukuran input search */
@@ -230,7 +250,7 @@ main {
 .bg-history {
     background-color: #2751c1;
     min-height: 100vh;
-    display: flex;
+    justify-content: center;
     padding-left: 3.125rem;
     padding-top: 3.125rem;
 }

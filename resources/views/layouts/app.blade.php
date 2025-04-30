@@ -73,7 +73,6 @@
             margin-bottom: 5px;
         }
 
-        .sidebar a.active,
         .sidebar a:hover {
             background: #8BA8F5;
             color: white;
@@ -145,6 +144,30 @@
         .nav-link.active .sidebar-setting::before {
             content: url('aset/s-white.svg');
         }
+
+        .nav-link:hover .sidebar-home::before {
+            content: url('aset/h-white.svg');
+        }
+
+        .nav-link:hover .sidebar-rak::before {
+            content: url('aset/r-white.svg');
+        }
+
+        .nav-link:hover .sidebar-arsip::before {
+            content: url('aset/d-white.svg');
+        }
+
+        .nav-link:hover .sidebar-history::before {
+            content: url('aset/h-white.svg');
+        }
+
+        .nav-link:hover .sidebar-user::before {
+            content: url('aset/u-white.svg');
+        }
+
+        .nav-link:hover .sidebar-setting::before {
+            content: url('aset/s-white.svg');
+        }
     </style>
 </head>
 
@@ -213,12 +236,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('show');
-            sidebar.classList.toggle('hide');
-        }
-
         document.addEventListener("DOMContentLoaded", function() {
             var deleteModal = document.getElementById('deleteModal');
             if (deleteModal) {
@@ -234,6 +251,7 @@
             }
         });
     </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -266,6 +284,52 @@
             });
         });
     </script>
+
+    {{-- validasi tanggal ungkap tidak kurang atau sama dengan tangal upload --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tanggalLaporan = document.getElementById('tanggal_laporan');
+            const tanggalUngkap = document.getElementById('tanggal_ungkap');
+
+            tanggalLaporan.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                selectedDate.setDate(selectedDate.getDate() + 1); // +1 hari
+
+                const minDate = selectedDate.toISOString().split('T')[0];
+                tanggalUngkap.min = minDate;
+
+                // Reset kalau nilai sebelumnya salah
+                if (tanggalUngkap.value && tanggalUngkap.value < minDate) {
+                    tanggalUngkap.value = '';
+                }
+            });
+        });
+    </script>
+
+
+    {{-- validasi ukuran file melebihi 5mb --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file');
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            const warning = document.createElement('div');
+            warning.className = 'text-danger mt-1';
+            warning.style.fontSize = '14px';
+
+            fileInput.parentNode.appendChild(warning);
+
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file && file.size > maxSize) {
+                    warning.textContent = "Ukuran file melebihi 5MB.";
+                    this.value = ''; // kosongkan input
+                } else {
+                    warning.textContent = '';
+                }
+            });
+        });
+    </script>
+
 
 
     @php

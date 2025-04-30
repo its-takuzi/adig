@@ -173,20 +173,13 @@
 
                                                 <!-- Tombol Hapus -->
                                                 @if (auth()->user()->role === 'admin')
-                                                    <form action="{{ route('dokumen.destroy', $dokumen->id) }}"
-                                                        method="POST"
-                                                        onsubmit="return confirm('Yakin ingin menghapus?');"
-                                                        style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="btn btn-sm"
-                                                            style="padding: 0; margin: 0;" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
-                                                            data-name="{{ $dokumen->nama }}">
-                                                            <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
-                                                                style="display: block; height: 33px;">
-                                                        </button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-sm"
+                                                        style="padding: 0; margin: 0;" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
+                                                        data-name="{{ basename($dokumen->file) }}">
+                                                        <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
+                                                            style="display: block; height: 33px;">
+                                                    </button>
                                                 @else
                                                     <span
                                                         class="d-inline-flex align-items-center justify-content-center p-1 rounded"
@@ -218,13 +211,10 @@
                 </div>
             </div>
         </div>
+        <footer class="footer">
+            <p class="">Copyright 2025 - Qif Media</p>
+        </footer>
     </div>
-
-
-
-    <footer class="footer">
-        <p class="p-3">Copyright 2025 - Qif Media</p>
-    </footer>
 
     <!-- Modal Konfirmasi Hapus -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -236,13 +226,18 @@
                     <strong class="mt-3 d-block">Deleted File</strong>
                     <p class="mt-3">Kamu yakin ingin menghapus <strong id="fileName"></strong>?</p>
 
-                    <form id="deleteForm" method="POST" action="">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger w-100 py-2 mt-3" data-bs-toggle="modal"
-                            data-bs-target="#deleteModalberhasil">Delete</button>
-                    </form>
-                    <button type="button" class="btn btn-light w-100 py-2 mt-2" data-bs-dismiss="modal">Cancel</button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form id="deleteForm" method="POST" action="">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger w-100 py-2 mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModalberhasil">Delete</button>
+                            </form>
+                        </div>
+                        <div class="col-md-6"> <button type="button" class="btn btn-light w-100 py-2 mt-2"
+                                data-bs-dismiss="modal">Cancel</button></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -430,7 +425,7 @@
 
                         <div class="modal-footer d-flex justify-content-between">
                             <small class="text-muted">*Kosongkan file jika tidak ingin mengganti</small>
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
                 </div>

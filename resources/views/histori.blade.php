@@ -12,7 +12,7 @@
     </div>
 
     <div class="container-fluid bg-history">
-        <div class="card-table " style="font-size: 14px ; padding-left: 10px; padding-right:10px">
+        <div class="card-table w-100 " style="font-size: 14px ; padding-left: 10px; padding-right:10px">
             <div class="card-body">
                 <table class="table">
                     <tbody>
@@ -51,9 +51,8 @@
 
             </div>
         </div>
+        <footer class="footer">
+            <p class="">Copyright 2025 - Qif Media</p>
+        </footer>
     </div>
-
-    <footer class="footer">
-        <p class="p-3">Copyright 2025 - Qif Media</p>
-    </footer>
 @endsection

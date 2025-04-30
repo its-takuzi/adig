@@ -11,7 +11,8 @@
         </div>
     </div>
 
-    <div class="container bg-history">
+    <div class="container-fluid bg-arsip" style=" padding-left: 3.125rem;
+    padding-top: 3.125rem;">
         <div class="card-setting">
             <div class="card-body">
                 <div class="row gx-3">
@@ -80,9 +81,8 @@
                 </div>
             </div>
         </div>
+        <footer class="footer">
+            <p class="">Copyright 2025 - Qif Media</p>
+        </footer>
     </div>
-
-    <footer class="footer">
-        <p class="p-3">Copyright 2025 - Qif Media</p>
-    </footer>
 @endsection
