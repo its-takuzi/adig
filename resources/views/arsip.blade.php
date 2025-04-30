@@ -272,11 +272,11 @@
                         @endphp
                         <div class="row">
                             <div class="col-3">
-                                <!-- Laporan Polisi -->
+                                <!-- LP Manual -->
                                 <div class="mb-3">
-                                    <label for="laporan_polisi" class="form-label ">Nomor LP</label>
-                                    <input type="string" class="form-control" id="laporan_polisi" name="laporan_polisi"
-                                        placeholder="Nomor LP" value="{{ old('laporan_polisi') }}" required>
+                                    <label for="lp" class="form-label ">Nomor LP</label>
+                                    <input type="text" class="form-control" id="lp" name="lp"
+                                        placeholder="Nomor LP" value="{{ old('lp') }}" required>
                                 </div>
                             </div>
                             <div class="col-3">
@@ -339,10 +339,10 @@
                                     <label for="jenis_surat" class="form-label">jenis Surat</label>
                                     <select class="form-select" id="jenis_surat" name="jenis_surat" required>
                                         <option value="" disabled selected>Pilih jenis surat</option>
-                                        <option value="tahap2" {{ old('jenis_surat') == 'tahap2' ? 'selected' : '' }}>
+                                        <option value="Tahap 2" {{ old('jenis_surat') == 'Tahap 2' ? 'selected' : '' }}>
                                             Tahap 2</option>
-                                        <option value="sp3" {{ old('jenis_surat') == 'sp3' ? 'selected' : '' }}>
-                                            Sp3</option>
+                                        <option value="SP3" {{ old('jenis_surat') == 'SP3' ? 'selected' : '' }}>
+                                            SP3</option>
                                         <option value="RJ" {{ old('jenis_surat') == 'RJ' ? 'selected' : '' }}>
                                             RJ</option>
                                     </select>
@@ -561,8 +561,8 @@
                                     <label for="edit_jenis_surat" class="form-label">Jenis Surat</label>
                                     <select class="form-select" id="edit_jenis_surat" name="jenis_surat" required>
                                         <option value="" disabled selected>Pilih jenis surat</option>
-                                        <option value="tahap2">Tahap 2</option>
-                                        <option value="sp3">Sp3</option>
+                                        <option value="Tahap 2">Tahap 2</option>
+                                        <option value="SP3">Sp3</option>
                                         <option value="RJ">RJ</option>
                                     </select>
                                 </div>

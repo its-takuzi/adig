@@ -17,6 +17,7 @@ class Dokumen extends Model
     protected $fillable = [
         'user_id',
         'laporan_polisi',
+        'lp',
         'tanggal_laporan',
         'file',
         'size',

@@ -425,7 +425,8 @@
 
                         <div class="modal-footer d-flex justify-content-between">
                             <small class="text-muted">*Kosongkan file jika tidak ingin mengganti</small>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn "
+                                style="background-color: #08B123; color:white">Simpan</button>
                         </div>
                     </form>
                 </div>

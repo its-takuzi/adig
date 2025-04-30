@@ -23,10 +23,8 @@ class DokumenController extends Controller
 
 
         if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('laporan_polisi', 'LIKE', "%$search%")
-                    ->orWhere('tanggal_laporan', 'LIKE', "%$search%");
-            });
+            $query->where('lp', '=', $search);
+
             $firstResult = $query->first();
             if ($firstResult) {
                 $kategori = $firstResult->kategori;
@@ -34,6 +32,7 @@ class DokumenController extends Controller
         } else {
             $query->where('kategori', $kategori);
         }
+
 
         if ($request->has('sort') && $request->has('direction')) {
             $query->orderBy($request->get('sort'), $request->get('direction'));
@@ -61,7 +60,7 @@ class DokumenController extends Controller
             abort(403, 'Akses ditolak'); // ini jas
         }
         $request->validate([
-            'laporan_polisi' => 'required|string|max:255',
+            'lp' => 'required|string|max:255',
             'tanggal_laporan' => 'required|date',
             'kategori' => 'required|in:curas,curat,curanmor',
             'jenis_surat' => 'required|string|max:255',
@@ -69,8 +68,8 @@ class DokumenController extends Controller
             'file' => 'required|mimes:pdf,xlsx,docx|max:5120',
             'tanggal_ungkap' => 'nullable|date',
             'pelapor' => 'required|in:tni/polisi,warga',
-
         ]);
+
         if (!$request->hasFile('file')) {
             return back()->with('error', 'File tidak ditemukan!');
         }
@@ -100,7 +99,8 @@ class DokumenController extends Controller
         $pelaporFormatted = strtoupper($request->pelapor == 'tni/polisi' ? 'A' : 'B');
 
         // format nomor LP otomatis
-        $nomor_lp_formatted = "LP/" . $pelaporFormatted . "/" . $request->laporan_polisi . "/" . $bulan_romawi_format . "/" . $tahun_laporan . "/SPKT/POLSEK DUMAI TIMUR/POLRES DUMAI/POLDA RIAU";
+        $nomor_lp_formatted = "LP/" . $pelaporFormatted . "/" . $request->lp . "/" . $bulan_romawi_format . "/" . $tahun_laporan . "/SPKT/POLSEK DUMAI TIMUR/POLRES DUMAI/POLDA RIAU";
+
 
 
         $file = $request->file('file');
@@ -121,7 +121,8 @@ class DokumenController extends Controller
         try {
             $dokumen = Dokumen::create([
                 'user_id' => Auth::id(),
-                'laporan_polisi' => $nomor_lp_formatted,
+                'lp' => $request->lp, // simpan raw input
+                'laporan_polisi' => $nomor_lp_formatted, // simpan format lengkap
                 'tanggal_laporan' => $request->tanggal_laporan,
                 'kategori' => $request->kategori,
                 'jenis_surat' => $request->jenis_surat,
@@ -130,6 +131,7 @@ class DokumenController extends Controller
                 'file' => $path,
                 'size' => $size,
             ]);
+
 
             // simpan ke history log
             Historylog::create([

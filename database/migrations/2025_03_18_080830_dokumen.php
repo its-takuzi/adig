@@ -13,13 +13,14 @@ return new class extends Migration {
         Schema::create('dokumen', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('lp');
             $table->string('laporan_polisi');
             $table->date('tanggal_laporan');
             $table->string('file');
             $table->bigInteger('size');
-            $table->enum('kategori', ['curas', 'curat', 'curanmor']);
+            $table->enum('kategori', ['CURAS', 'CURAT', 'CURANMOR']);
             $table->foreignId('rak_id')->constrained('Rak')->onDelete('cascade');
-            $table->enum('jenis_surat', ['tahap2', 'sp3', 'rj']);
+            $table->enum('jenis_surat', ['Tahap 2', 'SP3', 'RJ']);
             $table->date('tanggal_ungkap')->nullable();
             $table->softDeletes();
             $table->timestamps();

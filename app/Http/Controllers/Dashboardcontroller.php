@@ -68,8 +68,8 @@ class Dashboardcontroller extends Controller
         }
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('laporan_polisi', 'LIKE', "%$search%")
-                    ->orWhere('tanggal_laporan', 'LIKE', "%$search%");
+                $q->where('lp', 'LIKE', "%$search%")
+                    ->orWhere('lp', 'LIKE', "%$search%");
             });
         }
 
