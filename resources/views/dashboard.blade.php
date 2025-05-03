@@ -42,15 +42,41 @@
                 </div>
             </div>
 
-            <!-- Grafik -->
-            <div class="flex-grow-1">
-                <div class="card-item-grafik h-100">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                        {!! $chart->container() !!}
+            {{-- Chart Card --}}
+            <div class="flex-grow position">
+                <div class="card-item-grafik h-100 p-4 position-relative">
+                    {{-- Dropdown Tahun di kanan atas dalam card --}}
+                    <div class="dropdown position-absolute" style="top: 0; right: 0; z-index: 10;">
+                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle me-2 mt-2" type="button"
+                            id="dropdownTahun" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="font-size: 13px; font-weight: 400;">
+                            @if (count($tahunFilter) > 0)
+                                {{ implode(' - ', [min($tahunFilter->toArray()), max($tahunFilter->toArray())]) }}
+                            @else
+                                Pilih Tahun
+                            @endif
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownTahun">
+                            @foreach ($groupedTahun as $group)
+                                @php
+                                    $params = http_build_query(['tahun' => $group->toArray()]);
+                                    $url = route('dashboard.index') . '?' . $params;
+                                @endphp
+                                <li>
+                                    <a class="dropdown-item" href="{{ $url }}">
+                                        {{ $group->max() }} - {{ $group->min() }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
+
+                    {{-- Chart --}}
+                    <canvas id="chartDokumen" class="w-100"></canvas>
                 </div>
             </div>
         </div>
+
 
 
         <div class="row">
@@ -123,7 +149,7 @@
                             <tbody>
                                 @forelse($dokumens as $dokumen)
                                     <tr>
-                                        <td class="d-flex justify-content-center">{{ $loop->iteration }}</td>
+                                        <td class="">{{ $loop->iteration }}</td>
                                         <td
                                             style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                             {{ $dokumen->laporan_polisi }}</td>
@@ -211,11 +237,11 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            <p class="">Copyright 2025 - Qif Media</p>
-        </footer>
-    </div>
 
+    </div>
+    <footer class="footer">
+        <p class="">Copyright 2025 - Qif Media</p>
+    </footer>
     <!-- Modal Konfirmasi Hapus -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -291,7 +317,8 @@
                                 <p class="preview-isi" id="tglUngkap"></p>
                             </div>
                         </div>
-                        <p class="preview-rak"><i class="bi bi-geo-alt-fill me-1"></i><span id="lokasi"></span></p>
+                        <p class="preview-rak"><i class="bi bi-geo-alt-fill me-1"></i><span id="lokasi"></span>
+                        </p>
                         <br>
                         <div class="row">
                             <label class="preview-judul">Diupload oleh</label>
@@ -416,7 +443,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="edit_file" class="form-label">Upload File (jika ingin mengganti)</label>
+                                    <label for="edit_file" class="form-label">Upload File (jika ingin
+                                        mengganti)</label>
                                     <input type="file" class="form-control" id="edit_file" name="file"
                                         accept=".pdf,.xlsx,.docx">
                                 </div>
@@ -540,7 +568,55 @@
         </script>
     @endif
 
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script src="{{ LarapexChart::cdn() }}"></script>
-    {{ $chart->script() }}
+    <script>
+        const ctx = document.getElementById('chartDokumen').getContext('2d');
+        const chartDokumen = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($categories),
+                datasets: [{
+                        label: 'CURAS',
+                        data: @json($curasData),
+                        backgroundColor: '#FFC107'
+                    },
+                    {
+                        label: 'CURAT',
+                        data: @json($curatData),
+                        backgroundColor: '#DC3545'
+                    },
+                    {
+                        label: 'CURANMOR',
+                        data: @json($curanmorData),
+                        backgroundColor: '#28A745'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            boxWidth: 20
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Grafik Jumlah Dokumen'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

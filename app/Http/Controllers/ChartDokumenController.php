@@ -2,52 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Illuminate\Support\Facades\DB;
 
 class ChartDokumenController extends Controller
 {
     public function index()
     {
-
         $chartData = DB::table('dokumen')
             ->selectRaw('YEAR(tanggal_laporan) as tahun, kategori, COUNT(*) as total')
             ->groupBy('tahun', 'kategori')
             ->orderBy('tahun')
             ->get();
 
-        // Ambil daftar tahun unik dari data
-        $tahunList = $chartData->pluck('tahun')->unique()->toArray();
+        $tahunList = $chartData->pluck('tahun')->unique()->values();
 
-        // Definisi kategori yang ada
-        $kategoriList = ['curas', 'curat', 'curanmor'];
+        $kategoriList = ['CURAS', 'CURAT', 'CURANMOR'];
 
-        // Format data untuk chart
         $dataKategori = [];
         foreach ($kategoriList as $kategori) {
             $dataKategori[] = [
-                'name' => strtoupper($kategori),
-                'data' => array_map(function ($tahun) use ($chartData, $kategori) {
-                    return $chartData->where('tahun', $tahun)->where('kategori', $kategori)->sum('total') ?? 0;
-                }, $tahunList)
+                'label' => strtoupper($kategori),
+                'data' => $tahunList->map(function ($tahun) use ($chartData, $kategori) {
+                    return $chartData->where('tahun', $tahun)->where('kategori', $kategori)->sum('total');
+                }),
+                'backgroundColor' => match ($kategori) {
+                    'CURAS' => '#FFC107',
+                    'CURAT' => '#E63946',
+                    'CURANMOR' => '#2A9D8F',
+                    default => '#ccc'
+                },
             ];
         }
 
-        // Buat grafik dengan Larapex Charts
-        $chart = (new LarapexChart)
-            ->setType('bar')
-            ->setTitle('Grafik Jumlah Dokumen', 14, 'center')
-            ->setFontFamily('Poppins, sans-serif')
-            ->setXAxis($tahunList)
-            ->setDataset($dataKategori)
-            ->setColors(['#FFC107', '#E63946', '#2A9D8F'])
-            ->setHeight(300)
-            ->setToolbar(false);
-
-
-
-
-        // Kirim data ke view
-        return view('charts.index', compact('chart'));
+        return view('charts.index', [
+            'tahunList' => $tahunList,
+            'dataKategori' => $dataKategori
+        ]);
     }
 }

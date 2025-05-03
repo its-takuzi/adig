@@ -15,197 +15,199 @@
     </div>
 
     <div class="bg-arsip ">
-        <!-- Kategori dan add button-->
-        <div class="kategori-container">
-            <a href="{{ route('arsip.index', ['kategori' => 'curas']) }}"
-                class="btn-category {{ $kategori == 'curas' ? 'btn-primary' : 'btn-secondary' }}">
-                <i class="">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <!-- Kategori -->
+            <div class="kategori-container d-flex gap-2 flex-wrap">
+                <a href="{{ route('arsip.index', ['kategori' => 'curas']) }}"
+                    class="btn-category {{ $kategori == 'curas' ? 'btn-primary' : 'btn-secondary' }}">
                     <img src="{{ asset('aset/' . ($kategori == 'curas' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
-                        alt="CURAS">
-                </i> CURAS
-            </a>
-            <a href="{{ route('arsip.index', ['kategori' => 'curat']) }}"
-                class="btn-category {{ $kategori == 'curat' ? 'btn-primary' : 'btn-secondary' }}">
-                <i class="">
+                        alt="CURAS"> CURAS
+                </a>
+                <a href="{{ route('arsip.index', ['kategori' => 'curat']) }}"
+                    class="btn-category {{ $kategori == 'curat' ? 'btn-primary' : 'btn-secondary' }}">
                     <img src="{{ asset('aset/' . ($kategori == 'curat' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
-                        alt="CURAT">
-                </i> CURAT
-            </a>
-            <a href="{{ route('arsip.index', ['kategori' => 'curanmor']) }}"
-                class="btn-category {{ $kategori == 'curanmor' ? 'btn-primary' : 'btn-secondary' }}">
-                <i class="">
+                        alt="CURAT"> CURAT
+                </a>
+                <a href="{{ route('arsip.index', ['kategori' => 'curanmor']) }}"
+                    class="btn-category {{ $kategori == 'curanmor' ? 'btn-primary' : 'btn-secondary' }}">
                     <img src="{{ asset('aset/' . ($kategori == 'curanmor' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
-                        alt="CURANMOR">
-                </i> CURANMOR
-            </a>
+                        alt="CURANMOR"> CURANMOR
+                </a>
+            </div>
+
+            <!-- Tombol Add -->
             @if (auth()->user()->role === 'admin')
-                <button class="btn" data-bs-toggle="modal" data-bs-target="#modalTambahBerkas">
-                    <img style="height: 4.688rem; width: 4.688rem; margin-left: 2.188rem" src="{{ asset('aset/add.png') }}"
-                        alt="">
+                <button class="btn p-0 border-0 bg-transparent shadow-none" data-bs-toggle="modal"
+                    data-bs-target="#modalTambahBerkas">
+                    <img style="height: 4.688rem; width: 4.688rem;" src="{{ asset('aset/add.png') }}" alt="Tambah">
                 </button>
             @endif
         </div>
 
 
+
+
         <div class="isi-arsip">
-            {{-- dropdown dan search --}}
-            <div class="row">
-                <div class="col-5" style="display: flex">
-                    <div class="dropdown mt-3 ms-3">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdowntahun"
-                            data-bs-toggle="dropdown" aria-expanded="false"
-                            style="font-size: 14px; font-weight: 400; color:black">
-                            {{ request('tahun') ? request('tahun') : 'Semua Tahun' }}
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdowntahun">
-                            <li><a class="dropdown-item" href="{{ route('arsip.index') }}">Semua</a></li>
-                            @foreach ($listTahun as $tahun)
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('arsip.index', array_merge(request()->except('page'), ['tahun' => $tahun])) }}">
-                                        {{ $tahun }}
+            <div class="card-table w-100 " style="font-size: 14px">
+                {{-- dropdown dan search --}}
+                <div class="row">
+                    <div class="col-5" style="display: flex">
+                        <div class="dropdown mt-3 ms-3">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdowntahun"
+                                data-bs-toggle="dropdown" aria-expanded="false"
+                                style="font-size: 14px; font-weight: 400; color:black">
+                                {{ request('tahun') ? request('tahun') : 'Semua Tahun' }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdowntahun">
+                                <li><a class="dropdown-item" href="{{ route('arsip.index') }}">Semua</a></li>
+                                @foreach ($listTahun as $tahun)
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="{{ route('arsip.index', array_merge(request()->except('page'), ['tahun' => $tahun])) }}">
+                                            {{ $tahun }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-7 d-flex justify-content-end ">
+                        <form action="{{ route('arsip.index') }}" method="GET" class="mb-3 me-3">
+                            <div class="input-group mt-3 ">
+                                <input type="text" name="search" class="form-control px-3 shadow-sm"
+                                    placeholder="Search..." value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-primary">
+                                    <img style="height: 17px; width:17px" src="{{ asset('aset/search.png') }}"
+                                        alt="">
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="table-responsive p-2">
+                    <table class="table table-bordered table-striped ">
+                        <thead class="" style="font-weight: 600">
+                            <tr>
+                                <th>No</th>
+                                <th style="width: 21rem;">Laporan Polisi (LP)</th>
+                                <th> Tgl Laporan
+                                    <a
+                                        href="{{ route('arsip.index', [
+                                            'sort' => 'tanggal_laporan',
+                                            'direction' => request('direction') === 'asc' ? 'desc' : 'asc',
+                                            'kategori' => request('kategori'),
+                                        ]) }}">
+
+                                        @if (request('sort') === 'tanggal_laporan' && request('direction') === 'desc')
+                                            <img style="height: 14px; width:21px" src="{{ asset('aset/sort_up.png') }}"
+                                                alt="Sort Desc">
+                                        @else
+                                            <img style="height: 14px; width:21px"
+                                                src="{{ asset('aset/sort_down.png') }}"alt="Sort Asc">
+                                        @endif
                                     </a>
-                                </li>
-                            @endforeach
-                        </ul>
+                                </th>
+                                <th style="width: 21rem;">File</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($dokumens as $dokumen)
+                                <tr style="font-size: 14px">
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td
+                                        style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        {{ $dokumen->laporan_polisi }}</td>
+                                    <td>{{ $dokumen->tanggal_laporan }}</td>
+                                    <td>
+                                        @php
+                                            $ext = pathinfo($dokumen->file, PATHINFO_EXTENSION);
+                                            $icon = '';
+
+                                            switch (strtolower($ext)) {
+                                                case 'pdf':
+                                                    $icon = asset('aset/pdf.png');
+                                                    break;
+                                                case 'doc':
+                                                case 'docx':
+                                                    $icon = asset('aset/doc.png');
+                                                    break;
+                                                case 'xls':
+                                                case 'xlsx':
+                                                    $icon = asset('aset/exl.png');
+                                                    break;
+                                            }
+                                        @endphp
+
+                                        <div class="file-display">
+                                            <img src="{{ $icon }}" alt="{{ $ext }} icon">
+                                            <a href="#" class="open-modal" data-id="{{ $dokumen->id }}">
+                                                {{ basename($dokumen->file) }}
+                                            </a>
+                                        </div>
+
+                                    </td>
+                                    <td style="padding: 0; text-align: center; vertical-align: middle;">
+                                        <div
+                                            style="display: flex; gap: 4px; justify-content: center; align-items: center; height: 100%;">
+                                            <!-- Tombol Download -->
+                                            <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm"
+                                                style="padding: 0; margin: 0;" target="_blank">
+                                                <img src="{{ asset('aset/dwn.png') }}" alt="Download"
+                                                    style="display: block; height: 33px;">
+                                            </a>
+
+                                            {{-- tombol share --}}
+                                            <a href="#" class="btn btn-sm btn-share"
+                                                data-url="{{ asset('storage/' . $dokumen->file) }}">
+                                                <img src="{{ asset('aset/share.png') }}" alt="Share">
+                                            </a>
+
+                                            <!-- Tombol Hapus -->
+                                            @if (auth()->user()->role === 'admin')
+                                                <button type="button" class="btn btn-sm" style="padding: 0; margin: 0;"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                    data-id="{{ $dokumen->id }}"
+                                                    data-name="{{ basename($dokumen->file) }}">
+                                                    <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
+                                                        style="display: block; height: 33px;">
+                                                </button>
+                                            @else
+                                                <span
+                                                    class="d-inline-flex align-items-center justify-content-center p-1 rounded"
+                                                    style="cursor: not-allowed;" title="Tidak bisa menghapus">
+                                                    <img src="{{ asset('aset/nohapus.svg') }}" alt="No Hapus"
+                                                        width="37" height="37" style="object-fit: contain;">
+                                                </span>
+                                            @endif
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">Tidak ada data</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="" style="font-size: 14px">
+                            Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }}
+                            <span style="color: #B0B2B4;">
+                                of {{ $dokumens->total() }} entries
+                            </span>
+                        </p>
+                        {{ $dokumens->links() }}
                     </div>
 
                 </div>
-                <div class="col-7 d-flex justify-content-end ">
-                    <form action="{{ route('arsip.index') }}" method="GET" class="mb-3 me-3">
-                        <div class="input-group mt-3 ">
-                            <input type="text" name="search" class="form-control px-3 shadow-sm" placeholder="Search..."
-                                value="{{ request('search') }}">
-                            <button type="submit" class="btn btn-primary">
-                                <img style="height: 17px; width:17px" src="{{ asset('aset/search.png') }}" alt="">
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="table-responsive p-2">
-                <table class="table table-bordered table-striped ">
-                    <thead class="" style="font-weight: 600">
-                        <tr>
-                            <th>No</th>
-                            <th style="width: 21rem;">Laporan Polisi (LP)</th>
-                            <th> Tgl Laporan
-                                <a
-                                    href="{{ route('arsip.index', [
-                                        'sort' => 'tanggal_laporan',
-                                        'direction' => request('direction') === 'asc' ? 'desc' : 'asc',
-                                        'kategori' => request('kategori'),
-                                    ]) }}">
-
-                                    @if (request('sort') === 'tanggal_laporan' && request('direction') === 'desc')
-                                        <img style="height: 14px; width:21px" src="{{ asset('aset/sort_up.png') }}"
-                                            alt="Sort Desc">
-                                    @else
-                                        <img style="height: 14px; width:21px"
-                                            src="{{ asset('aset/sort_down.png') }}"alt="Sort Asc">
-                                    @endif
-                                </a>
-                            </th>
-                            <th style="width: 21rem;">File</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($dokumens as $dokumen)
-                            <tr style="font-size: 14px">
-                                <td>{{ $loop->iteration }}</td>
-                                <td
-                                    style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                    {{ $dokumen->laporan_polisi }}</td>
-                                <td>{{ $dokumen->tanggal_laporan }}</td>
-                                <td>
-                                    @php
-                                        $ext = pathinfo($dokumen->file, PATHINFO_EXTENSION);
-                                        $icon = '';
-
-                                        switch (strtolower($ext)) {
-                                            case 'pdf':
-                                                $icon = asset('aset/pdf.png');
-                                                break;
-                                            case 'doc':
-                                            case 'docx':
-                                                $icon = asset('aset/doc.png');
-                                                break;
-                                            case 'xls':
-                                            case 'xlsx':
-                                                $icon = asset('aset/exl.png');
-                                                break;
-                                        }
-                                    @endphp
-
-                                    <div class="file-display">
-                                        <img src="{{ $icon }}" alt="{{ $ext }} icon">
-                                        <a href="#" class="open-modal" data-id="{{ $dokumen->id }}">
-                                            {{ basename($dokumen->file) }}
-                                        </a>
-                                    </div>
-
-                                </td>
-                                <td style="padding: 0; text-align: center; vertical-align: middle;">
-                                    <div
-                                        style="display: flex; gap: 4px; justify-content: center; align-items: center; height: 100%;">
-                                        <!-- Tombol Download -->
-                                        <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm"
-                                            style="padding: 0; margin: 0;" target="_blank">
-                                            <img src="{{ asset('aset/dwn.png') }}" alt="Download"
-                                                style="display: block; height: 33px;">
-                                        </a>
-
-                                        {{-- tombol share --}}
-                                        <a href="#" class="btn btn-sm btn-share"
-                                            data-url="{{ asset('storage/' . $dokumen->file) }}">
-                                            <img src="{{ asset('aset/share.png') }}" alt="Share">
-                                        </a>
-
-                                        <!-- Tombol Hapus -->
-                                        @if (auth()->user()->role === 'admin')
-                                            <button type="button" class="btn btn-sm" style="padding: 0; margin: 0;"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                data-id="{{ $dokumen->id }}"
-                                                data-name="{{ basename($dokumen->file) }}">
-                                                <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
-                                                    style="display: block; height: 33px;">
-                                            </button>
-                                        @else
-                                            <span
-                                                class="d-inline-flex align-items-center justify-content-center p-1 rounded"
-                                                style="cursor: not-allowed;" title="Tidak bisa menghapus">
-                                                <img src="{{ asset('aset/nohapus.svg') }}" alt="No Hapus" width="37"
-                                                    height="37" style="object-fit: contain;">
-                                            </span>
-                                        @endif
-
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Tidak ada data</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-
-                <div class="d-flex justify-content-between align-items-center">
-                    <p class="" style="font-size: 14px">
-                        Showing {{ $dokumens->firstItem() }} to {{ $dokumens->lastItem() }}
-                        <span style="color: #B0B2B4;">
-                            of {{ $dokumens->total() }} entries
-                        </span>
-                    </p>
-                    {{ $dokumens->links() }}
-                </div>
-
             </div>
         </div>
-
-        <footer class="footer" style="    padding-left: 3.125rem;">
+        <footer class="footer" style=" padding-left: 3.125rem;">
             <p class="">Copyright 2025 - Qif Media</p>
         </footer>
 
@@ -431,10 +433,10 @@
     {{-- modal preview data --}}
     <div class="modal fade" id="detailModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered " style=" width: 497px">
-            <div class="modal-content rounded-5 shadow ">
-                <div class="modal-header rounded-top-5 text-white"
-                    style="background-color: #2751C1;height: 47px; width: 497px">
-                    <p class="modal-title ms-3" style="font-size: 18px; color:#FFFFFF">Detail Dokumen</p>
+            <div class="modal-content rounded-4 shadow ">
+                <div class="modal-header rounded-top-4 text-white"
+                    style="background-color: #2751C1;height: 47px; width: 495px">
+                    <p class="modal-title " style="font-size: 18px; color:#FFFFFF">Detail Dokumen</p>
                     <button type="button" class="btn-close btn-close-form me-3" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>

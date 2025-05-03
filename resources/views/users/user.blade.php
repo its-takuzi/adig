@@ -140,7 +140,7 @@
             </div>
         </div>
         <footer class="footer">
-            <p class="p-3">Copyright 2025 - Qif Media</p>
+            <p class="">Copyright 2025 - Qif Media</p>
         </footer>
     </div>
 @endsection

@@ -8,6 +8,7 @@ use App\Models\Rak;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Dashboardcontroller extends Controller
 {
@@ -17,50 +18,41 @@ class Dashboardcontroller extends Controller
         $totalSize = Dokumen::sum('size') / (1024 * 1024);
         $listRak = Rak::all();
 
-        // Query data untuk grafik
+        // Ambil semua data tahun laporan unik
+        $semuaTahun = Dokumen::selectRaw('YEAR(tanggal_laporan) as tahun')
+            ->distinct()
+            ->orderByDesc('tahun')
+            ->pluck('tahun');
+
+        $groupedTahun = $semuaTahun->chunk(3);
+
+        // Ambil 3 tahun terbaru sebagai default
+        $tahunTerbaru = $semuaTahun->take(3)->sort()->values();
+
+        // Ambil input filter tahun (GET), jika tidak ada gunakan 3 tahun terbaru
+        $tahunFilter = collect($request->input('tahun', []));
+
+        // Ambil data grafik hanya untuk tahun terpilih
         $data = Dokumen::selectRaw('YEAR(tanggal_laporan) as tahun, kategori, COUNT(*) as jumlah')
+            ->whereIn(DB::raw('YEAR(tanggal_laporan)'), $tahunFilter)
             ->groupBy('tahun', 'kategori')
             ->orderBy('tahun')
             ->get();
 
-        // Format data untuk grafik
-        $categories = $data->pluck('tahun')->unique()->toArray();
+        $categories = $tahunFilter->sort()->values();
         $curasData = [];
         $curatData = [];
         $curanmorData = [];
 
-        // Isi data berdasarkan tahun
         foreach ($categories as $tahun) {
-            $curasData[] = $data->where('tahun', $tahun)->where('kategori', 'curas')->sum('jumlah');
-            $curatData[] = $data->where('tahun', $tahun)->where('kategori', 'curat')->sum('jumlah');
-            $curanmorData[] = $data->where('tahun', $tahun)->where('kategori', 'curanmor')->sum('jumlah');
+            $curasData[] = $data->where('tahun', $tahun)->where('kategori', 'CURAS')->sum('jumlah');
+            $curatData[] = $data->where('tahun', $tahun)->where('kategori', 'CURAT')->sum('jumlah');
+            $curanmorData[] = $data->where('tahun', $tahun)->where('kategori', 'CURANMOR')->sum('jumlah');
         }
-        // Buat chart
-        $chart = (new LarapexChart)
-            ->setType('bar') // Gunakan 'bar' bukan 'donut'
-            ->setTitle('Grafik Jumlah Dokumen')
-            ->setXAxis($categories)
-            ->setDataset([
-                [
-                    'name' => 'CURAS',
-                    'data' => $curasData
-                ],
-                [
-                    'name' => 'CURAT',
-                    'data' => $curatData
-                ],
-                [
-                    'name' => 'CURANMOR',
-                    'data' => $curanmorData
-                ],
-            ])
-            ->setHeight(200)
-            ->setColors(['#FFC107', '#DC3545', '#28A745']);
 
-        // Ambil data lainnya
+        // Filter dan data tabel
         $search = $request->input('search');
         $jenis_surat = $request->input('jenis_surat');
-
         $query = Dokumen::query();
 
         if (!empty($jenis_surat)) {
@@ -68,8 +60,7 @@ class Dashboardcontroller extends Controller
         }
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('lp', 'LIKE', "%$search%")
-                    ->orWhere('lp', 'LIKE', "%$search%");
+                $q->where('lp', 'LIKE', "%$search%");
             });
         }
 
@@ -82,7 +73,20 @@ class Dashboardcontroller extends Controller
         $dokumens = $query->paginate(8);
         $listJenisSurat = Dokumen::select('jenis_surat')->distinct()->pluck('jenis_surat');
 
-
-        return view('dashboard', compact('totalDokumen', 'totalSize', 'dokumens', 'jenis_surat', 'listJenisSurat', 'chart', 'listRak'));
+        return view('dashboard', compact(
+            'totalDokumen',
+            'totalSize',
+            'dokumens',
+            'jenis_surat',
+            'listJenisSurat',
+            'listRak',
+            'categories',
+            'curasData',
+            'curatData',
+            'curanmorData',
+            'semuaTahun',
+            'tahunFilter',
+            'groupedTahun', // tambahkan ini
+        ));
     }
 }
