@@ -11,7 +11,6 @@
         </div>
     </div>
     <div class="container-fluid bg-dashboard">
-
         {{-- isi bagian card bagian atas --}}
         <div class="d-flex flex-wrap gap-4 mb-4">
             <div class="d-flex flex-column gap-4" style="flex: 0 0 35%;">
@@ -23,7 +22,7 @@
                         </div>
                     </div>
                     <div class="icon">
-                        <img src="{{ asset('aset/total_dokumen.png') }}" style="height: 4.813rem; width: 4.813rem"
+                        <img src="{{ asset('aset/svgdokumen.svg') }}" style="height: 4.813rem; width: 4.813rem"
                             alt="Dokumen Icon">
                     </div>
                 </div>
@@ -36,7 +35,7 @@
                         </div>
                     </div>
                     <div class="icon">
-                        <img src="{{ asset('aset/total_size.png') }}" style="height: 4.813rem; width: 4.813rem"
+                        <img src="{{ asset('aset/svgsize.svg') }}" style="height: 4.813rem; width: 4.813rem"
                             alt="Dokumen size">
                     </div>
                 </div>
@@ -110,7 +109,7 @@
                                     <input type="text" name="search" class="form-control px-3 shadow-sm"
                                         placeholder="Search..." value="{{ request('search') }}">
                                     <button type="submit" class="btn btn-primary">
-                                        <img style="height: 17px; width:17px" src="{{ asset('aset/search.png') }}"
+                                        <img style="height: 17px; width:17px" src="{{ asset('aset/searchsvg.svg') }}"
                                             alt="">
                                     </button>
                                 </div>
@@ -161,15 +160,15 @@
 
                                                 switch (strtolower($ext)) {
                                                     case 'pdf':
-                                                        $icon = asset('aset/pdf.png'); // ganti sesuai nama file ikonmu
+                                                        $icon = asset('aset/svgpdf.svg'); // ganti sesuai nama file ikonmu
                                                         break;
                                                     case 'doc':
                                                     case 'docx':
-                                                        $icon = asset('aset/doc.png');
+                                                        $icon = asset('aset/scgdoc.svg');
                                                         break;
                                                     case 'xls':
                                                     case 'xlsx':
-                                                        $icon = asset('aset/exl.png');
+                                                        $icon = asset('aset/scgexl.svg');
                                                         break;
                                                 }
                                             @endphp
@@ -187,31 +186,35 @@
                                                 <!-- Tombol Download -->
                                                 <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm"
                                                     style="padding: 0; margin: 0;" target="_blank">
-                                                    <img src="{{ asset('aset/dwn.png') }}" alt="Download"
+                                                    <img src="{{ asset('aset/dwnsvg.svg') }}" alt="Download"
                                                         style="display: block; height: 33px;">
                                                 </a>
 
                                                 {{-- tombol share --}}
                                                 <a href="#" class="btn btn-sm btn-share"
                                                     data-url="{{ asset('storage/' . $dokumen->file) }}">
-                                                    <img src="{{ asset('aset/share.png') }}" alt="Share">
+                                                    <img src="{{ asset('aset/sharesvg.svg') }}" alt="Share">
                                                 </a>
 
                                                 <!-- Tombol Hapus -->
                                                 @if (auth()->user()->role === 'admin')
-                                                    <button type="button" class="btn btn-sm"
-                                                        style="padding: 0; margin: 0;" data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
-                                                        data-name="{{ basename($dokumen->file) }}">
-                                                        <img src="{{ asset('aset/delete.png') }}" alt="Hapus"
-                                                            style="display: block; height: 33px;">
-                                                    </button>
+                                                    <form action="{{ route('dokumen.destroy', $dokumen->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Yakin ingin menghapus?');"
+                                                        style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="btn btn-sm"
+                                                            style="padding: 0; margin: 0;" data-bs-toggle="modal"
+                                                            data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
+                                                            data-name="{{ $dokumen->nama }}">
+                                                            <img src="{{ asset('aset/dltsvg.svg') }}" alt="Hapus"
+                                                                style="display: block; height: 33px;">
+                                                        </button>
+                                                    </form>
                                                 @else
-                                                    <span
-                                                        class="d-inline-flex align-items-center justify-content-center p-1 rounded"
-                                                        style="cursor: not-allowed;" title="Tidak bisa menghapus">
-                                                        <img src="{{ asset('aset/nohapus.svg') }}" alt="No Hapus"
-                                                            width="37" height="37" style="object-fit: contain;">
+                                                    <span>
+
                                                     </span>
                                                 @endif
                                             </div>
@@ -581,6 +584,7 @@
                         label: 'CURAS',
                         data: @json($curasData),
                         backgroundColor: '#FFC107'
+
                     },
                     {
                         label: 'CURAT',

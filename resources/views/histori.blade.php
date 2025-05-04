@@ -22,11 +22,11 @@
                                     <span>{{ \Carbon\Carbon::parse($log->created_at)->format('d-m-Y H:i') }}</span>
 
                                     @if ($log->action == 'delete')
-                                        <img src="{{ asset('aset/delettt.png') }}" alt="Delete" width="30">
+                                        <img src="{{ asset('aset/dltsvg.svg') }}" alt="Delete" width="30">
                                     @elseif ($log->action == 'upload')
-                                        <img src="{{ asset('aset/downloadd.png') }}" alt="Upload" width="30">
+                                        <img src="{{ asset('aset/dwnsvg.svg') }}" alt="Upload" width="30">
                                     @elseif ($log->action == 'edit')
-                                        <img src="{{ asset('aset/sharee.png') }}" alt="Edit" width="30">
+                                        <img src="{{ asset('aset/sharesvg.svg') }}" alt="Edit" width="30">
                                     @endif
 
                                     <span>

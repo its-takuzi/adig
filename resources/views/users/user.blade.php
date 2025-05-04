@@ -20,13 +20,15 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Aksi</th>
+                            @if (auth()->user()->role === 'admin')
+                                <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
-                                <td class="text-center align-middle" style="width: 50px;"><input type="checkbox"></td>
+                                <td class="text-center align-middle" style="width: 3.125rem;"><input type="checkbox"></td>
                                 <td>
                                     <img src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}"
                                         alt="Foto Profil" class="rounded-circle" width="40" height="40">
@@ -34,12 +36,13 @@
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->role }}</td>
-                                <td class="gap-1">
-                                    @if (auth()->user()->role === 'admin')
+
+                                @if (auth()->user()->role === 'admin')
+                                    <td class="gap-1">
                                         <!-- Tombol Edit -->
                                         <a href="{{ route('users.edit', $user->id) }}"
                                             class="d-inline-flex align-items-center justify-content-center p-1 rounded"
-                                            style="background-color: #007bff; width: 37px; height: 37px;">
+                                            style="background-color: #007bff; width: 2.313rem; height: 2.313rem;">
                                             <img src="{{ asset('aset/edit.png') }}" alt="Edit" width="25"
                                                 height="25" style="object-fit: contain;">
                                         </a>
@@ -52,26 +55,13 @@
                                             <button type="submit"
                                                 onclick="return confirm('Yakin ingin menghapus user ini?')"
                                                 class="d-inline-flex align-items-center justify-content-center p-1 rounded border-0"
-                                                style="background-color: #dc3545; width: 37px; height: 37px;">
+                                                style="background-color: #dc3545; width: 2.313rem; height: 2.313rem;">
                                                 <img src="{{ asset('aset/hapus.png') }}" alt="Hapus" width="25"
                                                     height="25" style="object-fit: contain;">
                                             </button>
                                         </form>
-                                    @else
-                                        <!-- Nonaktifkan aksi dan tampilkan icon saja untuk role 'staff' -->
-                                        <span class="d-inline-flex align-items-center justify-content-center p-1 rounded"
-                                            style="cursor: not-allowed;" title="Tidak bisa mengedit">
-                                            <img src="{{ asset('aset/noedit.svg') }}" alt="No Edit" width="37"
-                                                height="37" style="object-fit: contain;">
-                                        </span>
-
-                                        <span class="d-inline-flex align-items-center justify-content-center p-1 rounded"
-                                            style="cursor: not-allowed;" title="Tidak bisa menghapus">
-                                            <img src="{{ asset('aset/nohapus.svg') }}" alt="No Hapus" width="37"
-                                                height="37" style="object-fit: contain;">
-                                        </span>
-                                    @endif
-                                </td>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -79,8 +69,10 @@
                 @if (auth()->user()->role === 'admin')
                     <!-- ini  jas -->
                     <div class="d-flex">
-                        <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                            <img style="height: 50px ; width:50px" src="{{ asset('aset/add.png') }}" alt="">
+                        <button class="btn ms-auto mt-4 p-0 border-0 bg-transparent shadow-none" data-bs-toggle="modal"
+                            data-bs-target="#addUserModal">
+                            <img style="height: 3.125rem ; width:3.125rem" src="{{ asset('aset/add.png') }}"
+                                alt="">
                         </button>
                     </div>
                 @endif <!-- ini  jas -->
@@ -97,40 +89,60 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data"
+                                        class="d-flex flex-column align-items-center">
                                         @csrf
 
-                                        <div class="mb-3">
+                                        <!-- Foto Profil -->
+                                        <div class="mb-3" style="width: 100%; max-width: 20.125rem;">
                                             <label for="pp" class="form-label">Foto Profil</label>
                                             <input type="file" class="form-control" id="pp" name="pp">
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Nama Lengkap</label>
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                required>
+                                        <!-- Nama Lengkap -->
+                                        <div class="mb-3 position-relative"
+                                            style="width: 100%; max-width: 20.125rem; height: 4rem;">
+                                            <img src="{{ asset('aset/username.svg') }}" alt="Nama Icon"
+                                                style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 1.25rem; height: 1.25rem; filter: brightness(0.5);">
+                                            <input type="text" id="name" name="name" required
+                                                placeholder="Nama Lengkap"
+                                                style="width: 100%; height: 100%; padding-left: 2.813rem; padding-right: 0.938rem; border: 0.063rem solid #E3E3E3; border-radius: 0.625rem; outline: none;">
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                required>
+                                        <!-- Email -->
+                                        <div class="mb-3 position-relative"
+                                            style="width: 100%; max-width: 20.125rem; height: 4rem;">
+                                            <img src="{{ asset('aset/email.svg') }}" alt="Email Icon"
+                                                style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 1.25rem; height: 1.25rem; filter: brightness(0.5);">
+                                            <input type="email" id="email" name="email" required
+                                                placeholder="youremail@gmail.com"
+                                                style="width: 100%; height: 100%; padding-left: 2.813rem; padding-right: 0.938rem; border: 0.063rem solid #E3E3E3; border-radius: 0.625rem; outline: none;">
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="password" name="password"
-                                                required>
+                                        <!-- Password -->
+                                        <div class="mb-3 position-relative"
+                                            style="width: 100%; max-width: 20.125rem; height: 4rem;">
+                                            <img src="{{ asset('aset/password.svg') }}" alt="Password Icon"
+                                                style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 1.25rem; height: 1.25rem; filter: brightness(0.5);">
+                                            <input type="password" id="password" name="password" required
+                                                placeholder="Min 8 Karakter"
+                                                style="width: 100%; height: 100%; padding-left: 2.813rem; padding-right: 2.813rem; border: 0.063rem solid #E3E3E3; border-radius: 0.625rem; outline: none;">
+                                            <img src="{{ asset('aset/eye.svg') }}" alt="Show Password"
+                                                id="togglePassword"
+                                                style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1.25rem; height: 1.25rem; cursor: pointer;">
                                         </div>
 
-                                        <div class="mb-3">
+                                        <!-- Role -->
+                                        <div class="mb-3" style="width: 100%; max-width: 20.125rem;">
                                             <label for="role" class="form-label">Role</label>
                                             <select class="form-select" id="role" name="role" required>
                                                 <option value="admin">Admin</option>
                                                 <option value="staff">Staff</option>
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Tambah User</button>
+
+                                        <!-- Tombol Submit -->
+                                        <button type="submit" class="btn btn-primary mt-2">Tambah User</button>
                                     </form>
                                 </div>
                             </div>
@@ -143,4 +155,24 @@
             <p class="">Copyright 2025 - Qif Media</p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Ganti icon jika perlu (misal: mata terbuka / tertutup)
+                if (type === 'text') {
+                    this.src =
+                        "{{ asset('aset/eye-off.svg') }}"; // Pastikan file eye-off.svg ada di folder aset.
+                } else {
+                    this.src = "{{ asset('aset/eye.svg') }}";
+                }
+            });
+        });
+    </script>
 @endsection

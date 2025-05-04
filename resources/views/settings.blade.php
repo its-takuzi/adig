@@ -55,11 +55,15 @@
                             </div>
 
                             <!-- input password -->
-                            <div class="mb-1">
-                                <label for="password" class="form-label" style="font-size: 15px;">Password</label>
-                                <input type="password" id="password" name="password" class="form-control"
+                            <div class="mb-1 position-relative">
+                                <label for="password" class="form-label" style="font-size: 0.938rem;">Password</label>
+                                <input type="password" id="password" name="password" class="form-control pe-5"
                                     style="max-width: 100%;" placeholder="">
+
+                                <img src="{{ asset('aset/eye.svg') }}" alt="Toggle Password" id="togglePassword"
+                                    style="position: absolute; top: 75%; right: 0.938rem; transform: translateY(-50%); width: 20px; height: 20px; cursor: pointer;">
                             </div>
+
 
                             <!-- Tombol Save & Cancel -->
                             <div class="mt-3" style="max-width: 90%; margin-left: auto;">
@@ -85,4 +89,25 @@
             <p class="">Copyright 2025 - Qif Media</p>
         </footer>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Ganti icon jika perlu (misal: mata terbuka / tertutup)
+                if (type === 'text') {
+                    this.src =
+                    "{{ asset('aset/eye-off.svg') }}"; // Pastikan file eye-off.svg ada di folder aset.
+                } else {
+                    this.src = "{{ asset('aset/eye.svg') }}";
+                }
+            });
+        });
+    </script>
 @endsection
