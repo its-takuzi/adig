@@ -48,7 +48,7 @@
 
 
         <div class="isi-arsip">
-            <div class="card-table w-100 " style="font-size: 14px">
+            <div class="card-tablearsip w-100 " style="font-size: 14px">
                 {{-- dropdown dan search --}}
                 <div class="row">
                     <div class="col-5" style="display: flex">
@@ -228,11 +228,11 @@
                             <form id="deleteForm" method="POST" action="">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger w-100 py-2 mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModalberhasil">Delete</button>
+                                <button type="submit" class="btn btn-light border border-dark w-100 py-2 mt-2"
+                                    data-bs-toggle="modal" data-bs-target="#deleteModalberhasil">Delete</button>
                             </form>
                         </div>
-                        <div class="col-md-6"> <button type="button" class="btn btn-light w-100 py-2 mt-2"
+                        <div class="col-md-6"> <button type="button" class="btn  btn-danger w-100 py-2 mt-2"
                                 data-bs-dismiss="modal">Cancel</button></div>
                     </div>
 

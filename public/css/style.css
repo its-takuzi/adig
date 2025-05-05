@@ -252,6 +252,7 @@ main {
     min-height: 100vh;
     justify-content: center;
     padding-left: 3.125rem;
+    padding-right: 3.125rem;
     padding-top: 3.125rem;
 }
 .bg-dashboard {
@@ -259,6 +260,7 @@ main {
     min-height: 100vh;
     justify-content: center;
     padding-left: 3.125rem;
+    padding-right: 3.125rem;
     padding-top: 3.125rem;
 }
 
@@ -313,7 +315,15 @@ main {
 .card-table {
     background-color: white;
     max-width: 100%;
-    width: 65rem;
+    width: 69rem;
+    height: 45rem;
+    border-radius: 10px;
+    padding: 1rem;
+}
+.card-tablearsip {
+    background-color: white;
+    max-width: 100%;
+    width: 69rem;
     height: 40rem;
     border-radius: 10px;
     padding: 1rem;

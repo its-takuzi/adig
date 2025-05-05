@@ -16,7 +16,7 @@
             <div class="col-12  justify-content-center">
                 <div class="card-table w-100 " style="font-size: 14px">
                     <div class="col-5" style="display: flex">
-                        <div class="dropdown mt-3 ms-3">
+                        <div class="dropdown mt-3 ms-2">
                             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownrak"
                                 data-bs-toggle="dropdown" aria-expanded="false"
                                 style="font-size: 14px; font-weight: 400; color:black">
@@ -87,15 +87,25 @@
                 </div>
             </div>
 
-            {{-- Tombol Tambah Rak --}}
-            <div class="d-flex">
-                @if (auth()->user()->role === 'admin')
-                    <button class="btn ms-auto mt-4 p-0 border-0 bg-transparent shadow-none" data-bs-toggle="modal"
-                        data-bs-target="#modalTambahRak">
-                        <img style="height: 3.125rem ; width: 3.125rem" src="{{ asset('aset/add.png') }}" alt="">
-                    </button>
-                @endif
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <footer class="footer">
+                            <p class="mb-4">&copy; 2025 - Qif Media</p>
+                        </footer>
+
+                        {{-- Tombol Tambah Rak --}}
+                        @if (auth()->user()->role === 'admin')
+                            <button class="btn p-0 border-0 bg-transparent shadow-none" data-bs-toggle="modal"
+                                data-bs-target="#modalTambahRak">
+                                <img style="height: 4.688rem; width: 4.688rem;" src="{{ asset('aset/add.png') }}"
+                                    alt="">
+                            </button>
+                        @endif
+                    </div>
+                </div>
             </div>
+
 
             <!-- Modal Tambah Rak -->
             <div class="modal fade" id="modalTambahRak" tabindex="-1" aria-labelledby="modalTambahRakLabel"
@@ -124,9 +134,7 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            <p class="">Copyright 2025 - Qif Media</p>
-        </footer>
+
     </div>
 
 

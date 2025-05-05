@@ -240,11 +240,11 @@
                 </div>
             </div>
         </div>
-
+        <footer class="footer">
+            <p class="">Copyright 2025 - Qif Media</p>
+        </footer>
     </div>
-    <footer class="footer">
-        <p class="">Copyright 2025 - Qif Media</p>
-    </footer>
+
     <!-- Modal Konfirmasi Hapus -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -260,11 +260,11 @@
                             <form id="deleteForm" method="POST" action="">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger w-100 py-2 mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModalberhasil">Delete</button>
+                                <button type="submit" class="btn btn-light border border-dark w-100 py-2 mt-2"
+                                    data-bs-toggle="modal" data-bs-target="#deleteModalberhasil">Delete</button>
                             </form>
                         </div>
-                        <div class="col-md-6"> <button type="button" class="btn btn-light w-100 py-2 mt-2"
+                        <div class="col-md-6"> <button type="button" class="btn  btn-danger w-100 py-2 mt-2"
                                 data-bs-dismiss="modal">Cancel</button></div>
                     </div>
                 </div>
