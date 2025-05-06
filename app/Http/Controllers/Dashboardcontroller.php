@@ -31,6 +31,9 @@ class Dashboardcontroller extends Controller
 
         // Ambil input filter tahun (GET), jika tidak ada gunakan 3 tahun terbaru
         $tahunFilter = collect($request->input('tahun', []));
+        if ($tahunFilter->isEmpty()) {
+            $tahunFilter = $tahunTerbaru;
+        }
 
         // Ambil data grafik hanya untuk tahun terpilih
         $data = Dokumen::selectRaw('YEAR(tanggal_laporan) as tahun, kategori, COUNT(*) as jumlah')
@@ -86,6 +89,7 @@ class Dashboardcontroller extends Controller
             'curanmorData',
             'semuaTahun',
             'tahunFilter',
+            'tahunTerbaru',
             'groupedTahun', // tambahkan ini
         ));
     }

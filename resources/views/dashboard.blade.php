@@ -12,8 +12,8 @@
     </div>
     <div class="container-fluid bg-dashboard">
         {{-- isi bagian card bagian atas --}}
-        <div class="d-flex flex-wrap gap-4 mb-4">
-            <div class="d-flex flex-column gap-4" style="flex: 0 0 35%;">
+        <div class="dashboard-container">
+            <div class="d-flex flex-column gap-4" style="flex: 0 0 auto;">
                 <div class="card-item">
                     <div>
                         <div class="text" style="font-size: 1.313rem; color: #8898AA">Total Dokumen</div>
@@ -42,7 +42,7 @@
             </div>
 
             {{-- Chart Card --}}
-            <div class="flex-grow position">
+            <div class="flex-grow-1">
                 <div class="card-item-grafik h-100 p-4 position-relative">
                     {{-- Dropdown Tahun di kanan atas dalam card --}}
                     <div class="dropdown position-absolute" style="top: 0; right: 0; z-index: 10;">

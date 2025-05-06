@@ -94,17 +94,20 @@
 
             <!-- Right Side -->
             <div class="col-md-4 right-side">
-                <div class="card">
+                <div class="card" style="width: 100%; padding: 2rem; display: flex; justify-content: center;">
                     <!-- Judul -->
                     <h2
                         style="
-                        width: 257px;
-                        height: 39px;
-                        margin-top: 80px;
-                        margin-bottom: 89px;
+                     width: 100%;
+                                max-width: 322px;
+                                height: 64px;
+               
+                        margin-top: 5rem;
+                        margin-bottom: 5.563rem;
                         font-family: Poppins, sans-serif;
+                        text-align: center;
                         font-weight: 600;
-                        font-size: 32px;
+                        font-size: 2rem;
                         line-height: 100%;
                         background: linear-gradient(91.85deg, #11C1EF 3.67%, #1179EF 94.77%);
                         -webkit-background-clip: text;
@@ -119,7 +122,8 @@
                         @csrf
 
                         <!-- Input Email -->
-                        <div class="position-relative" style="width: 322px; height: 64px;">
+                        <div class="position-relative" style="width: 100%; max-width: 322px; height: 4rem;">
+
                             <img src="{{ asset('aset/email.svg') }}" alt="Email Icon"
                                 style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; filter: brightness(0.5);">
                             <input type="email" id="email" name="email" required
@@ -131,7 +135,8 @@
                         <div style="height:17px;"></div>
 
                         <!-- Input Password -->
-                        <div class="position-relative" style="width: 322px; height: 64px;">
+                        <div class="position-relative" style="width: 100%; max-width: 322px; height: 4rem;">
+
                             <img src="{{ asset('aset/password.svg') }}" alt="Password Icon"
                                 style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; filter: brightness(0.5);">
                             <input type="password" id="password" name="password" required placeholder="Password"
@@ -144,28 +149,30 @@
                         <div style="height:89px;"></div>
 
                         <!-- Button Login -->
-                        <div>
-                            <button type="submit"
-                                style="
-                                width: 322px;
-                                height: 64px;
-                                border-radius: 10px;
-                                background: linear-gradient(91.85deg, #11C1EF 3.67%, #1179EF 94.77%);
-                                color: #FFFFFF;
-                                font-family: Poppins, sans-serif;
-                                font-weight: 600;
-                                font-size: 24px;
-                                line-height: 100%;
-                                letter-spacing: 0%;
-                                border: none;
-                                box-shadow: 0px 8px 20px rgba(17, 121, 239, 0.35);
-                                transition: transform 0.2s ease, box-shadow 0.2s ease;
-                            "
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0px 12px 24px rgba(17, 121, 239, 0.4)';"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0px 8px 20px rgba(17, 121, 239, 0.35)';">
-                                LOGIN
-                            </button>
+                        <div style="width: 100%; display: flex; justify-content: center;">
+                            <div style="width: 100%; max-width: 322px;">
+                                <button type="submit"
+                                    style="
+                                        width: 100%;
+                                        padding: 1rem 0;
+                                        border-radius: 10px;
+                                        background: linear-gradient(91.85deg, #11C1EF 3.67%, #1179EF 94.77%);
+                                        color: #FFFFFF;
+                                        font-family: Poppins, sans-serif;
+                                        font-weight: 600;
+                                        font-size: clamp(1rem, 2.5vw, 1.5rem);
+                                        border: none;
+                                        box-shadow: 0px 8px 20px rgba(17, 121, 239, 0.35);
+                                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                                        text-align: center;
+                                    "
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0px 12px 24px rgba(17, 121, 239, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0px 8px 20px rgba(17, 121, 239, 0.35)';">
+                                    LOGIN
+                                </button>
+                            </div>
                         </div>
+
 
                         <!-- Jarak antara Button ke Bawah Card -->
                         <div style="height:266px;"></div>
@@ -189,7 +196,7 @@
                             // Ganti icon jika perlu (misal: mata terbuka / tertutup)
                             if (type === 'text') {
                                 this.src =
-                                "{{ asset('aset/eye.svg') }}"; // Pastikan file eye-off.svg ada di folder aset.
+                                    "{{ asset('aset/eye.svg') }}"; // Pastikan file eye-off.svg ada di folder aset.
                             } else {
                                 this.src = "{{ asset('aset/eye.svg') }}";
                             }

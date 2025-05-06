@@ -3,6 +3,7 @@
 
 
 @section('content')
+
     {{-- header --}}
     <div class="d-flex justify-content-between mt-1 align-items-center">
         <h3 class="judul">ARSIP</h3>
@@ -37,15 +38,12 @@
 
             <!-- Tombol Add -->
             @if (auth()->user()->role === 'admin')
-                <button class="btn p-0 border-0 bg-transparent shadow-none" data-bs-toggle="modal"
+                <button class="btn border-0 bg-transparent shadow-none" data-bs-toggle="modal"
                     data-bs-target="#modalTambahBerkas">
                     <img style="height: 4.688rem; width: 4.688rem;" src="{{ asset('aset/add.png') }}" alt="Tambah">
                 </button>
             @endif
         </div>
-
-
-
 
         <div class="isi-arsip">
             <div class="card-tablearsip w-100 " style="font-size: 14px">
@@ -91,7 +89,7 @@
                         <thead class="" style="font-weight: 600">
                             <tr>
                                 <th>No</th>
-                                <th style="width: 21rem;">Laporan Polisi (LP)</th>
+                                <th class="text-nowrap">Laporan Polisi (LP)</th>
                                 <th> Tgl Laporan
                                     <a
                                         href="{{ route('arsip.index', [
@@ -109,7 +107,7 @@
                                         @endif
                                     </a>
                                 </th>
-                                <th style="width: 21rem;">File</th>
+                                <th class="w-25">File</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -117,9 +115,7 @@
                             @forelse($dokumens as $dokumen)
                                 <tr style="font-size: 14px">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td
-                                        style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        {{ $dokumen->laporan_polisi }}</td>
+                                    <td class="text-truncate" style="max-width: 300px;">{{ $dokumen->laporan_polisi }}</td>
                                     <td>{{ $dokumen->tanggal_laporan }}</td>
                                     <td>
                                         @php
@@ -167,8 +163,8 @@
 
                                             <!-- Tombol Hapus -->
                                             @if (auth()->user()->role === 'admin')
-                                                <form action="{{ route('dokumen.destroy', $dokumen->id) }}" method="POST"
-                                                    onsubmit="return confirm('Yakin ingin menghapus?');"
+                                                <form action="{{ route('dokumen.destroy', $dokumen->id) }}"
+                                                    method="POST" onsubmit="return confirm('Yakin ingin menghapus?');"
                                                     style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
@@ -723,6 +719,7 @@
                     position: 'top-end',
                     timerProgressBar: true
                 });
+
             });
         </script>
     @endif
