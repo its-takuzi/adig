@@ -386,8 +386,12 @@
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="edit_tanggal_laporan" class="form-label">Tgl Laporan</label>
-                                    <input type="date" class="form-control" id="edit_tanggal_laporan"
-                                        name="tanggal_laporan" required>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="edit_tanggal_laporan"
+                                            name="tanggal_laporan" placeholder="dd/mm/yyyy" required>
+                                        <img src="{{ asset('aset/pickdate.svg') }}" alt="calendar"
+                                            style="height: 40px;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -440,8 +444,12 @@
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="edit_tanggal_ungkap" class="form-label">Tgl Ungkap</label>
-                                    <input type="date" class="form-control" id="edit_tanggal_ungkap"
-                                        name="tanggal_ungkap">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="edit_tanggal_ungkap"
+                                            name="tanggal_ungkap" placeholder="dd/mm/yyyy">
+                                        <img src="{{ asset('aset/pickdate.svg') }}" alt="calendar"
+                                            style="height: 40px;">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-6">
