@@ -311,4 +311,11 @@ class DokumenController extends Controller
 
         return redirect()->back()->with('success', 'Dokumen berhasil dihapus.');
     }
+
+
+    public function show($id)
+    {
+        $dokumen = Dokumen::with(['user', 'rak'])->findOrFail($id);
+        return view('detail', compact('dokumen'));
+    }
 }

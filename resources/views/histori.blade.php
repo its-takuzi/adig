@@ -3,7 +3,7 @@
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
         <h3 class="judul">HISTORY</h3>
-        <div class="d-flex align-items-center m-3">
+        <div class="photo-profile d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="container-fluid bg-history">
-        <div class="card-table w-100 " style="font-size: 14px ; padding-left: 10px; padding-right:10px">
+        <div class="card-table w-100 h-100 " style="font-size: 14px ; padding-left: 10px; padding-right:10px">
             <div class="card-body">
                 <table class="table">
                     <tbody>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChartDokumenController;
 use App\Http\Controllers\Dashboardcontroller;
+use App\Http\Controllers\detailcontroller;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\Historylogcontroller;
 use App\Http\Controllers\rakcontroller;
@@ -54,7 +55,14 @@ Route::middleware(['auth'])->group(function () {
 
     //arsip
     Route::get('/arsip', [DokumenController::class, 'index'])->name('arsip.index');
-    Route::delete('/dokumen/{id}', [DokumenController::class, 'destroy'])->name('dokumen.destroy');
+    Route::prefix('dokumen')->group(function () {
+        Route::delete('/{id}', [DokumenController::class, 'destroy'])->name('dokumen.destroy');
+    });
+
+    Route::prefix('detail')->group(function () {
+        Route::delete('/{id}', [detailcontroller::class, 'hapus'])->name('detail.hapus');
+    });
+
     Route::get('/arsip/dokumen/{id}', [DokumenController::class, 'download'])->name('dokumen.download');
     Route::post('/arsip/store', [DokumenController::class, 'store'])->name('dokumen.store');
     Route::get('/arsip/{id}/detail', [DokumenController::class, 'detail']);
@@ -69,6 +77,9 @@ Route::middleware(['auth'])->group(function () {
 
     //chart
     Route::get('/chart', [ChartDokumenController::class, 'index']);
+
+    //detail
+    Route::get('/dokumen/{id}', [DokumenController::class, 'show'])->name('dokumen.show');
 
     //rak
     Route::get('/rak', [rakcontroller::class, 'index'])->name('rak.index');

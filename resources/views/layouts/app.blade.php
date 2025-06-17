@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
@@ -9,9 +10,9 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
 
-
-
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -37,13 +38,20 @@
             transition: transform 0.3s ease-in-out;
         }
 
-        .sidebar.hide {
+        .sidebar.sidebar-hidden {
             transform: translateX(-100%);
         }
 
         .main-content {
             margin-left: 250px;
             width: 100%;
+        }
+
+        /* Desktop: always visible */
+        @media (min-width: 992px) {
+            .sidebar {
+                transform: translateX(0) !important;
+            }
         }
 
         @media (max-width: 991.98px) {
@@ -202,17 +210,20 @@
             color: white;
         }
     </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
 
-    <button class="btn btn-primary d-lg-none sidebar-toggle" onclick="toggleSidebar()">
+    <!-- Tombol toggle sidebar -->
+    <button class="btn btn-primary d-lg-none sidebar-toggle" id="sidebarToggle">
         <i class="fas fa-bars"></i>
     </button>
 
+
     <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="sidebar d-md-block" id="sidebar">
+        <nav class="sidebar d-block d-md-block sidebar-hidden" id="sidebar">
             <img src="{{ asset('aset/adig.png') }}" alt="Logo" class="img-fluid mb-4">
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -268,6 +279,32 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    {{-- code untuk akses detail dimobile --}}
+    <script>
+        function updateLaporanLinkAccess() {
+            const links = document.querySelectorAll('.laporan-link');
+            const isMobile = window.innerWidth <= 992;
+
+            links.forEach(link => {
+                if (isMobile) {
+                    // Aktifkan link
+                    link.setAttribute('href', link.dataset.href);
+                    link.style.pointerEvents = 'auto';
+                    link.style.color = 'inherit';
+                } else {
+                    // Nonaktifkan link di desktop
+                    link.removeAttribute('href');
+                    link.style.pointerEvents = 'none';
+                    link.style.color = '#000'; // tetap bisa atur warna kalau perlu
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', updateLaporanLinkAccess);
+        window.addEventListener('resize', updateLaporanLinkAccess);
+    </script>
+
+    {{-- delete modal --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var deleteModal = document.getElementById('deleteModal');
@@ -285,7 +322,43 @@
         });
     </script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var deleteModal = document.getElementById('deleteModal');
+            if (deleteModal) {
+                deleteModal.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;
+                    var fileId = button.getAttribute('data-id');
+                    var fileName = button.getAttribute('data-name');
+                    var route = button.getAttribute('data-route');
 
+                    document.getElementById("fileName").textContent = fileName;
+
+                    var form = document.getElementById("deleteForm");
+                    form.action = route;
+                });
+            }
+        });
+    </script>
+
+
+    <script>
+        const currentRoute = "{{ Route::currentRouteName() }}";
+
+        if (currentRoute === "detail.show") { // sesuaikan nama route detail dokumen
+            const deleteModalBerhasil = document.getElementById('deleteModalberhasil');
+
+            if (deleteModalBerhasil) {
+                deleteModalBerhasil.addEventListener('shown.bs.modal', function() {
+                    setTimeout(() => {
+                        window.location.href = "{{ route('dashboard.index') }}";
+                    }, 2000);
+                });
+            }
+        }
+    </script>
+
+    {{-- fungsi share --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const shareButtons = document.querySelectorAll('.btn-share');
@@ -375,6 +448,41 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('sidebarToggle');
+
+            if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target) && window.innerWidth < 768) {
+                sidebar.classList.add('sidebar-hidden');
+            }
+        });
+    </script>
+
+    {{-- fungsi drag ukuran kolom --}}
+    <script src="https://cdn.jsdelivr.net/gh/alvaro-prieto/colResizable/colResizable-1.6.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("table").colResizable({
+                liveDrag: true,
+                gripInnerHtml: "<div class='grip'></div>",
+                draggingClass: "dragging"
+            });
+        });
+    </script>
+
 </body>
 
 <script>
@@ -426,8 +534,5 @@
         });
     });
 </script>
-
-
-
 
 </html>

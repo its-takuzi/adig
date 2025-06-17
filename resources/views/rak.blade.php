@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
-        <h3 class="judul">Rak</h3>
-        <div class="d-flex align-items-center m-3">
+        <h3 class="judul">RAK</h3>
+        <div class="photo-profile d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
@@ -14,7 +14,7 @@
     <div class="container-fluid bg-dashboard">
         <div class="row">
             <div class="col-12  justify-content-center">
-                <div class="card-table w-100 " style="font-size: 14px">
+                <div class="card-table w-100 h-100" style="font-size: 14px">
                     <div class="col-5" style="display: flex">
                         <div class="dropdown mt-3 ms-2">
                             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownrak"
@@ -48,11 +48,11 @@
                             <table class="table table-bordered table-striped table-hover">
                                 <thead class="">
                                     <tr>
-                                        <th>No</th>
-                                        <th style="width: 350px;">Nomor LP</th>
-                                        <th>Kategori</th>
-                                        <th>Tanggal</th>
-                                        <th>Rak Penyimpanan</th>
+                                        <th style=" width:3.438rem">No</th>
+                                        <th style="width:21rem">Nomor LP</th>
+                                        <th style="width:5rem">Kategori</th>
+                                        <th style="width:6rem">Tanggal</th>
+                                        <th style="width: 25rem">Rak Penyimpanan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,7 +91,7 @@
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center">
                         <footer class="footer">
-                            <p class="mb-4">&copy; 2025 - Qif Media</p>
+                            <p class="mb-4">Copyright 2025 - Qif Media</p>
                         </footer>
 
                         {{-- Tombol Tambah Rak --}}

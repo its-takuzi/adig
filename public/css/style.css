@@ -80,7 +80,7 @@
     padding: 0.5rem 0.938rem;
     transition: background 0.3s ease;
     border: none;
-    width: 17.625rem !important;
+    width: 17.625rem;
     height: 4rem;
     text-decoration: none !important;
 }
@@ -243,11 +243,9 @@ main {
 
 /* Atur ukuran input search */
 .input-group .form-control {
-    height: 38px;
-    width: 269px;
+    height: 37px;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
-    height: 40px;
 }
 
 /* Efek hover & focus */
@@ -258,8 +256,8 @@ main {
 
 /* Styling tombol search */
 .input-group .btn {
-    width: 40px;
-    height: 40px;
+    width: 37px;
+    height: 37px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -313,17 +311,6 @@ main {
     height: 20.063rem;
 }
 
-.card-item .text {
-    color: #6c757d;
-    font-size: 16px;
-}
-
-.card-item .number {
-    font-size: 32px;
-    font-weight: bold;
-    color: black;
-}
-
 .card-item .icon {
     width: 60px;
     height: 60px;
@@ -331,11 +318,6 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.card-item .icon img {
-    width: 70px;
-    height: 70px;
 }
 
 .card-table {
@@ -416,6 +398,7 @@ main {
 .preview-rak::before {
     content: url("../aset/rak.svg");
     vertical-align: middle;
+    margin-right: 10px;
 }
 .preview-rak {
     color: black;

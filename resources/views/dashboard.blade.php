@@ -3,7 +3,7 @@
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
         <h3 class="judul">DASHBOARD</h3>
-        <div class="d-flex align-items-center m-3">
+        <div class=" photo-profile d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
@@ -13,37 +13,35 @@
     <div class="container-fluid bg-dashboard">
         {{-- isi bagian card bagian atas --}}
         <div class="dashboard-container">
-            <div class="d-flex flex-column gap-4" style="flex: 0 0 auto;">
+            <div class="d-flex flex-column custom-responsive-row gap-4">
                 <div class="card-item">
                     <div>
-                        <div class="text" style="font-size: 1.313rem; color: #8898AA">Total Dokumen</div>
-                        <div class="number" style="font-size: 3.625rem;font-weight:600; color:black">
+                        <div class="text tulisan_dokumen">Total Dokumen</div>
+                        <div class="number tulisan_number">
                             {{ $totalDokumen }}
                         </div>
                     </div>
                     <div class="icon">
-                        <img src="{{ asset('aset/svgdokumen.svg') }}" style="height: 4.813rem; width: 4.813rem"
-                            alt="Dokumen Icon">
+                        <img class="icon_dashboard" src="{{ asset('aset/svgdokumen.svg') }}" alt="Dokumen Icon">
                     </div>
                 </div>
 
                 <div class="card-item">
                     <div>
-                        <div class="text" style="font-size: 1.313rem; color: #8898AA">Total Size</div>
-                        <div class="number" style="font-size: 3.625rem; font-weight:600; color:black">
+                        <div class="text tulisan_dokumen">Total Size</div>
+                        <div class="number tulisan_number">
                             {{ number_format($totalSize, 2) }} MB
                         </div>
                     </div>
                     <div class="icon">
-                        <img src="{{ asset('aset/svgsize.svg') }}" style="height: 4.813rem; width: 4.813rem"
-                            alt="Dokumen size">
+                        <img class="icon_dashboard" src="{{ asset('aset/svgsize.svg') }}" alt="Dokumen size">
                     </div>
                 </div>
             </div>
 
             {{-- Chart Card --}}
-            <div class="flex-grow-1">
-                <div class="card-item-grafik h-100 p-4 position-relative">
+            <div class="">
+                <div class="card-item-grafik p-4 position-relative">
                     {{-- Dropdown Tahun di kanan atas dalam card --}}
                     <div class="dropdown position-absolute" style="top: 0; right: 0; z-index: 10;">
                         <button class="btn btn-outline-secondary btn-sm dropdown-toggle me-2 mt-2" type="button"
@@ -80,16 +78,17 @@
 
         <div class="row">
             <div class="col-12 p-3 justify-content-center">
-                <div class="card-table w-100 " style="font-size: 14px">
-                    <div class="row">
-                        <div class="col-5" style="display: flex">
-                            <div class="dropdown mt-3 ms-2">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                <div class="card-table w-100 h-100" style="font-size: 14px">
+                    <div class="row flex-wrap mb-3">
+                        {{-- Dropdown Kategori --}}
+                        <div class="col-md-5 col-12 d-flex justify-content-start">
+                            <div class="dropdown mt-3 ms-md-2 ms-0 w-100">
+                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
                                     id="dropdownjenisSurat" data-bs-toggle="dropdown" aria-expanded="false"
                                     style="font-size: 14px; font-weight: 400; color:black">
                                     {{ $jenis_surat ? ucfirst($jenis_surat) : 'Semua' }}
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownjenisSurat">
+                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownjenisSurat">
                                     <li><a class="dropdown-item" href="{{ route('dashboard.index') }}">Semua</a></li>
                                     @foreach ($listJenisSurat as $item)
                                         <li>
@@ -101,12 +100,14 @@
                                     @endforeach
                                 </ul>
                             </div>
-
                         </div>
-                        <div class="col-7 d-flex justify-content-end ">
-                            <form action="{{ route('dashboard.index') }}" method="GET" class="mb-3 me-3">
-                                <div class="input-group mt-3 ">
-                                    <input type="text" name="search" class="form-control px-3 shadow-sm"
+
+                        {{-- Search --}}
+                        <div class="col-md-7 col-12 d-flex justify-content-md-end justify-content-start">
+                            <form action="{{ route('dashboard.index') }}" method="GET" class="mt-3 w-100 d-flex"
+                                style="max-width: 100%; margin-left: auto;">
+                                <div class="input-group shadow-sm d-flex flex-wrap">
+                                    <input type="text" name="search" class="form-control px-3 flex-grow-1"
                                         placeholder="Search..." value="{{ request('search') }}">
                                     <button type="submit" class="btn btn-primary">
                                         <img style="height: 17px; width:17px" src="{{ asset('aset/searchsvg.svg') }}"
@@ -116,15 +117,16 @@
                             </form>
                         </div>
                     </div>
-
                     <!-- Table -->
-                    <div class="table-responsive p-2">
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead class="" style="font-weight: 600">
+                    <div class="table-responsive d-none d-lg-block p-2">
+                        <table class="table table-bordered table-striped table-hover"
+                            style="table-layout: fixed; width: 100%;">
+                            <thead class="" style="font-weight: 600 ">
                                 <tr>
-                                    <th>No</th>
-                                    <th style="width: 21rem;">Laporan Polisi (LP)</th>
-                                    <th> Tgl Laporan
+                                    <th class="nomor-tabel" style=" width:3.438rem">No</th>
+                                    <th class="lapor-polisi-tabel  judul-laporan-polisi" style="width:21rem">Laporan Polisi
+                                        (LP)</th>
+                                    <th class="tgl-laporan-tabel" style="width:11.875rem"> Tgl Laporan
                                         <a
                                             href="{{ route('dashboard.index', [
                                                 'sort' => 'tanggal_laporan',
@@ -141,19 +143,25 @@
                                             @endif
                                         </a>
                                     </th>
-                                    <th style="width: 21rem;">File</th>
-                                    <th>Action</th>
+                                    <th class="file-tabel" style="width:15.688rem">File</th>
+                                    <th class="action-tabel" style="width:8.438rem">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($dokumens as $dokumen)
                                     <tr>
-                                        <td class="">{{ $loop->iteration }}</td>
-                                        <td
+                                        <td class="nomor-tabel">{{ $loop->iteration }}</td>
+                                        <td class="lapor-polisi-tabel"
                                             style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                            {{ $dokumen->laporan_polisi }}</td>
-                                        <td>{{ $dokumen->tanggal_laporan }}</td>
-                                        <td>
+                                            <a href="{{ route('dokumen.show', $dokumen->id) }}"
+                                                class="text-decoration-none d-inline-block laporan-link"
+                                                data-href="{{ route('dokumen.show', $dokumen->id) }}"
+                                                style="color: inherit;">
+                                                {{ $dokumen->laporan_polisi }}
+                                            </a>
+                                        </td>
+                                        <td class="tgl-laporan-tabel">{{ $dokumen->tanggal_laporan }}</td>
+                                        <td class="file-tabel">
                                             @php
                                                 $ext = pathinfo($dokumen->file, PATHINFO_EXTENSION);
                                                 $icon = '';
@@ -180,7 +188,8 @@
                                                 </a>
                                             </div>
                                         </td>
-                                        <td style="padding: 0; text-align: center; vertical-align: middle;">
+                                        <td class="action-tabel"
+                                            style="padding: 0; text-align: center; vertical-align: middle;">
                                             <div
                                                 style="display: flex; gap: 4px; justify-content: center; align-items: center; height: 100%;">
                                                 <!-- Tombol Download -->
@@ -207,7 +216,8 @@
                                                         <button type="button" class="btn btn-sm"
                                                             style="padding: 0; margin: 0;" data-bs-toggle="modal"
                                                             data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
-                                                            data-name="{{ $dokumen->nama }}">
+                                                            data-name="{{ $dokumen->nama }}"
+                                                            data-route="{{ route('dokumen.destroy', $dokumen->id) }}">
                                                             <img src="{{ asset('aset/dltsvg.svg') }}" alt="Hapus"
                                                                 style="display: block; height: 33px;">
                                                         </button>
@@ -237,6 +247,34 @@
                             {{ $dokumens->links() }}
                         </div>
                     </div>
+
+                    {{-- tampilan mobile --}}
+                    <div class="d-block d-lg-none p-2">
+                        @forelse($dokumens as $dokumen)
+                            <a href="{{ route('dokumen.show', $dokumen->id) }}" class="text-decoration-none">
+                                <div class="mb-3 rounded-3 mobile-card" style="background-color: #F3F6FF">
+                                    <div class=" p-2 d-flex justify-content-between align-items-center">
+                                        <div class="fw-medium" style="font-size: 0.95rem; color:black">
+                                            {{ Str::limit($dokumen->laporan_polisi, 35, '...') }}
+                                        </div>
+                                        <div style="color: #7B7FFD; font-size: 1.2rem;">
+                                            <img src="{{ asset('aset/forward.svg') }}">
+                                        </div>
+                                    </div>
+                                    <div class="text-muted" style="font-size: 0.85rem; padding-left:0.5rem">
+                                        {{ \Carbon\Carbon::parse($dokumen->tanggal_laporan)->format('d-m-Y') }}
+                                    </div>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="text-center text-muted">Tidak ada data</div>
+                        @endforelse
+
+                        <div class="d-flex justify-content-center mt-3">
+                            {{ $dokumens->links() }}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

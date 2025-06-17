@@ -7,7 +7,7 @@
     {{-- header --}}
     <div class="d-flex justify-content-between mt-1 align-items-center">
         <h3 class="judul">ARSIP</h3>
-        <div class="d-flex align-items-center m-3">
+        <div class=" photo-profile d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
@@ -21,42 +21,46 @@
             <div class="kategori-container d-flex gap-2 flex-wrap">
                 <a href="{{ route('arsip.index', ['kategori' => 'curas']) }}"
                     class="btn-category {{ $kategori == 'curas' ? 'btn-primary' : 'btn-secondary' }}">
-                    <img src="{{ asset('aset/' . ($kategori == 'curas' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
+                    <img class="img-category"
+                        src="{{ asset('aset/' . ($kategori == 'curas' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
                         alt="CURAS"> CURAS
                 </a>
                 <a href="{{ route('arsip.index', ['kategori' => 'curat']) }}"
                     class="btn-category {{ $kategori == 'curat' ? 'btn-primary' : 'btn-secondary' }}">
-                    <img src="{{ asset('aset/' . ($kategori == 'curat' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
+                    <img class="img-category"
+                        src="{{ asset('aset/' . ($kategori == 'curat' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
                         alt="CURAT"> CURAT
                 </a>
                 <a href="{{ route('arsip.index', ['kategori' => 'curanmor']) }}"
                     class="btn-category {{ $kategori == 'curanmor' ? 'btn-primary' : 'btn-secondary' }}">
-                    <img src="{{ asset('aset/' . ($kategori == 'curanmor' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
+                    <img class="img-category"
+                        src="{{ asset('aset/' . ($kategori == 'curanmor' ? 'arsip_active.svg' : 'arsip_nonactiv.svg')) }}"
                         alt="CURANMOR"> CURANMOR
                 </a>
             </div>
 
             <!-- Tombol Add -->
             @if (auth()->user()->role === 'admin')
-                <button class="btn border-0 bg-transparent shadow-none" data-bs-toggle="modal"
+                <button class="btn border-0 bg-transparent shadow-none floating-add-btn d-block" data-bs-toggle="modal"
                     data-bs-target="#modalTambahBerkas">
                     <img style="height: 4.688rem; width: 4.688rem;" src="{{ asset('aset/add.png') }}" alt="Tambah">
                 </button>
             @endif
+
         </div>
 
         <div class="isi-arsip">
-            <div class="card-tablearsip w-100 " style="font-size: 14px">
+            <div class="card-tablearsip w-100 h-100 " style="font-size: 14px">
                 {{-- dropdown dan search --}}
-                <div class="row">
-                    <div class="col-5" style="display: flex">
-                        <div class="dropdown mt-3 ms-3">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdowntahun"
-                                data-bs-toggle="dropdown" aria-expanded="false"
+                <div class="row flex-wrap mb-3">
+                    <div class="col-md-5 col-12 d-flex" style="display: flex">
+                        <div class="dropdown mt-3 ms-md-2 ms-0 w-100">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
+                                id="dropdowntahun" data-bs-toggle="dropdown" aria-expanded="false"
                                 style="font-size: 14px; font-weight: 400; color:black">
                                 {{ request('tahun') ? request('tahun') : 'Semua Tahun' }}
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdowntahun">
+                            <ul class="dropdown-menu w-100" aria-labelledby="dropdowntahun">
                                 <li><a class="dropdown-item" href="{{ route('arsip.index') }}">Semua</a></li>
                                 @foreach ($listTahun as $tahun)
                                     <li>
@@ -70,9 +74,10 @@
                         </div>
 
                     </div>
-                    <div class="col-7 d-flex justify-content-end ">
-                        <form action="{{ route('arsip.index') }}" method="GET" class="mb-3 me-3">
-                            <div class="input-group mt-3 ">
+                    <div class="col-md-7 col-12 d-flex justify-content-md-end justify-content-start">
+                        <form action="{{ route('arsip.index') }}" method="GET" class="mb-3 w-100 d-flex"
+                            style="max-width: 100%; margin-left: auto;">
+                            <div class="input-group   shadow-sm d-flex flex-wrap mt-3 ">
                                 <input type="text" name="search" class="form-control px-3 shadow-sm"
                                     placeholder="Search..." value="{{ request('search') }}">
                                 <button type="submit" class="btn btn-primary">
@@ -84,13 +89,14 @@
                     </div>
                 </div>
 
-                <div class="table-responsive p-2">
-                    <table class="table table-bordered table-striped ">
+                <div class="table-responsive d-none d-lg-block p-2">
+                    <table class="table table-bordered table-striped " style="table-layout: fixed; width: 100%;">
                         <thead class="" style="font-weight: 600">
                             <tr>
-                                <th>No</th>
-                                <th class="text-nowrap">Laporan Polisi (LP)</th>
-                                <th> Tgl Laporan
+                                <th class="nomor-tabel" style=" width:3.438rem">No</th>
+                                <th class="lapor-polisi-tabel  judul-laporan-polisi" style="width:21rem"
+                                    class="text-nowrap">Laporan Polisi (LP)</th>
+                                <th class="tgl-laporan-tabel" style="width:11.875rem"> Tgl Laporan
                                     <a
                                         href="{{ route('arsip.index', [
                                             'sort' => 'tanggal_laporan',
@@ -107,17 +113,18 @@
                                         @endif
                                     </a>
                                 </th>
-                                <th class="w-25">File</th>
-                                <th>Action</th>
+                                <th class="file-tabel" style="width:15.688rem" class="w-25">File</th>
+                                <th class="action-tabel" style="width:8.438rem">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($dokumens as $dokumen)
                                 <tr style="font-size: 14px">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td class="text-truncate" style="max-width: 300px;">{{ $dokumen->laporan_polisi }}</td>
-                                    <td>{{ $dokumen->tanggal_laporan }}</td>
-                                    <td>
+                                    <td class="nomor-tabel">{{ $loop->iteration }}</td>
+                                    <td class="lapor-polisi-tabel" class="text-truncate" style="max-width: 300px;">
+                                        {{ $dokumen->laporan_polisi }}</td>
+                                    <td class="tgl-laporan-tabel">{{ $dokumen->tanggal_laporan }}</td>
+                                    <td class="file-tabel">
                                         @php
                                             $ext = pathinfo($dokumen->file, PATHINFO_EXTENSION);
                                             $icon = '';
@@ -145,7 +152,8 @@
                                         </div>
 
                                     </td>
-                                    <td style="padding: 0; text-align: center; vertical-align: middle;">
+                                    <td class="action-tabel"
+                                        style="padding: 0; text-align: center; vertical-align: middle;">
                                         <div
                                             style="display: flex; gap: 4px; justify-content: center; align-items: center; height: 100%;">
                                             <!-- Tombol Download -->
@@ -171,7 +179,8 @@
                                                     <button type="button" class="btn btn-sm"
                                                         style="padding: 0; margin: 0;" data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal" data-id="{{ $dokumen->id }}"
-                                                        data-name="{{ $dokumen->nama }}">
+                                                        data-name="{{ $dokumen->nama }}"
+                                                        data-route="{{ route('dokumen.destroy', $dokumen->id) }}">
                                                         <img src="{{ asset('aset/dltsvg.svg') }}" alt="Hapus"
                                                             style="display: block; height: 33px;">
                                                     </button>
@@ -200,8 +209,34 @@
                         </p>
                         {{ $dokumens->links() }}
                     </div>
-
                 </div>
+                <!-- ✅ TAMPILAN MOBILE -->
+                <div class="d-block d-lg-none p-2">
+                    @forelse($dokumens as $dokumen)
+                        <a href="{{ route('dokumen.show', $dokumen->id) }}" class="text-decoration-none">
+                            <div class="mb-3 rounded-3 mobile-card" style="background-color: #F3F6FF">
+                                <div class=" p-2 d-flex justify-content-between align-items-center">
+                                    <div class="fw-medium" style="font-size: 0.95rem; color:black">
+                                        {{ Str::limit($dokumen->laporan_polisi, 35, '...') }}
+                                    </div>
+                                    <div style="color: #7B7FFD; font-size: 1.2rem;">
+                                        <img src="{{ asset('aset/forward.svg') }}">
+                                    </div>
+                                </div>
+                                <div class="text-muted" style="font-size: 0.85rem; padding-left:0.5rem">
+                                    {{ \Carbon\Carbon::parse($dokumen->tanggal_laporan)->format('d-m-Y') }}
+                                </div>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="text-center text-muted">Tidak ada data</div>
+                    @endforelse
+
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $dokumens->links() }}
+                    </div>
+                </div>
+
             </div>
         </div>
         <footer class="footer" style=" padding-left: 3.125rem;">

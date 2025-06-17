@@ -1,0 +1,121 @@
+.tulisan_dokumen {
+    font-size: 1.313rem;
+    color: #8898aa;
+}
+.tulisan_number {
+    font-size: 3.625rem;
+    font-weight: 600;
+    color: black;
+}
+.icon_dashboard {
+    width: 3.625rem;
+    height: 3.625rem;
+}
+.header-detail {
+    background-color: #2751c1;
+    height: 12.5rem !important;
+    width: 100%;
+    border-bottom-left-radius: 1.25rem;
+    border-bottom-right-radius: 1.25rem;
+}
+.judul-detai {
+    color: #888888;
+    font-size: 16px;
+}
+.isi-detail {
+    color: black;
+    font-size: 16px;
+}
+
+@media (max-width: 992px) {
+    .tulisan_dokumen {
+        font-size: 8px;
+    }
+    .custom-responsive-row {
+        flex-direction: row !important;
+    }
+    .td-laporpolisi {
+        padding-bottom: 12px;
+    }
+    .tulisan_number {
+        font-size: 11px;
+    }
+    .judul {
+        display: none !important;
+    }
+    .photo-profile {
+        margin-left: auto !important;
+    }
+
+    .icon_dashboard {
+        width: 2.375rem;
+        height: 2.375rem;
+    }
+    .card-item {
+        flex: 1 1 1rem;
+        max-width: 100%;
+        height: 4.625rem;
+    }
+
+    .nomor-tabel,
+    .tgl-laporan-tabel,
+    .file-tabel,
+    .judul-laporan-polisi,
+    .action-tabel {
+        display: none !important;
+    }
+
+    .lapor-polisi-tabel {
+        width: 100% !important;
+        display: table-cell; /* pastikan tetap tampil */
+    }
+
+    .floating-add-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1050; /* di atas semua elemen umum */
+        border-radius: 50%;
+        background-color: transparent;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .floating-add-btn img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .btn-category {
+        height: 2.188rem;
+        flex: 1 1 1rem;
+        max-width: 100%;
+        font-size: 10px;
+        padding: 0.2rem 0.2rem;
+    }
+
+    .btn-category.btn-primary {
+    }
+    .btn-category.btn-secondary {
+    }
+    .img-category {
+        width: 1.563rem;
+        height: 1.563rem;
+    }
+    .isi-arsip {
+        background-color: #2751c1 !important;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+    .bg-history {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+    .bg-dashboard {
+        padding-right: 1.25rem;
+        padding-left: 1.25rem;
+    }
+    .kategori-container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
