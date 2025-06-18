@@ -31,6 +31,12 @@
     .tulisan_dokumen {
         font-size: 8px;
     }
+    .footer {
+        justify-content: center;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+    }
+
     .custom-responsive-row {
         flex-direction: row !important;
     }

@@ -4,7 +4,7 @@
     <!-- Desktop Header -->
     <div class="d-flex justify-content-between mt-1 align-items-center d-none d-md-flex">
         <h3 class="judul">SETTING</h3>
-        <div class="d-flex align-items-center m-3">
+        <div class=" photo-profile d-flex align-items-center m-3">
             <img src="{{ asset('storage/profile/' . ($user->pp ?? 'default.jpg')) }}" alt="Foto Profil" class="rounded-circle"
                 width="40" height="40" style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
             <span class="me-2">{{ auth()->user()->name }}</span>
@@ -67,15 +67,15 @@
 
                             <!-- Tombol Save & Cancel -->
                             <div class="mt-3" style="max-width: 90%; margin-left: auto;">
-                                <div class="d-flex justify-content-end">
+                                <div class="d-flex justify-content-end tombol-wrapper">
                                     <button type="submit" class="btn me-2"
                                         style="background-color: #dc3545; color: white; 
-                                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 100px;">
+                                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 100px;">
                                         Save
                                     </button>
                                     <button type="button" class="btn"
                                         style="background-color: white; color: #6c757d; 
-                                                border: 1px solid #ced4da; width: 100px;">
+                                            border: 1px solid #ced4da; width: 100px;">
                                         Cancel
                                     </button>
                                 </div>
@@ -103,7 +103,7 @@
                 // Ganti icon jika perlu (misal: mata terbuka / tertutup)
                 if (type === 'text') {
                     this.src =
-                    "{{ asset('aset/eye-off.svg') }}"; // Pastikan file eye-off.svg ada di folder aset.
+                        "{{ asset('aset/eye-off.svg') }}"; // Pastikan file eye-off.svg ada di folder aset.
                 } else {
                     this.src = "{{ asset('aset/eye.svg') }}";
                 }

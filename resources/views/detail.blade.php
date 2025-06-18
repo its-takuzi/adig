@@ -93,16 +93,23 @@
                 <!-- Tombol aksi -->
                 <div class="d-flex justify-content-center gap-2 flex-wrap" style="margin-top: 61px">
                     <!-- Tombol edit -->
-                    <a href="#" class="btn-sm btn-edit" data-id="{{ $dokumen->id }}">
-                        <img src="{{ asset('aset/editttt.svg') }}" alt="edit" style="display: block; height: 33px;">
-                    </a>
+                    <!-- Tombol Hapus -->
+                    @if (auth()->user()->role === 'admin')
+                        <a href="#" class="btn-sm btn-edit" data-id="{{ $dokumen->id }}">
+                            <img src="{{ asset('aset/editttt.svg') }}" alt="edit"
+                                style="display: block; height: 33px;">
+                        </a>
+                    @else
+                        <span>
+
+                        </span>
+                    @endif
 
                     <!-- Tombol Download -->
                     <a href="{{ asset('storage/' . $dokumen->file) }}" class="btn btn-sm" style="padding: 0; margin: 0;"
                         target="_blank">
                         <img src="{{ asset('aset/dwnsvg.svg') }}" alt="Download" style="display: block; height: 33px;">
                     </a>
-
                     {{-- tombol share --}}
                     <a href="#" class="btn btn-sm btn-share" style="padding: 0; margin: 0;"
                         data-url="{{ asset('storage/' . $dokumen->file) }}">
@@ -190,7 +197,7 @@
                     <img class="mt-3" style="height: 107px; width: 107px" src="{{ asset('aset/deleted.png') }}"
                         alt="deleted">
                     <strong class="mt-3 d-block">Deleted File</strong>
-                    <p class="mt-3">Kamu yakin ingin menghapus <strong id="fileName"></strong>?</p>
+                    <p class="mt-3">yakin ingin menghapus <strong id="fileName"></strong>?</p>
 
                     <div class="row">
                         <div class="col-md-6">

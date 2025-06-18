@@ -3,15 +3,15 @@
 @section('content')
     <div class="d-flex justify-content-between mt-1 align-items-center">
         <h3 class="judul">USER</h3>
-        <div class="d-flex align-items-center m-3">
+        <div class=" photo-profile d-flex align-items-center m-3">
             <img src="{{ asset('/storage/profile/' . (Auth::user()->pp ?? 'default.jpg')) }}" alt="Foto Profil"
                 class="rounded-circle" width="40" height="40"
                 style="object-fit: cover; aspect-ratio: 1/1; margin-right: 5px">
             <span class="me-2">{{ auth()->user()->name }}</span>
         </div>
     </div>
-    <div class="container-fluid bg-history">
-        <div class="card-user">
+    <div class="container-fluid d-flex min-vh-100 flex-column bg-history">
+        <div class="card-user h-100">
             <div class="card-body">
                 <table class="table table-bordered">
                     <thead style="background-color: #d0efff;">
@@ -69,8 +69,8 @@
                 @if (auth()->user()->role === 'admin')
                     <!-- ini  jas -->
                     <div class="d-flex">
-                        <button class="btn ms-auto mt-4 p-0 border-0 bg-transparent shadow-none" data-bs-toggle="modal"
-                            data-bs-target="#addUserModal">
+                        <button class="btn ms-auto mt-4 p-0 border-0 floating-add-btn bg-transparent shadow-none"
+                            data-bs-toggle="modal" data-bs-target="#addUserModal">
                             <img style="height: 3.125rem ; width:3.125rem" src="{{ asset('aset/add.png') }}"
                                 alt="">
                         </button>
@@ -79,7 +79,7 @@
                 @if (auth()->user()->role === 'admin')
                     <!-- ini  jas -->
                     <!-- Modal Tambah User -->
-                    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
+                    <div class="modal fade " id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -151,7 +151,7 @@
                 @endif <!-- ini  jas -->
             </div>
         </div>
-        <footer class="footer">
+        <footer class="footer mt-auto">
             <p class="">Copyright 2025 - Qif Media</p>
         </footer>
     </div>
