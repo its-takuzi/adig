@@ -258,7 +258,8 @@
                                             {{ Str::limit($dokumen->laporan_polisi, 35, '...') }}
                                         </div>
                                         <div style="color: #7B7FFD; font-size: 1.2rem;">
-                                            <img src="{{ asset('aset/forward.svg') }}">
+                                            <img src="{{ asset('aset/forward.svg') }}"
+                                                style="z-index: 100; margin-top :20px">
                                         </div>
                                     </div>
                                     <div class="text-muted" style="font-size: 0.85rem; padding-left:0.5rem">
@@ -333,7 +334,7 @@
                     <button type="button" class="btn-close btn-close-form me-3" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body ms-3 me-3">
                     <div id="loading">Memuat data...</div>
                     <div id="modalContent" style="display: none;">
                         <h6 id="noSurat" style="font-size: 16px" class="mb-3 text-uppercase"></h6>

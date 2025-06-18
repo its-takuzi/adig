@@ -315,7 +315,8 @@ class DokumenController extends Controller
 
     public function show($id)
     {
+        $listRak = Rak::all();
         $dokumen = Dokumen::with(['user', 'rak'])->findOrFail($id);
-        return view('detail', compact('dokumen'));
+        return view('detail', compact('dokumen', 'listRak'));
     }
 }

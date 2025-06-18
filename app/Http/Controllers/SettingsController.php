@@ -66,7 +66,7 @@ class SettingsController extends Controller
             $filename = time() . '.' . $file->getClientOriginalExtension();
 
             if ($user->pp && $user->pp !== 'default.jpg') {
-                Storage::delete('/storage/profile/' . $user->profipple_photo);
+                Storage::delete('/public/profile/' . $user->profipple_photo);
             }
             $file->storeAs('profile', $filename, 'public');
 

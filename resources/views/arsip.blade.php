@@ -94,8 +94,8 @@
                         <thead class="" style="font-weight: 600">
                             <tr>
                                 <th class="nomor-tabel" style=" width:3.438rem">No</th>
-                                <th class="lapor-polisi-tabel  judul-laporan-polisi" style="width:21rem"
-                                    class="text-nowrap">Laporan Polisi (LP)</th>
+                                <th class="lapor-polisi-tabel  judul-laporan-polisi" style="width:21rem">Laporan Polisi
+                                    (LP)</th>
                                 <th class="tgl-laporan-tabel" style="width:11.875rem"> Tgl Laporan
                                     <a
                                         href="{{ route('arsip.index', [
@@ -121,8 +121,14 @@
                             @forelse($dokumens as $dokumen)
                                 <tr style="font-size: 14px">
                                     <td class="nomor-tabel">{{ $loop->iteration }}</td>
-                                    <td class="lapor-polisi-tabel" class="text-truncate" style="max-width: 300px;">
-                                        {{ $dokumen->laporan_polisi }}</td>
+                                    <td class="lapor-polisi-tabel"
+                                        style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        <a href="{{ route('dokumen.show', $dokumen->id) }}"
+                                            class="text-decoration-none d-inline-block laporan-link"
+                                            data-href="{{ route('dokumen.show', $dokumen->id) }}" style="color: inherit;">
+                                            {{ $dokumen->laporan_polisi }}
+                                        </a>
+                                    </td>
                                     <td class="tgl-laporan-tabel">{{ $dokumen->tanggal_laporan }}</td>
                                     <td class="file-tabel">
                                         @php
@@ -215,12 +221,13 @@
                     @forelse($dokumens as $dokumen)
                         <a href="{{ route('dokumen.show', $dokumen->id) }}" class="text-decoration-none">
                             <div class="mb-3 rounded-3 mobile-card" style="background-color: #F3F6FF">
-                                <div class=" p-2 d-flex justify-content-between align-items-center">
+                                <div class=" ms-2 me-2 d-flex justify-content-between align-items-center">
                                     <div class="fw-medium" style="font-size: 0.95rem; color:black">
                                         {{ Str::limit($dokumen->laporan_polisi, 35, '...') }}
                                     </div>
                                     <div style="color: #7B7FFD; font-size: 1.2rem;">
-                                        <img src="{{ asset('aset/forward.svg') }}">
+                                        <img src="{{ asset('aset/forward.svg') }}"
+                                            style="z-index: 100; margin-top :20px">
                                     </div>
                                 </div>
                                 <div class="text-muted" style="font-size: 0.85rem; padding-left:0.5rem">
@@ -305,51 +312,55 @@
                             $lastDokumen = \App\Models\Dokumen::orderBy('id', 'desc')->first();
                         @endphp
                         <div class="row">
-                            <div class="col-3">
-                                <!-- LP Manual -->
+                            <!-- Nomor LP -->
+                            <div class="col-12 col-md-3">
                                 <div class="mb-3">
-                                    <label for="lp" class="form-label ">Nomor LP</label>
+                                    <label for="lp" class="form-label">Nomor LP</label>
                                     <input type="text" class="form-control" id="lp" name="lp"
                                         placeholder="Nomor LP" value="{{ old('lp') }}" required>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <!-- Pelapor -->
+
+                            <!-- Pelapor -->
+                            <div class="col-12 col-md-3">
                                 <div class="mb-3">
-                                    <label for="pelapor" class="form-label ">Pelapor</label>
+                                    <label for="pelapor" class="form-label">Pelapor</label>
                                     <select class="form-select" id="pelapor" name="pelapor" required>
                                         <option value="" disabled {{ old('pelapor') ? '' : 'selected' }}>Pilih
                                             Pelapor</option>
                                         <option value="tni/polisi" {{ old('pelapor') == 'tni/polisi' ? 'selected' : '' }}>
-                                            A (Polisi/TNI)</option>
-                                        <option value="warga" {{ old('pelapor') == 'warga' ? 'selected' : '' }}>B
-                                            (Warga)
+                                            A (Polisi/TNI)
+                                        </option>
+                                        <option value="warga" {{ old('pelapor') == 'warga' ? 'selected' : '' }}>
+                                            B (Warga)
                                         </option>
                                     </select>
-
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <!-- Tanggal Laporan -->
+
+                            <!-- Tanggal Laporan -->
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
-                                    <label for="tanggal_laporan" class="form-label ">Tgl Laporan</label>
+                                    <label for="tanggal_laporan" class="form-label">Tgl Laporan</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="tanggal_laporan"
                                             name="tanggal_laporan" placeholder="dd/mm/yyyy"
                                             value="{{ old('tanggal_laporan') }}" required>
-
-                                        <img src="{{ asset('aset/pickdate.svg') }}" alt="calendar" style="height: 40px">
+                                        <span class="input-group-text bg-white">
+                                            <img src="{{ asset('aset/pickdate.svg') }}" alt="calendar"
+                                                style="height: 24px;">
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-6">
-                                <!-- Kategori Laporan -->
+                            <!-- Jenis Laporan -->
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label ">Jenis Laporan</label>
-                                    <div class="d-flex gap-3">
+                                    <label class="form-label">Jenis Laporan</label>
+                                    <div class="d-flex flex-wrap gap-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="kategori"
                                                 id="curas" value="curas"
@@ -366,24 +377,24 @@
                                             <input class="form-check-input" type="radio" name="kategori"
                                                 id="curanmor" value="curanmor"
                                                 {{ old('kategori') == 'curanmor' ? 'checked' : '' }}>
-
                                             <label class="form-check-label" for="curanmor">CURANMOR</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <!-- jenis surat -->
+
+                            <!-- Jenis Surat -->
+                            <div class="col-12 col-md-6">
                                 <div class="mb-3">
-                                    <label for="jenis_surat" class="form-label">jenis Surat</label>
+                                    <label for="jenis_surat" class="form-label">Jenis Surat</label>
                                     <select class="form-select" id="jenis_surat" name="jenis_surat" required>
                                         <option value="" disabled selected>Pilih jenis surat</option>
                                         <option value="Tahap 2" {{ old('jenis_surat') == 'Tahap 2' ? 'selected' : '' }}>
                                             Tahap 2</option>
-                                        <option value="SP3" {{ old('jenis_surat') == 'SP3' ? 'selected' : '' }}>
-                                            SP3</option>
-                                        <option value="RJ" {{ old('jenis_surat') == 'RJ' ? 'selected' : '' }}>
-                                            RJ</option>
+                                        <option value="SP3" {{ old('jenis_surat') == 'SP3' ? 'selected' : '' }}>SP3
+                                        </option>
+                                        <option value="RJ" {{ old('jenis_surat') == 'RJ' ? 'selected' : '' }}>RJ
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -544,7 +555,7 @@
                 </div>
 
                 <!-- Body Modal -->
-                <div class="modal-body">
+                <div class="modal-body ">
                     <form id="formEditDokumen" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
